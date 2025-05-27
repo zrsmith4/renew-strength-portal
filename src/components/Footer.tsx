@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Music } from 'lucide-react';
 // import Logo from './Logo';
 
 const Footer: React.FC = () => {
@@ -107,6 +106,16 @@ const Footer: React.FC = () => {
                   aria-label="Linkedin"
                 >
                   <Linkedin className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://tiktok.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-brand-green transition-colors"
+                  aria-label="TikTok"
+                  title="TikTok"
+                >
+                  <Music className="w-5 h-5" />
                 </a>
               </li>
             </ul>
