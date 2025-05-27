@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
@@ -115,25 +116,9 @@ const Services = () => {
                 name={service.name}
                 bgColor={service.bgColor}
                 cta={
-                  <div className="flex flex-col space-y-2">
-                    <Link
-                      to={
-                        i === 0
-                          ? "/services/in-person"
-                          : i === 1
-                          ? "/services/telehealth"
-                          : i === 2
-                          ? "/services/dry-needling"
-                          : "/services/pt-telehealth"
-                      }
-                      className="text-brand-navy border border-brand-navy/20 px-4 py-2 rounded hover:text-brand-green transition-colors font-medium"
-                    >
-                      Learn More
-                    </Link>
-                    <Button asChild size="lg" className="w-full mt-2">
-                      <Link to="/pricing">See Pricing</Link>
-                    </Button>
-                  </div>
+                  <Button asChild size="lg" className="w-full mt-2">
+                    <Link to="/pricing">See Pricing</Link>
+                  </Button>
                 }
               >
                 {service.details}
