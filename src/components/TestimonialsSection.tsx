@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const TestimonialsSection: React.FC = () => {
   const testimonials = [
@@ -49,6 +51,18 @@ const TestimonialsSection: React.FC = () => {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-16 flex flex-col items-center">
+          <h3 className="text-2xl md:text-3xl font-serif text-brand-navy mb-4 text-center">
+            Ready to experience your own renewal?
+          </h3>
+          <Button asChild className="btn-primary text-lg px-8 py-4 shadow-md">
+            <Link to="/contact">
+              Begin Your Journey
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
