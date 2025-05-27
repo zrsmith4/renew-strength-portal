@@ -1,11 +1,10 @@
 
 import React from 'react';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/ContactForm';
-import { Button } from '@/components/ui/button';
 
 const Contact = () => {
   return (
@@ -33,59 +32,7 @@ const Contact = () => {
                 </CardContent>
               </Card>
             </div>
-
-            {/* 
-            --- CONTACT INFO and BOOKING HIDDEN FOR NOW ---
-            <div className="md:col-span-2">
-              <Card className="p-1 mb-6">
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-serif text-brand-navy mb-6">Contact Information</h2>
-                  <div className="space-y-6">
-                    <div className="flex items-start">
-                      <div className="bg-brand-green/10 p-3 rounded-full mr-4">
-                        <Mail className="h-5 w-5 text-brand-green" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-medium text-brand-navy">Email</h3>
-                        <p className="text-gray-600">renewswpt@gmail.com</p>
-                        <p className="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
-                      <div className="bg-brand-blue/20 p-3 rounded-full mr-4">
-                        <Phone className="h-5 w-5 text-brand-navy" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-medium text-brand-navy">Phone</h3>
-                        <p className="text-gray-600">312-725-3741</p>
-                        <p className="text-sm text-gray-500 mt-1">Available Mon-Fri, 9am-5pm</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
-                      <div className="bg-brand-yellow/30 p-3 rounded-full mr-4">
-                        <MapPin className="h-5 w-5 text-brand-navy" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-medium text-brand-navy">Service Area</h3>
-                        <p className="text-gray-600">Mobile service throughout Greater Chicagoland Area</p>
-                        <p className="text-sm text-gray-500 mt-1">We come to you!</p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              {/* Booking CTA Card */}
-              <Card className="p-1 border-brand-green/30 bg-brand-green/5">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-serif text-brand-navy mb-3">Ready to Book?</h3>
-                  <p className="text-gray-600 mb-4">
-                    Skip the form and schedule your appointment directly through our online booking system.
-                  </p>
-                  <Button className="w-full">Book an Appointment</Button>
-                </CardContent>
-              </Card>
-            </div>
-            */}
+            {/* The contact info and "Ready to Book" button are intentionally hidden for now, per user request */}
           </div>
           {/* Map Section */}
           <div className="mt-12">
