@@ -41,7 +41,7 @@ const NavBar: React.FC = () => {
             <Link to="/contact" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
               Contact
             </Link>
-            <Link to="/schedule" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
+            <Link to="/contact" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
               Schedule
             </Link>
           </nav>
@@ -50,7 +50,7 @@ const NavBar: React.FC = () => {
             <Link to="/login" className="text-brand-navy font-medium hover:text-brand-green transition-colors">
               Log In
             </Link>
-            <Link to="/schedule">
+            <Link to="/contact">
               <Button className="btn-primary">Book an Appointment</Button>
             </Link>
           </div>
@@ -112,7 +112,14 @@ const NavBar: React.FC = () => {
             >
               Log In
             </Link>
-            <Link to="/schedule">
+            <Link
+              to="/contact"
+              className="text-brand-navy hover:text-brand-green transition-colors font-medium py-2 border-b border-gray-100"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Schedule
+            </Link>
+            <Link to="/contact">
               <Button className="btn-primary mt-2" onClick={() => setIsMenuOpen(false)}>
                 Book an Appointment
               </Button>
@@ -125,3 +132,4 @@ const NavBar: React.FC = () => {
 };
 
 export default NavBar;
+
