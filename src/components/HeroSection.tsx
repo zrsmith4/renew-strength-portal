@@ -31,7 +31,7 @@ const Hero: React.FC = () => {
               {/* First panel */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute left-0 top-4 bottom-4 z-10">
                 <img 
-                  src="/public/lovable-uploads/f51db8a0-cf4e-45b6-8ee5-255b9c88e59c.png" 
+                  src="/lovable-uploads/f51db8a0-cf4e-45b6-8ee5-255b9c88e59c.png" 
                   alt="Physical therapist helping patient with exercise" 
                   className="w-full h-full object-cover"
                 />
@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
               {/* Middle panel */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute left-1/3 top-0 bottom-0 z-20 transform -translate-x-1/6">
                 <img 
-                  src="/public/lovable-uploads/64ac4246-c298-4cab-97cf-f44f46358d29.png" 
+                  src="/lovable-uploads/64ac4246-c298-4cab-97cf-f44f46358d29.png" 
                   alt="Patient running with therapist guidance" 
                   className="w-full h-full object-cover"
                 />
@@ -49,7 +49,7 @@ const Hero: React.FC = () => {
               {/* Last panel */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute right-0 top-4 bottom-4 z-10">
                 <img 
-                  src="/public/lovable-uploads/f51db8a0-cf4e-45b6-8ee5-255b9c88e59c.png" 
+                  src="/lovable-uploads/f51db8a0-cf4e-45b6-8ee5-255b9c88e59c.png" 
                   alt="Patient carrying groceries after recovery" 
                   className="w-full h-full object-cover"
                 />
