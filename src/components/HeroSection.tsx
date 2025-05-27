@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -24,11 +25,11 @@ const Hero: React.FC = () => {
           {/* Hero Image Triptych */}
           <div className="w-full lg:w-1/2 flex justify-center">
             <div className="relative w-full max-w-2xl">
-              {/* First panel */}
+              {/* First panel (updated image) */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute left-0 top-4 bottom-4 z-10">
                 <img 
-                  src="/lovable-uploads/f51db8a0-cf4e-45b6-8ee5-255b9c88e59c.png" 
-                  alt="Physical therapist helping patient with exercise" 
+                  src="/lovable-uploads/d846324f-6125-47a2-8907-92b08d0b6437.png" 
+                  alt="Physical therapist with patient exercise" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -66,3 +67,4 @@ const Hero: React.FC = () => {
 };
 
 export default Hero;
+
