@@ -41,6 +41,36 @@ export type Database = {
           },
         ]
       }
+      pending_testimonials: {
+        Row: {
+          email: string
+          id: string
+          is_approved: boolean
+          name: string
+          quote: string
+          role: string | null
+          submitted_at: string
+        }
+        Insert: {
+          email: string
+          id?: string
+          is_approved?: boolean
+          name: string
+          quote: string
+          role?: string | null
+          submitted_at?: string
+        }
+        Update: {
+          email?: string
+          id?: string
+          is_approved?: boolean
+          name?: string
+          quote?: string
+          role?: string | null
+          submitted_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
