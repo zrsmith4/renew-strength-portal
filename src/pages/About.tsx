@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
@@ -6,7 +5,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
-import { HandHeart, Heart, Church, Handshake } from 'lucide-react';
+import { HandHeart, Heart, Church, Handshake, Lightbulb, Accessibility, Users } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
@@ -140,6 +139,7 @@ const About: React.FC = () => {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Compassionate Care */}
                 <Card className="border-0 shadow-md bg-white">
                   <CardContent className="p-8">
                     <div className="mb-4 flex items-center gap-3">
@@ -154,11 +154,12 @@ const About: React.FC = () => {
                   </CardContent>
                 </Card>
                 
+                {/* Clinical Excellence */}
                 <Card className="border-0 shadow-md bg-white">
                   <CardContent className="p-8">
                     <div className="mb-4 flex items-center gap-3">
                       <div className="bg-brand-green/10 p-2 rounded-full">
-                        <Heart className="h-5 w-5 text-brand-green" />
+                        <Lightbulb className="h-5 w-5 text-brand-green" />
                       </div>
                       <h3 className="font-serif text-xl text-brand-navy">Clinical Excellence</h3>
                     </div>
@@ -168,11 +169,12 @@ const About: React.FC = () => {
                   </CardContent>
                 </Card>
                 
+                {/* Accessibility */}
                 <Card className="border-0 shadow-md bg-white">
                   <CardContent className="p-8">
                     <div className="mb-4 flex items-center gap-3">
                       <div className="bg-brand-green/10 p-2 rounded-full">
-                        <Heart className="h-5 w-5 text-brand-green" />
+                        <Accessibility className="h-5 w-5 text-brand-green" />
                       </div>
                       <h3 className="font-serif text-xl text-brand-navy">Accessibility</h3>
                     </div>
@@ -182,11 +184,12 @@ const About: React.FC = () => {
                   </CardContent>
                 </Card>
                 
+                {/* Whole-Person Approach */}
                 <Card className="border-0 shadow-md bg-white">
                   <CardContent className="p-8">
                     <div className="mb-4 flex items-center gap-3">
                       <div className="bg-brand-green/10 p-2 rounded-full">
-                        <Heart className="h-5 w-5 text-brand-green" />
+                        <Users className="h-5 w-5 text-brand-green" />
                       </div>
                       <h3 className="font-serif text-xl text-brand-navy">Whole-Person Approach</h3>
                     </div>
