@@ -34,7 +34,8 @@ const Contact = () => {
               </Card>
             </div>
 
-            {/* Contact Information - Takes 2 columns on md+ screens */}
+            {/* --- CONTACT INFO and BOOKING HIDDEN FOR NOW --- */}
+            {/* 
             <div className="md:col-span-2">
               <Card className="p-1 mb-6">
                 <CardContent className="p-6">
@@ -84,6 +85,7 @@ const Contact = () => {
                 </CardContent>
               </Card>
             </div>
+            */}
           </div>
           {/* Map Section */}
           <div className="mt-12">
@@ -108,3 +110,4 @@ const Contact = () => {
 };
 
 export default Contact;
+
