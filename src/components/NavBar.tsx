@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // import Logo from './Logo';
@@ -42,15 +43,21 @@ const NavBar: React.FC = () => {
             <Link to="/contact" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
               Contact
             </Link>
-            <Link to="/contact" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
-              Schedule
-            </Link>
-          </nav>
-
-          <div className="hidden md:flex items-center gap-4">
+            {/* MVP: Re-enable for future auth features */}
+            {/*
             <Link to="/login" className="text-brand-navy font-medium hover:text-brand-green transition-colors">
               Log In
             </Link>
+            */}
+          </nav>
+
+          <div className="hidden md:flex items-center gap-4">
+            {/* MVP: Re-enable for future auth features */}
+            {/*
+            <Link to="/login" className="text-brand-navy font-medium hover:text-brand-green transition-colors">
+              Log In
+            </Link>
+            */}
             <Link to="/contact">
               <Button className="btn-primary">Book an Appointment</Button>
             </Link>
@@ -106,6 +113,8 @@ const NavBar: React.FC = () => {
             >
               Contact
             </Link>
+            {/* MVP: Re-enable for future auth features */}
+            {/*
             <Link
               to="/login"
               className="text-brand-navy hover:text-brand-green transition-colors font-medium py-2 border-b border-gray-100"
@@ -113,13 +122,7 @@ const NavBar: React.FC = () => {
             >
               Log In
             </Link>
-            <Link
-              to="/contact"
-              className="text-brand-navy hover:text-brand-green transition-colors font-medium py-2 border-b border-gray-100"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Schedule
-            </Link>
+            */}
             <Link to="/contact">
               <Button className="btn-primary mt-2" onClick={() => setIsMenuOpen(false)}>
                 Book an Appointment
