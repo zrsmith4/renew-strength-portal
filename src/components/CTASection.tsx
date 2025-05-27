@@ -20,7 +20,7 @@ const CTASection: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button className="bg-brand-green text-white hover:bg-opacity-90 text-lg py-6 px-8" asChild>
-              <Link to="/booking">Schedule an Appointment</Link>
+              <Link to="/schedule">Schedule an Appointment</Link>
             </Button>
             <Button variant="outline" className="border-white text-white hover:bg-white/10 text-lg py-6 px-8" asChild>
               <Link to="/contact">Contact Us</Link>

@@ -17,7 +17,7 @@ const Hero: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button className="btn-primary text-lg" asChild>
-                <Link to="/booking">Schedule Now</Link>
+                <Link to="/schedule">Schedule Now</Link>
               </Button>
               <Button variant="outline" className="btn-secondary text-lg" asChild>
                 <Link to="/assessment">Free Assessment Inquiry</Link>
