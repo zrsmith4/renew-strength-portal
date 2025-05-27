@@ -5,6 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Auth page provides both Log In and Sign Up flow.
+ * - Hidden from navigation.
+ * - On sign up, collects a username and saves a profile row.
+ * - Redirects authenticated users home.
+ */
 const Auth = () => {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
