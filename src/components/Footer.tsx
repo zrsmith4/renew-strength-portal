@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 // import Logo from './Logo';
@@ -69,22 +68,11 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-medium text-lg text-brand-navy mb-4">Contact</h3>
             <ul className="space-y-2">
-              <li className="flex items-center text-gray-600">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 5C3 3.89543 3.89543 3 5 3H8.27924C8.70967 3 9.09181 3.27543 9.22792 3.68377L10.7257 8.17721C10.8854 8.64932 10.6883 9.16531 10.2409 9.38787L7.61878 10.7237C8.78517 13.6803 11.1197 16.0148 14.0763 17.1812L15.4121 14.5591C15.6347 14.1117 16.1507 13.9146 16.6228 14.0743L21.1162 15.5721C21.5246 15.7082 21.8 16.0903 21.8 16.5208V20C21.8 21.1046 20.9046 22 19.8 22H18C9.71573 22 3 15.2843 3 7V5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span>(555) 123-4567</span>
-              </li>
-              <li className="flex items-center text-gray-600">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 8L10.7369 13.7895C11.5061 14.3502 12.4939 14.3502 13.2631 13.7895L21 8M5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span>hello@renewpt.com</span>
-              </li>
+              {/* Removed phone and email */}
               <li className="mt-4">
                 <p className="text-sm text-gray-500">
                   Available for home visits in<br />
-                  Greater Metro Area
+                  Greater Chicagoland Metro area
                 </p>
               </li>
               <li className="mt-4 flex space-x-4">
@@ -126,4 +114,3 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
-

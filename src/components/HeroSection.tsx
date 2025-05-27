@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -9,7 +8,7 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
           <div className="w-full lg:w-1/2 space-y-6 text-center lg:text-left">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium leading-tight text-brand-navy">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight text-brand-navy">
               Healing movement, <br />delivered to you.
             </h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-xl mx-auto lg:mx-0">
@@ -18,9 +17,6 @@ const Hero: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button className="btn-primary text-lg" asChild>
                 <Link to="/contact">Schedule Now</Link>
-              </Button>
-              <Button variant="outline" className="btn-secondary text-lg" asChild>
-                <Link to="/contact">Free Assessment Inquiry</Link>
               </Button>
             </div>
           </div>

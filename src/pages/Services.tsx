@@ -108,18 +108,32 @@ const Services = () => {
           {/* Anchor for scrolling */}
           <div ref={cardsRef} id="cards" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {services.map((service) => (
+            {services.map((service, i) => (
               <ServiceCard
                 key={service.name}
                 icon={service.icon}
                 name={service.name}
                 bgColor={service.bgColor}
                 cta={
-                  <Button asChild size="lg" className="w-full mt-2">
-                    <Link to="/pricing">
-                      See Pricing
+                  <div className="flex flex-col space-y-2">
+                    <Link
+                      to={
+                        i === 0
+                          ? "/services/in-person"
+                          : i === 1
+                          ? "/services/telehealth"
+                          : i === 2
+                          ? "/services/dry-needling"
+                          : "/services/pt-telehealth"
+                      }
+                      className="text-brand-navy border border-brand-navy/20 px-4 py-2 rounded hover:text-brand-green transition-colors font-medium"
+                    >
+                      Learn More
                     </Link>
-                  </Button>
+                    <Button asChild size="lg" className="w-full mt-2">
+                      <Link to="/pricing">See Pricing</Link>
+                    </Button>
+                  </div>
                 }
               >
                 {service.details}

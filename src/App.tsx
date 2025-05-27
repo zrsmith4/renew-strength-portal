@@ -12,6 +12,10 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Schedule from "./pages/Schedule";
 import Services from "./pages/Services";
+import InPersonAssessment from "./pages/services/InPersonAssessment";
+import Telehealth from "./pages/services/Telehealth";
+import DryNeedling from "./pages/services/DryNeedling";
+import FullPTTelehealth from "./pages/services/FullPTTelehealth";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +29,10 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/in-person" element={<InPersonAssessment />} />
+          <Route path="/services/telehealth" element={<Telehealth />} />
+          <Route path="/services/dry-needling" element={<DryNeedling />} />
+          <Route path="/services/pt-telehealth" element={<FullPTTelehealth />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />

@@ -30,6 +30,14 @@ const ServicesSection: React.FC = () => {
       bgColor: "bg-brand-blue/10",
       iconColor: "text-blue-500",
     },
+    {
+      icon: "exercise",
+      title: "Full PT Telehealth Visit",
+      description: "Complete virtual physical therapy session.",
+      link: "/services/pt-telehealth",
+      bgColor: "bg-brand-light",
+      iconColor: "text-brand-blue",
+    },
   ];
 
   const renderIcon = (icon: string, className: string) => {
@@ -93,10 +101,10 @@ const ServicesSection: React.FC = () => {
                   {service.description}
                 </CardDescription>
               </CardContent>
-              <CardFooter className="flex justify-center pb-6">
+              <CardFooter className="flex justify-center pb-6 space-x-2">
                 <Link
                   to={service.link}
-                  className="text-brand-navy font-medium hover:text-brand-green transition-colors"
+                  className="text-brand-navy font-medium hover:text-brand-green transition-colors border px-4 py-2 rounded border-brand-navy/20"
                 >
                   Learn More
                 </Link>
