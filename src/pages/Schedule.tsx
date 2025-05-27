@@ -48,7 +48,6 @@ const Schedule = () => {
     setIsLoading(true);
     setSubmitted(false);
 
-    // Insert booking into Supabase
     const { error } = await supabase.from("bookings").insert({
       name: form.name,
       email: form.email,
@@ -69,7 +68,6 @@ const Schedule = () => {
       return;
     }
 
-    // Success
     setSubmitted(true);
     setIsLoading(false);
     toast({
@@ -77,7 +75,6 @@ const Schedule = () => {
       description: "Your booking request has been received. We'll review and confirm as soon as possible.",
     });
 
-    // Reset form, except keep date/service in case they want to book again
     setForm({
       name: "",
       email: "",
