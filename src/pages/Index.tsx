@@ -1,4 +1,3 @@
-
 import React from 'react';
 import NavBar from '@/components/NavBar';
 import HeroSection from '@/components/HeroSection';
@@ -9,24 +8,18 @@ import BlogPreview from '@/components/BlogPreview';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer';
 import { Link } from "react-router-dom";
-
 const Index = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <NavBar />
       {/* Main Focus Heading */}
       <div className="w-full bg-white border-b py-6 flex flex-col items-center z-10 relative">
-        <h1 className="text-3xl md:text-5xl font-serif font-bold text-brand-navy text-center tracking-tight leading-tight drop-shadow-sm">
-          Renew Strength and Wellness Physical Therapy
-        </h1>
+        <h1 className="text-3xl md:text-5xl font-serif font-bold text-brand-navy text-center tracking-tight leading-tight drop-shadow-sm">Renew Strength and Wellness 
+Physical Therapy</h1>
       </div>
       <main>
         {/* Auth Link */}
         <div className="w-full text-right px-4 py-2 bg-white border-b">
-          <Link
-            to="/auth"
-            className="inline-block rounded px-4 py-1 bg-brand-green/10 text-brand-green font-medium hover:bg-brand-green/20 transition"
-          >
+          <Link to="/auth" className="inline-block rounded px-4 py-1 bg-brand-green/10 text-brand-green font-medium hover:bg-brand-green/20 transition">
             Log in / Sign up
           </Link>
         </div>
@@ -38,8 +31,6 @@ const Index = () => {
         <CTASection />
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
