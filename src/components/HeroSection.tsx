@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -33,20 +34,20 @@ const Hero: React.FC = () => {
                 />
               </div>
               
-              {/* Middle panel (UPDATED) */}
+              {/* Middle panel (updated) */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute left-1/3 top-0 bottom-0 z-20 transform -translate-x-1/6">
                 <img 
                   src="/lovable-uploads/6d5db411-b0da-48d2-a2b8-6de25407dec7.png"
-                  alt="Person running on a soccer field"
+                  alt="Woman running on a soccer field" 
                   className="w-full h-full object-cover"
                 />
               </div>
               
-              {/* Last panel (UPDATED) */}
+              {/* Last panel (right, updated) */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute right-0 top-4 bottom-4 z-10">
                 <img 
                   src="/lovable-uploads/8175a5df-98e9-4443-8fe5-e8088297a6d7.png"
-                  alt="Person carrying groceries with improved mobility"
+                  alt="Woman carrying groceries with improved mobility" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -66,3 +67,4 @@ const Hero: React.FC = () => {
 };
 
 export default Hero;
+
