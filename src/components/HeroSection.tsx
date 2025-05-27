@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -25,7 +24,7 @@ const Hero: React.FC = () => {
           {/* Hero Image Triptych */}
           <div className="w-full lg:w-1/2 flex justify-center">
             <div className="relative w-full max-w-2xl">
-              {/* First panel (updated image) */}
+              {/* First panel (unchanged) */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute left-0 top-4 bottom-4 z-10">
                 <img 
                   src="/lovable-uploads/d846324f-6125-47a2-8907-92b08d0b6437.png" 
@@ -34,20 +33,20 @@ const Hero: React.FC = () => {
                 />
               </div>
               
-              {/* Middle panel */}
+              {/* Middle panel (UPDATED) */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute left-1/3 top-0 bottom-0 z-20 transform -translate-x-1/6">
                 <img 
-                  src="/lovable-uploads/64ac4246-c298-4cab-97cf-f44f46358d29.png" 
-                  alt="Patient running with therapist guidance" 
+                  src="/lovable-uploads/6d5db411-b0da-48d2-a2b8-6de25407dec7.png"
+                  alt="Person running on a soccer field"
                   className="w-full h-full object-cover"
                 />
               </div>
               
-              {/* Last panel */}
+              {/* Last panel (UPDATED) */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute right-0 top-4 bottom-4 z-10">
                 <img 
-                  src="/lovable-uploads/f51db8a0-cf4e-45b6-8ee5-255b9c88e59c.png" 
-                  alt="Patient carrying groceries after recovery" 
+                  src="/lovable-uploads/8175a5df-98e9-4443-8fe5-e8088297a6d7.png"
+                  alt="Person carrying groceries with improved mobility"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -67,4 +66,3 @@ const Hero: React.FC = () => {
 };
 
 export default Hero;
-
