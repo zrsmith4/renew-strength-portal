@@ -1,6 +1,7 @@
+
 import React from 'react';
 import NavBar from '@/components/NavBar';
-import Hero from '@/components/Hero';
+import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import ServicesSection from '@/components/ServicesSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
@@ -23,7 +24,7 @@ const Index = () => {
             Log in / Sign up
           </Link>
         </div>
-        <Hero />
+        <HeroSection />
         <AboutSection />
         <ServicesSection />
         <TestimonialsSection />

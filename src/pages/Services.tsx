@@ -1,8 +1,8 @@
 
 import React from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import ServiceCard from "@/components/ServiceCard";
 import { MapPin, Video, Syringe, ActivitySquare } from "lucide-react";
 
 const services = [
@@ -15,12 +15,12 @@ const services = [
         <p>
           Receive a comprehensive, in-person evaluation at your home, office, or preferred location by a licensed physical therapist.
         </p>
-        <ul className="list-disc list-inside mt-2 text-gray-600">
-          <li>Movement, strength, and posture analysis</li>
-          <li>Personalized treatment plan</li>
-          <li>Hands-on care, manual therapy</li>
-          <li>Home/gym exercise & mobility program</li>
-          <li>Education and goal-setting</li>
+        <ul className="list-disc list-inside mt-2 text-gray-600 text-left">
+          <li>Thorough movement, strength, and posture assessment</li>
+          <li>Personalized treatment plan for your goals</li>
+          <li>Hands-on care & manual techniques</li>
+          <li>Home/gym exercise & mobility prescription</li>
+          <li>Education & collaborative recovery approach</li>
         </ul>
       </>
     ),
@@ -32,13 +32,13 @@ const services = [
     details: (
       <>
         <p>
-          Secure video consultation with a PT for evaluation and custom plan—no travel needed, expert care anywhere.
+          Secure video consult with a PT for evaluation and a tailored plan—no travel required.
         </p>
-        <ul className="list-disc list-inside mt-2 text-gray-600">
+        <ul className="list-disc list-inside mt-2 text-gray-600 text-left">
           <li>Movement screening via video</li>
-          <li>Discuss symptoms & history live</li>
-          <li>Receive digital home program</li>
-          <li>Convenient, private, and HIPAA-compliant</li>
+          <li>Live discussion of symptoms & history</li>
+          <li>Digital home program provided</li>
+          <li>Private, HIPAA-compliant, and convenient</li>
         </ul>
       </>
     ),
@@ -50,12 +50,12 @@ const services = [
     details: (
       <>
         <p>
-          Targeted trigger point therapy utilizing fine needles to relieve pain, tension, and restore mobility.
+          Targeted trigger point therapy with fine needles—reduce pain, tension, and improve mobility.
         </p>
-        <ul className="list-disc list-inside mt-2 text-gray-600">
+        <ul className="list-disc list-inside mt-2 text-gray-600 text-left">
           <li>Pain relief and muscle relaxation</li>
-          <li>Improved flexibility and mobility</li>
-          <li>Often combined with other manual therapy</li>
+          <li>Improved flexibility and function</li>
+          <li>Can be combined with other manual therapy</li>
         </ul>
       </>
     ),
@@ -67,13 +67,13 @@ const services = [
     details: (
       <>
         <p>
-          Complete remote PT session for established patients: exercise guidance, progress review, and adjustments to your care.
+          Complete remote PT session: exercise guidance, progress check-ins, and plan updates.
         </p>
-        <ul className="list-disc list-inside mt-2 text-gray-600">
+        <ul className="list-disc list-inside mt-2 text-gray-600 text-left">
           <li>Individualized PT session (live video)</li>
-          <li>Correct form and progress updates</li>
-          <li>Home exercise modifications</li>
-          <li>Continued plan of care and Q&amp;A</li>
+          <li>Correct form guidance and progression</li>
+          <li>Home exercise updates</li>
+          <li>Full support, Q&amp;A for ongoing care</li>
         </ul>
       </>
     ),
@@ -90,26 +90,25 @@ const Services = () => (
             Our Services
           </h1>
           <p className="text-lg text-gray-600">
-            Faith-based, clinically proven physical therapy available both in-person and virtually to fit your needs.
+            Faith-based, clinically proven physical therapy—available in-person or virtually to fit your needs.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((service) => (
-            <Card key={service.name} className="bg-white border border-gray-100 shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
-              <CardHeader className={`flex flex-col items-center ${service.bgColor} py-8`}>
-                <div className="mb-2">{service.icon}</div>
-                <CardTitle className="text-xl font-serif text-brand-navy">{service.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center flex-grow flex flex-col justify-center space-y-2">
-                {service.details}
-              </CardContent>
-            </Card>
+            <ServiceCard
+              key={service.name}
+              icon={service.icon}
+              name={service.name}
+              bgColor={service.bgColor}
+            >
+              {service.details}
+            </ServiceCard>
           ))}
         </div>
         <div className="mt-16 text-center mx-auto max-w-xl">
           <h2 className="text-2xl font-serif text-brand-navy mb-3">Insurance & Payment Options</h2>
           <p className="text-gray-600 mb-6">
-            We offer transparent direct-pay pricing. For insurance coverage or payment questions, please <a href="/contact" className="text-brand-green underline">contact us</a>.
+            We offer transparent direct-pay pricing. For insurance or payment questions, <a href="/contact" className="text-brand-green underline">contact us</a>.
           </p>
         </div>
       </div>
