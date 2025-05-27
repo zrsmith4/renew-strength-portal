@@ -29,9 +29,9 @@ const DashboardRouter = () => {
         return;
       }
       const userRole = data[0].role;
-      if (userRole === "patient") {
+      if (userRole === "user") {
         navigate("/dashboard/patient");
-      } else if (userRole === "staff" || userRole === "admin") {
+      } else if (userRole === "admin") {
         navigate("/dashboard/staff");
       } else {
         navigate("/auth");
