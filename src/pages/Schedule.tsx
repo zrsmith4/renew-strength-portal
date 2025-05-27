@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
@@ -9,6 +8,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/components/ui/use-toast";
 
 const services = [
   "In-Person Assessment",
@@ -29,6 +30,7 @@ const Schedule = () => {
     data: false,
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -40,10 +42,51 @@ const Schedule = () => {
 
   const canSubmit = form.name && form.email && form.service && form.date && form.consent && form.financial && form.data;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!canSubmit) return;
+    setIsLoading(true);
+    setSubmitted(false);
+
+    // Insert booking into Supabase
+    const { error } = await supabase.from("bookings").insert({
+      name: form.name,
+      email: form.email,
+      service: form.service,
+      date: form.date ? form.date.toISOString().slice(0, 10) : null, // format as 'YYYY-MM-DD'
+      consent: form.consent,
+      financial: form.financial,
+      data: form.data,
+    });
+
+    if (error) {
+      toast({
+        title: "Booking failed",
+        description: "Something went wrong. Please try again or contact us.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    // Success
     setSubmitted(true);
-    // Placeholder: on backend connection, send booking payload to Supabase
+    setIsLoading(false);
+    toast({
+      title: "Request sent!",
+      description: "Your booking request has been received. We'll review and confirm as soon as possible.",
+    });
+
+    // Reset form, except keep date/service in case they want to book again
+    setForm({
+      name: "",
+      email: "",
+      service: form.service,
+      date: form.date,
+      consent: false,
+      financial: false,
+      data: false,
+    });
   };
 
   return (
@@ -58,7 +101,7 @@ const Schedule = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* Placeholder Calendar */}
+              {/* Calendar */}
               <div className="mb-8">
                 <h2 className="text-lg font-semibold text-brand-green mb-3">Pick your date</h2>
                 <Calendar
@@ -81,7 +124,7 @@ const Schedule = () => {
                     required
                     value={form.name}
                     onChange={handleChange}
-                    disabled={submitted}
+                    disabled={submitted || isLoading}
                   />
                 </div>
                 <div>
@@ -96,7 +139,7 @@ const Schedule = () => {
                     required
                     value={form.email}
                     onChange={handleChange}
-                    disabled={submitted}
+                    disabled={submitted || isLoading}
                   />
                 </div>
                 <div>
@@ -106,6 +149,7 @@ const Schedule = () => {
                   <Select
                     value={form.service}
                     onValueChange={(value) => setForm({ ...form, service: value })}
+                    disabled={submitted || isLoading}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select a service" />
@@ -124,6 +168,7 @@ const Schedule = () => {
                       id="consent"
                       checked={form.consent}
                       onCheckedChange={(checked: boolean) => handleCheckbox("consent", checked)}
+                      disabled={submitted || isLoading}
                     />
                     <label htmlFor="consent" className="text-sm">
                       I consent to treatment <span className="text-brand-green">&#40;read&#41;</span>
@@ -134,6 +179,7 @@ const Schedule = () => {
                       id="financial"
                       checked={form.financial}
                       onCheckedChange={(checked: boolean) => handleCheckbox("financial", checked)}
+                      disabled={submitted || isLoading}
                     />
                     <label htmlFor="financial" className="text-sm">
                       I agree to the financial policy <span className="text-brand-green">&#40;read&#41;</span>
@@ -144,19 +190,24 @@ const Schedule = () => {
                       id="data"
                       checked={form.data}
                       onCheckedChange={(checked: boolean) => handleCheckbox("data", checked)}
+                      disabled={submitted || isLoading}
                     />
                     <label htmlFor="data" className="text-sm">
                       I accept the data policy <span className="text-brand-green">&#40;read&#41;</span>
                     </label>
                   </div>
                 </div>
-                {/* Policies text block below (expand/collapse in future) */}
+                {/* Policies text block */}
                 <div className="rounded bg-gray-50 mt-2 px-3 py-2 border border-gray-200">
                   <ConsentPolicy />
                 </div>
                 <div className="flex items-center gap-2 mt-4">
-                  <Button type="submit" disabled={!canSubmit || submitted} className="flex-1">
-                    {submitted ? "Request Sent!" : "Request Booking"}
+                  <Button
+                    type="submit"
+                    disabled={!canSubmit || submitted || isLoading}
+                    className="flex-1"
+                  >
+                    {isLoading ? "Submitting..." : submitted ? "Request Sent!" : "Request Booking"}
                   </Button>
                   <Button type="button" variant="outline" onClick={() => navigate("/auth")}>
                     Log in / Sign up
