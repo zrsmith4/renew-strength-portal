@@ -8,6 +8,7 @@ interface PricingItem {
   icon: React.ReactNode;
   bgColor?: string;
   sub: string;
+  cta?: React.ReactNode;
 }
 
 interface PricingTableProps {
@@ -32,6 +33,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ items, className = "" }) =>
             <DollarSign className="h-6 w-6 text-brand-green" />
             <span className="text-2xl font-bold text-brand-navy">{item.price}</span>
           </div>
+          {item.cta && <div className="mt-5 w-full">{item.cta}</div>}
         </div>
       </div>
     ))}

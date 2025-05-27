@@ -4,6 +4,8 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PricingTable from "@/components/PricingTable";
 import { MapPin, Video, Syringe, ActivitySquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const pricingItems = [
   {
@@ -12,6 +14,11 @@ const pricingItems = [
     icon: <MapPin className="h-8 w-8 text-brand-green" />,
     bgColor: "bg-brand-green/10",
     sub: "Comprehensive evaluation and personalized plan at your location.",
+    cta: (
+      <Button asChild className="w-full bg-brand-green hover:bg-brand-green/90 text-white" size="lg">
+        <Link to="/schedule">Book Now</Link>
+      </Button>
+    ),
   },
   {
     name: "Virtual Assessment",
@@ -19,6 +26,11 @@ const pricingItems = [
     icon: <Video className="h-8 w-8 text-brand-blue" />,
     bgColor: "bg-brand-blue/10",
     sub: "Full evaluation and live expert care via secure video.",
+    cta: (
+      <Button asChild className="w-full bg-brand-green hover:bg-brand-green/90 text-white" size="lg">
+        <Link to="/schedule">Book Now</Link>
+      </Button>
+    ),
   },
   {
     name: "Dry Needling",
@@ -26,6 +38,11 @@ const pricingItems = [
     icon: <Syringe className="h-8 w-8 text-amber-500" />,
     bgColor: "bg-brand-yellow/10",
     sub: "Targeted manual therapy for pain and mobility.",
+    cta: (
+      <Button asChild className="w-full bg-brand-green hover:bg-brand-green/90 text-white" size="lg">
+        <Link to="/schedule">Book Now</Link>
+      </Button>
+    ),
   },
   {
     name: "Full PT Telehealth Visit",
@@ -33,6 +50,11 @@ const pricingItems = [
     icon: <ActivitySquare className="h-8 w-8 text-brand-blue" />,
     bgColor: "bg-brand-light",
     sub: "Complete physical therapy session, remotely delivered.",
+    cta: (
+      <Button asChild className="w-full bg-brand-green hover:bg-brand-green/90 text-white" size="lg">
+        <Link to="/schedule">Book Now</Link>
+      </Button>
+    ),
   },
 ];
 
