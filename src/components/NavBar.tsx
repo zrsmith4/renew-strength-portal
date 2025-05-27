@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from './Logo';
+// import Logo from './Logo';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 
@@ -17,7 +17,13 @@ const NavBar: React.FC = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
-            <Logo />
+            {/* Use uploaded logo image */}
+            <img
+              src="/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png"
+              alt="Renew Strength and Wellness Logo"
+              className="h-10 w-auto"
+              style={{ maxHeight: '40px' }}
+            />
             <div className="flex flex-col">
               <span className="text-lg font-bold text-brand-navy uppercase tracking-wider">RENEW</span>
               <span className="text-xs text-brand-navy/80 uppercase tracking-wider">Strength and Wellness</span>
@@ -132,4 +138,3 @@ const NavBar: React.FC = () => {
 };
 
 export default NavBar;
-

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from './Logo';
+// import Logo from './Logo';
 
 const Footer: React.FC = () => {
   return (
@@ -10,7 +10,13 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <Logo className="h-12" />
+              {/* Use uploaded logo image */}
+              <img
+                src="/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png"
+                alt="Renew Strength and Wellness Logo"
+                className="h-12 w-auto"
+                style={{ maxHeight: '48px' }}
+              />
             </Link>
             <div className="mt-2">
               <h3 className="font-serif text-lg text-brand-navy">RENEW</h3>
