@@ -14,6 +14,12 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
+      {/* Main Focus Heading */}
+      <div className="w-full bg-white border-b py-6 flex flex-col items-center z-10 relative">
+        <h1 className="text-3xl md:text-5xl font-serif font-bold text-brand-navy text-center tracking-tight leading-tight drop-shadow-sm">
+          Renew Strength and Wellness Physical Therapy
+        </h1>
+      </div>
       <main>
         {/* Auth Link */}
         <div className="w-full text-right px-4 py-2 bg-white border-b">
