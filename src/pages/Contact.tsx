@@ -46,7 +46,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="text-lg font-medium text-brand-navy">Email</h3>
-                        <p className="text-gray-600">contact@renewstrengthwellness.com</p>
+                        <p className="text-gray-600">renewswpt@gmail.com</p>
                         <p className="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
                       </div>
                     </div>
@@ -56,7 +56,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="text-lg font-medium text-brand-navy">Phone</h3>
-                        <p className="text-gray-600">(555) 123-4567</p>
+                        <p className="text-gray-600">312-725-3741</p>
                         <p className="text-sm text-gray-500 mt-1">Available Mon-Fri, 9am-5pm</p>
                       </div>
                     </div>
@@ -66,7 +66,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="text-lg font-medium text-brand-navy">Service Area</h3>
-                        <p className="text-gray-600">Mobile service throughout Greater Atlanta</p>
+                        <p className="text-gray-600">Mobile service throughout Greater Chicagoland Area</p>
                         <p className="text-sm text-gray-500 mt-1">We come to you!</p>
                       </div>
                     </div>
@@ -92,9 +92,9 @@ const Contact = () => {
               {/* Placeholder for Google Maps */}
               <div className="text-center p-6">
                 <MapPin className="h-12 w-12 text-brand-green mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-brand-navy mb-2">Greater Atlanta Area</h3>
+                <h3 className="text-xl font-medium text-brand-navy mb-2">Greater Chicagoland Area</h3>
                 <p className="text-gray-600 max-w-md mx-auto">
-                  As a mobile practice, we serve clients throughout the Greater Atlanta metropolitan area,
+                  As a mobile practice, we serve clients throughout the Greater Chicagoland metropolitan area,
                   bringing physical therapy services directly to your home, office, or preferred location.
                 </p>
               </div>
