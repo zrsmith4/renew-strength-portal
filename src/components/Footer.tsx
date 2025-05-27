@@ -103,9 +103,9 @@ const Footer: React.FC = () => {
             &copy; {new Date().getFullYear()} Renew Strength and Wellness. All rights reserved.
           </p>
           <div className="flex space-x-6">
-            <Link to="/privacy" className="text-sm text-gray-500 hover:text-brand-green transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="text-sm text-gray-500 hover:text-brand-green transition-colors">Terms of Service</Link>
-            <Link to="/accessibility" className="text-sm text-gray-500 hover:text-brand-green transition-colors">Accessibility</Link>
+            <Link to="/privacy#privacy" className="text-sm text-gray-500 hover:text-brand-green transition-colors">Privacy Policy</Link>
+            <Link to="/privacy#terms" className="text-sm text-gray-500 hover:text-brand-green transition-colors">Terms of Service</Link>
+            <Link to="/privacy#accessibility" className="text-sm text-gray-500 hover:text-brand-green transition-colors">Accessibility</Link>
           </div>
         </div>
       </div>

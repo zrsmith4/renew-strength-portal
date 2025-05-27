@@ -16,6 +16,7 @@ import InPersonAssessment from "./pages/services/InPersonAssessment";
 import Telehealth from "./pages/services/Telehealth";
 import DryNeedling from "./pages/services/DryNeedling";
 import FullPTTelehealth from "./pages/services/FullPTTelehealth";
+import Policies from "./pages/Policies";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,9 @@ const App = () => (
           <Route path="/schedule" element={<Schedule />} />
           {/* AUTH */}
           <Route path="/auth" element={<Auth />} />
+          <Route path="/privacy" element={<Policies />} />
+          <Route path="/terms" element={<Policies />} />
+          <Route path="/accessibility" element={<Policies />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
