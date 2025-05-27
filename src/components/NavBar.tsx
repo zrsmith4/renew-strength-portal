@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
@@ -40,6 +39,9 @@ const NavBar: React.FC = () => {
             </Link>
             <Link to="/contact" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
               Contact
+            </Link>
+            <Link to="/schedule" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
+              Schedule
             </Link>
           </nav>
 

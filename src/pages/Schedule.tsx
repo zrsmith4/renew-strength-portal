@@ -1,0 +1,180 @@
+
+import React, { useState } from "react";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+import ConsentPolicy from "@/components/ConsentPolicy";
+import { Card, CardHeader, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import { useNavigate } from "react-router-dom";
+
+const services = [
+  "In-Person Assessment",
+  "Virtual Assessment",
+  "Dry Needling",
+  "Full PT Telehealth Visit",
+];
+
+const Schedule = () => {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    service: "",
+    date: undefined as Date | undefined,
+    consent: false,
+    financial: false,
+    data: false,
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckbox = (key: "consent" | "financial" | "data", checked: boolean) => {
+    setForm({ ...form, [key]: checked });
+  };
+
+  const canSubmit = form.name && form.email && form.service && form.date && form.consent && form.financial && form.data;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    // Placeholder: on backend connection, send booking payload to Supabase
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <NavBar />
+      <main className="flex-grow bg-brand-light py-8">
+        <div className="container mx-auto max-w-2xl">
+          <Card className="shadow-lg">
+            <CardHeader>
+              <CardTitle className="font-serif text-2xl text-brand-navy text-center">
+                Book an Appointment
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Placeholder Calendar */}
+              <div className="mb-8">
+                <h2 className="text-lg font-semibold text-brand-green mb-3">Pick your date</h2>
+                <Calendar
+                  mode="single"
+                  selected={form.date}
+                  onSelect={(date) => setForm({ ...form, date: date || undefined })}
+                  className="pointer-events-auto rounded border"
+                  classNames={{ months: "justify-center" }}
+                />
+              </div>
+              <form className="space-y-5" onSubmit={handleSubmit} autoComplete="off">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    className="w-full border px-3 py-2 rounded"
+                    required
+                    value={form.name}
+                    onChange={handleChange}
+                    disabled={submitted}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-1">
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    className="w-full border px-3 py-2 rounded"
+                    required
+                    value={form.email}
+                    onChange={handleChange}
+                    disabled={submitted}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="service" className="block text-sm font-medium mb-1">
+                    Service
+                  </label>
+                  <Select
+                    value={form.service}
+                    onValueChange={(value) => setForm({ ...form, service: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a service" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {services.map((service) => (
+                        <SelectItem value={service} key={service}>{service}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {/* Consent Checkboxes */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="consent"
+                      checked={form.consent}
+                      onCheckedChange={(checked: boolean) => handleCheckbox("consent", checked)}
+                    />
+                    <label htmlFor="consent" className="text-sm">
+                      I consent to treatment <span className="text-brand-green">&#40;read&#41;</span>
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="financial"
+                      checked={form.financial}
+                      onCheckedChange={(checked: boolean) => handleCheckbox("financial", checked)}
+                    />
+                    <label htmlFor="financial" className="text-sm">
+                      I agree to the financial policy <span className="text-brand-green">&#40;read&#41;</span>
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="data"
+                      checked={form.data}
+                      onCheckedChange={(checked: boolean) => handleCheckbox("data", checked)}
+                    />
+                    <label htmlFor="data" className="text-sm">
+                      I accept the data policy <span className="text-brand-green">&#40;read&#41;</span>
+                    </label>
+                  </div>
+                </div>
+                {/* Policies text block below (expand/collapse in future) */}
+                <div className="rounded bg-gray-50 mt-2 px-3 py-2 border border-gray-200">
+                  <ConsentPolicy />
+                </div>
+                <div className="flex items-center gap-2 mt-4">
+                  <Button type="submit" disabled={!canSubmit || submitted} className="flex-1">
+                    {submitted ? "Request Sent!" : "Request Booking"}
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => navigate("/auth")}>
+                    Log in / Sign up
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+            <CardFooter>
+              <div className="text-xs text-gray-400 mx-auto">
+                Booking is a request only &ndash; confirmation will follow as we review your submission.
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default Schedule;
