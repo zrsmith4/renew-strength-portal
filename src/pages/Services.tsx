@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { MapPin, Video, Needle, ActivitySquare } from "lucide-react";
+import { MapPin, Video, Syringe, ActivitySquare } from "lucide-react";
 
 const services = [
   {
@@ -22,7 +22,7 @@ const services = [
     name: "Dry Needling",
     description:
       "Targeted manual therapy using fine needles to release trigger points, relieve pain, and improve range of motion.",
-    icon: <Needle className="h-8 w-8 text-amber-500" />,
+    icon: <Syringe className="h-8 w-8 text-amber-500" />,
     bgColor: "bg-brand-yellow/10",
   },
   {

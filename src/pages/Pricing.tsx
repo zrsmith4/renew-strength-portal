@@ -3,7 +3,7 @@ import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import { MapPin, Video, Needle, ActivitySquare, DollarSign } from "lucide-react";
+import { MapPin, Video, Syringe, ActivitySquare, DollarSign } from "lucide-react";
 
 const services = [
   {
@@ -23,7 +23,7 @@ const services = [
   {
     name: "Dry Needling",
     price: "$85",
-    icon: <Needle className="h-8 w-8 text-amber-500" />,
+    icon: <Syringe className="h-8 w-8 text-amber-500" />,
     bgColor: "bg-brand-yellow/10",
     sub: "Targeted manual therapy for pain and mobility.",
   },
