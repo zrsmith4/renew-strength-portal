@@ -5,12 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 
-/**
- * Auth page provides both Log In and Sign Up flow.
- * - Hidden from navigation.
- * - On sign up, collects a username and saves a profile row.
- * - Redirects authenticated users home.
- */
 const Auth = () => {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -21,19 +15,44 @@ const Auth = () => {
 
   const navigate = useNavigate();
 
-  // Redirect if already logged in
+  // Role-based redirection after auth
   useEffect(() => {
     let ignore = false;
-    supabase.auth.getSession().then(({ data: { session } }) => {
+
+    const checkSessionAndRedirect = async (session: any | null) => {
       if (session && !ignore) {
-        navigate("/");
+        // Fetch user's role from the 'profiles' table
+        const { data: profileData, error: profileError } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
+
+        if (profileError) {
+          console.error("Error fetching profile:", profileError.message);
+          navigate("/"); // Fallback to home if error
+          return;
+        }
+
+        // Redirect based on role
+        if (profileData?.role === "admin" || profileData?.role === "therapist") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/patient-dashboard");
+        }
       }
+    };
+
+    // Initial check
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      checkSessionAndRedirect(session);
     });
+
+    // Listen for auth state changes (login/signup)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        navigate("/");
-      }
+      checkSessionAndRedirect(session);
     });
+
     return () => {
       ignore = true;
       subscription.unsubscribe();
@@ -44,6 +63,7 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
     if (mode === "signup" && !username) {
       setError("Username is required");
       setLoading(false);
@@ -60,19 +80,20 @@ const Auth = () => {
         setLoading(false);
         return;
       }
-      // Insert profile
       const user = data?.user;
       if (user) {
+        // Insert profile with role: 'patient'
         const { error: profileError } = await supabase.from("profiles").insert({
           id: user.id,
           username,
+          role: "patient",
         });
         if (profileError) {
           setError("Account created, but failed to save profile (" + profileError.message + ")");
         }
       }
       setLoading(false);
-      // supabase will trigger auth state change and navigate home
+      // Auth state change will redirect accordingly
     } else {
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
@@ -175,3 +196,4 @@ const Auth = () => {
 };
 
 export default Auth;
+
