@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // import Logo from './Logo';
@@ -16,18 +15,14 @@ const NavBar: React.FC = () => {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-2">
-            {/* Use uploaded logo image */}
+          <Link to="/" className="flex items-center">
+            {/* Use uploaded logo image - make larger, no text */}
             <img
               src="/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png"
               alt="Renew Strength and Wellness Logo"
-              className="h-10 w-auto"
-              style={{ maxHeight: '40px' }}
+              className="h-16 w-auto"
+              style={{ maxHeight: '64px' }}
             />
-            <div className="flex flex-col">
-              <span className="text-lg font-bold text-brand-navy uppercase tracking-wider">RENEW</span>
-              <span className="text-xs text-brand-navy/80 uppercase tracking-wider">Strength and Wellness</span>
-            </div>
           </Link>
 
           {/* Desktop Navigation */}
