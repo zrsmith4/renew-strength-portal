@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import ServiceCard from "@/components/ServiceCard";
@@ -82,48 +81,62 @@ const services = [
   },
 ];
 
-const Services = () => (
-  <div className="min-h-screen flex flex-col">
-    <NavBar />
-    <main className="flex-grow bg-brand-light py-12 md:py-16">
-      <div className="container mx-auto px-4">
-        <div className="max-w-2xl mx-auto text-center mb-8">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-brand-navy mb-4">
-            Our Services
-          </h1>
-          <p className="text-lg text-gray-600">
-            Faith-based, clinically proven physical therapy—available in-person or virtually to fit your needs.
-          </p>
+const Services = () => {
+  const cardsRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // If the hash is #cards, scroll to the cards grid
+    if (window.location.hash === "#cards" && cardsRef.current) {
+      // Use smooth scroll if supported
+      cardsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <NavBar />
+      <main className="flex-grow bg-brand-light py-12 md:py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto text-center mb-8">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-brand-navy mb-4">
+              Our Services
+            </h1>
+            <p className="text-lg text-gray-600">
+              Faith-based, clinically proven physical therapy—available in-person or virtually to fit your needs.
+            </p>
+          </div>
+          {/* Anchor for scrolling */}
+          <div ref={cardsRef} id="cards" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {services.map((service) => (
+              <ServiceCard
+                key={service.name}
+                icon={service.icon}
+                name={service.name}
+                bgColor={service.bgColor}
+                cta={
+                  <Button asChild size="lg" className="w-full mt-2">
+                    <Link to="/pricing">
+                      See Pricing
+                    </Link>
+                  </Button>
+                }
+              >
+                {service.details}
+              </ServiceCard>
+            ))}
+          </div>
+          <div className="mt-16 text-center mx-auto max-w-xl">
+            <h2 className="text-2xl font-serif text-brand-navy mb-3">Insurance & Payment Options</h2>
+            <p className="text-gray-600 mb-6">
+              We offer transparent direct-pay pricing. For insurance or payment questions, <a href="/contact" className="text-brand-green underline">contact us</a>.
+            </p>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {services.map((service) => (
-            <ServiceCard
-              key={service.name}
-              icon={service.icon}
-              name={service.name}
-              bgColor={service.bgColor}
-              cta={
-                <Button asChild size="lg" className="w-full mt-2">
-                  <Link to="/pricing">
-                    See Pricing
-                  </Link>
-                </Button>
-              }
-            >
-              {service.details}
-            </ServiceCard>
-          ))}
-        </div>
-        <div className="mt-16 text-center mx-auto max-w-xl">
-          <h2 className="text-2xl font-serif text-brand-navy mb-3">Insurance & Payment Options</h2>
-          <p className="text-gray-600 mb-6">
-            We offer transparent direct-pay pricing. For insurance or payment questions, <a href="/contact" className="text-brand-green underline">contact us</a>.
-          </p>
-        </div>
-      </div>
-    </main>
-    <Footer />
-  </div>
-);
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
 export default Services;

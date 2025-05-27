@@ -52,16 +52,16 @@ const Footer: React.FC = () => {
             <h3 className="font-medium text-lg text-brand-navy mb-4">Services</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/services/in-person" className="text-gray-600 hover:text-brand-green transition-colors">In-Person Assessment</Link>
+                <Link to="/services#cards" className="text-gray-600 hover:text-brand-green transition-colors">In-Person Assessment</Link>
               </li>
               <li>
-                <Link to="/services/telehealth" className="text-gray-600 hover:text-brand-green transition-colors">Telehealth</Link>
+                <Link to="/services#cards" className="text-gray-600 hover:text-brand-green transition-colors">Telehealth</Link>
               </li>
               <li>
-                <Link to="/services/dry-needling" className="text-gray-600 hover:text-brand-green transition-colors">Dry Needling</Link>
+                <Link to="/services#cards" className="text-gray-600 hover:text-brand-green transition-colors">Dry Needling</Link>
               </li>
               <li>
-                <Link to="/services/mobile" className="text-gray-600 hover:text-brand-green transition-colors">Mobile Concierge Care</Link>
+                <Link to="/services#cards" className="text-gray-600 hover:text-brand-green transition-colors">Mobile Concierge Care</Link>
               </li>
             </ul>
           </div>
@@ -126,3 +126,4 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+
