@@ -17,6 +17,9 @@ import Telehealth from "./pages/services/Telehealth";
 import DryNeedling from "./pages/services/DryNeedling";
 import FullPTTelehealth from "./pages/services/FullPTTelehealth";
 import Policies from "./pages/Policies";
+import DashboardRouter from "./pages/DashboardRouter";
+import PatientDashboard from "./pages/dashboard/PatientDashboard";
+import StaffDashboard from "./pages/dashboard/StaffDashboard";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +47,9 @@ const App = () => (
           <Route path="/terms" element={<Policies />} />
           <Route path="/accessibility" element={<Policies />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/dashboard" element={<DashboardRouter />} />
+          <Route path="/dashboard/patient" element={<PatientDashboard />} />
+          <Route path="/dashboard/staff" element={<StaffDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
