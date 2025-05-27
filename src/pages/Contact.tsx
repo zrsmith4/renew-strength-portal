@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -22,10 +21,27 @@ type ContactFormValues = {
 const Contact = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormValues>();
   
-  const onSubmit = (data: ContactFormValues) => {
-    console.log('Form submitted:', data);
-    toast.success('Message sent successfully! We\'ll get back to you soon.');
-    reset();
+  const onSubmit = async (data: ContactFormValues) => {
+    try {
+      const response = await fetch('https://izikncebdvtnddtmsdfa.functions.supabase.co/send-contact-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorMsg = (await response.json())?.error || "Something went wrong. Please try again.";
+        throw new Error(errorMsg);
+      }
+
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      reset();
+    } catch (err: any) {
+      toast.error("Failed to send message. Please try again or email us directly at renewswpt@gmail.com.");
+      console.error("Contact form submission failed:", err?.message || err);
+    }
   };
 
   return (
