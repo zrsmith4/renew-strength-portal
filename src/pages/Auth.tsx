@@ -26,16 +26,17 @@ const Auth = () => {
           .from("profiles")
           .select("role")
           .eq("id", session.user.id)
-          .single();
+          .maybeSingle();
 
-        if (profileError) {
-          console.error("Error fetching profile:", profileError.message);
-          navigate("/"); // Fallback to home if error
+        if (profileError || !profileData) {
+          console.error("Error fetching profile:", profileError?.message || "Profile not found");
+          // Fallback: navigate to a default safe page if role cannot be determined
+          navigate("/");
           return;
         }
 
         // Redirect based on role
-        if (profileData?.role === "admin" || profileData?.role === "therapist") {
+        if (profileData.role === "admin" || profileData.role === "therapist") {
           navigate("/admin-dashboard");
         } else {
           navigate("/patient-dashboard");
