@@ -34,8 +34,8 @@ const Contact = () => {
               </Card>
             </div>
 
-            {/* --- CONTACT INFO and BOOKING HIDDEN FOR NOW --- */}
             {/* 
+            --- CONTACT INFO and BOOKING HIDDEN FOR NOW ---
             <div className="md:col-span-2">
               <Card className="p-1 mb-6">
                 <CardContent className="p-6">
@@ -110,4 +110,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
