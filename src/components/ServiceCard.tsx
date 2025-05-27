@@ -7,6 +7,7 @@ interface ServiceCardProps {
   bgColor?: string;
   children: React.ReactNode;
   className?: string;
+  cta?: React.ReactNode; // New prop for the action button
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
@@ -15,6 +16,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   bgColor = "",
   children,
   className = "",
+  cta,
 }) => {
   return (
     <div
@@ -26,6 +28,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       </div>
       <div className="text-center flex-grow flex flex-col justify-center space-y-2 p-6 pt-0">
         {children}
+        {cta && <div className="mt-6">{cta}</div>}
       </div>
     </div>
   );

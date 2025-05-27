@@ -4,6 +4,8 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import ServiceCard from "@/components/ServiceCard";
 import { MapPin, Video, Syringe, ActivitySquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const services = [
   {
@@ -100,6 +102,13 @@ const Services = () => (
               icon={service.icon}
               name={service.name}
               bgColor={service.bgColor}
+              cta={
+                <Button asChild size="lg" className="w-full mt-2">
+                  <Link to="/pricing">
+                    See Pricing
+                  </Link>
+                </Button>
+              }
             >
               {service.details}
             </ServiceCard>
