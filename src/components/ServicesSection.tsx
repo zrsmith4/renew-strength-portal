@@ -2,12 +2,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin } from 'lucide-react';
+import { MapPin, Video, Syringe, ActivitySquare } from 'lucide-react';
 
 const ServicesSection: React.FC = () => {
   const services = [
     {
-      icon: "location",
+      icon: <MapPin className="h-8 w-8" />,
       title: "In-Person Assessment",
       description: "Comprehensive evaluation at your location.",
       link: "/services/in-person",
@@ -15,7 +15,7 @@ const ServicesSection: React.FC = () => {
       iconColor: "text-brand-green",
     },
     {
-      icon: "telehealth",
+      icon: <Video className="h-8 w-8" />,
       title: "Telehealth",
       description: "Virtual consultations from the comfort of your home.",
       link: "/services/telehealth",
@@ -23,7 +23,7 @@ const ServicesSection: React.FC = () => {
       iconColor: "text-amber-500",
     },
     {
-      icon: "needling",
+      icon: <Syringe className="h-8 w-8" />,
       title: "Dry Needling",
       description: "Targeted treatment for muscle pain and tension.",
       link: "/services/dry-needling",
@@ -31,7 +31,7 @@ const ServicesSection: React.FC = () => {
       iconColor: "text-blue-500",
     },
     {
-      icon: "exercise",
+      icon: <ActivitySquare className="h-8 w-8" />,
       title: "Full PT Telehealth Visit",
       description: "Complete virtual physical therapy session.",
       link: "/services/pt-telehealth",
@@ -39,40 +39,6 @@ const ServicesSection: React.FC = () => {
       iconColor: "text-brand-blue",
     },
   ];
-
-  const renderIcon = (icon: string, className: string) => {
-    switch (icon) {
-      case "location":
-        return (
-          <div className={`p-4 rounded-full ${className} flex items-center justify-center`}>
-            <MapPin className="h-8 w-8" />
-          </div>
-        );
-      case "telehealth":
-        return (
-          <div className={`p-4 rounded-full ${className} flex items-center justify-center`}>
-            <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2" />
-              <path d="M8 21H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              <path d="M12 17V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2" />
-            </svg>
-          </div>
-        );
-      case "needling":
-        return (
-          <div className={`p-4 rounded-full ${className} flex items-center justify-center`}>
-            <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              <path d="M9 5L15 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              <path d="M7 9L17 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
 
   return (
     <section className="py-16 md:py-24 bg-brand-light">
@@ -91,7 +57,9 @@ const ServicesSection: React.FC = () => {
           {services.map((service, index) => (
             <Card key={index} className="border border-gray-100 shadow-md hover:shadow-lg transition-shadow">
               <CardHeader className={`flex items-center justify-center ${service.bgColor} py-8`}>
-                {renderIcon(service.icon, service.iconColor)}
+                <div className={`p-4 rounded-full flex items-center justify-center ${service.iconColor}`}>
+                  {service.icon}
+                </div>
               </CardHeader>
               <CardContent className="pt-6 text-center">
                 <CardTitle className="text-xl mb-3 font-serif text-brand-navy">
