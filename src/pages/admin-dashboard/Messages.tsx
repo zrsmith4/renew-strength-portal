@@ -1,8 +1,319 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
+import { Send, Plus } from "lucide-react";
+
+interface Profile {
+  id: string;
+  username: string;
+  role: string;
+}
+
+interface Conversation {
+  id: string;
+  participant_one_id: string;
+  participant_two_id: string;
+  created_at: string;
+  updated_at: string;
+  other_participant?: Profile;
+}
+
+interface Message {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  recipient_id: string;
+  message_text: string;
+  sent_at: string;
+  is_read: boolean;
+  sender?: Profile;
+}
 
 const StaffMessages = () => {
+  const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
+  const [newMessage, setNewMessage] = useState("");
+  const [currentUser, setCurrentUser] = useState<Profile | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState<string>("");
+  const [newConversationMessage, setNewConversationMessage] = useState("");
+  const [isNewConversationOpen, setIsNewConversationOpen] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  // Get current user
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+        
+        if (profile) {
+          setCurrentUser(profile);
+        }
+      }
+    };
+    getCurrentUser();
+  }, []);
+
+  // Fetch all patients for new conversation
+  const { data: patients } = useQuery({
+    queryKey: ["patients"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("role", "patient");
+
+      if (error) throw error;
+      return data || [];
+    },
+  });
+
+  // Fetch conversations
+  const { data: conversations, isLoading: conversationsLoading } = useQuery({
+    queryKey: ["conversations"],
+    queryFn: async () => {
+      if (!currentUser) return [];
+      
+      const { data, error } = await supabase
+        .from("conversations")
+        .select(`
+          *,
+          participant_one:profiles!conversations_participant_one_id_fkey(*),
+          participant_two:profiles!conversations_participant_two_id_fkey(*)
+        `)
+        .or(`participant_one_id.eq.${currentUser.id},participant_two_id.eq.${currentUser.id}`);
+
+      if (error) throw error;
+
+      return data?.map(conv => ({
+        ...conv,
+        other_participant: conv.participant_one_id === currentUser.id 
+          ? conv.participant_two 
+          : conv.participant_one
+      })) || [];
+    },
+    enabled: !!currentUser,
+  });
+
+  // Fetch messages for selected conversation
+  const { data: messages, isLoading: messagesLoading } = useQuery({
+    queryKey: ["messages", selectedConversation],
+    queryFn: async () => {
+      if (!selectedConversation) return [];
+      
+      const { data, error } = await supabase
+        .from("messages")
+        .select(`
+          *,
+          sender:profiles!messages_sender_id_fkey(*)
+        `)
+        .eq("conversation_id", selectedConversation)
+        .order("sent_at", { ascending: true });
+
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!selectedConversation,
+  });
+
+  // Create new conversation mutation
+  const createConversationMutation = useMutation({
+    mutationFn: async ({ patientId, messageText }: { patientId: string; messageText: string }) => {
+      if (!currentUser) throw new Error("User not authenticated");
+
+      // Check if conversation already exists
+      const { data: existingConv } = await supabase
+        .from("conversations")
+        .select("id")
+        .or(`and(participant_one_id.eq.${currentUser.id},participant_two_id.eq.${patientId}),and(participant_one_id.eq.${patientId},participant_two_id.eq.${currentUser.id})`)
+        .single();
+
+      let conversationId;
+
+      if (existingConv) {
+        conversationId = existingConv.id;
+      } else {
+        // Create new conversation
+        const { data: newConv, error: convError } = await supabase
+          .from("conversations")
+          .insert({
+            participant_one_id: currentUser.id,
+            participant_two_id: patientId,
+          })
+          .select("id")
+          .single();
+
+        if (convError) throw convError;
+        conversationId = newConv.id;
+      }
+
+      // Send the message
+      const { error: messageError } = await supabase
+        .from("messages")
+        .insert({
+          conversation_id: conversationId,
+          sender_id: currentUser.id,
+          recipient_id: patientId,
+          message_text: messageText,
+        });
+
+      if (messageError) throw messageError;
+
+      return conversationId;
+    },
+    onSuccess: (conversationId) => {
+      setNewConversationMessage("");
+      setSelectedPatient("");
+      setIsNewConversationOpen(false);
+      setSelectedConversation(conversationId);
+      queryClient.invalidateQueries({ queryKey: ["conversations"] });
+      queryClient.invalidateQueries({ queryKey: ["messages"] });
+      toast({
+        title: "Conversation started",
+        description: "Your message has been sent successfully.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to start conversation. Please try again.",
+        variant: "destructive",
+      });
+      console.error("Create conversation error:", error);
+    },
+  });
+
+  // Mark messages as read
+  const markAsReadMutation = useMutation({
+    mutationFn: async (conversationId: string) => {
+      if (!currentUser) return;
+      
+      const { error } = await supabase
+        .from("messages")
+        .update({ is_read: true })
+        .eq("conversation_id", conversationId)
+        .eq("recipient_id", currentUser.id)
+        .eq("is_read", false);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["messages"] });
+    },
+  });
+
+  // Send message mutation
+  const sendMessageMutation = useMutation({
+    mutationFn: async ({ conversationId, recipientId, messageText }: {
+      conversationId: string;
+      recipientId: string;
+      messageText: string;
+    }) => {
+      if (!currentUser) throw new Error("User not authenticated");
+
+      const { error } = await supabase
+        .from("messages")
+        .insert({
+          conversation_id: conversationId,
+          sender_id: currentUser.id,
+          recipient_id: recipientId,
+          message_text: messageText,
+        });
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      setNewMessage("");
+      queryClient.invalidateQueries({ queryKey: ["messages"] });
+      queryClient.invalidateQueries({ queryKey: ["conversations"] });
+      toast({
+        title: "Message sent",
+        description: "Your message has been sent successfully.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+      console.error("Send message error:", error);
+    },
+  });
+
+  // Handle conversation selection
+  const handleConversationSelect = (conversation: Conversation) => {
+    setSelectedConversation(conversation.id);
+    markAsReadMutation.mutate(conversation.id);
+  };
+
+  // Handle send message
+  const handleSendMessage = () => {
+    if (!newMessage.trim() || !selectedConversation || !currentUser) return;
+
+    const conversation = conversations?.find(c => c.id === selectedConversation);
+    if (!conversation) return;
+
+    const recipientId = conversation.participant_one_id === currentUser.id 
+      ? conversation.participant_two_id 
+      : conversation.participant_one_id;
+
+    sendMessageMutation.mutate({
+      conversationId: selectedConversation,
+      recipientId,
+      messageText: newMessage.trim(),
+    });
+  };
+
+  // Handle create new conversation
+  const handleCreateConversation = () => {
+    if (!selectedPatient || !newConversationMessage.trim()) return;
+
+    createConversationMutation.mutate({
+      patientId: selectedPatient,
+      messageText: newConversationMessage.trim(),
+    });
+  };
+
+  // Real-time subscription for messages
+  useEffect(() => {
+    if (!selectedConversation) return;
+
+    const channel = supabase
+      .channel('messages')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `conversation_id=eq.${selectedConversation}`,
+        },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["messages", selectedConversation] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [selectedConversation, queryClient]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
@@ -15,15 +326,166 @@ const StaffMessages = () => {
           }}
         />
         
-        <div className="container mx-auto max-w-xl text-center relative z-10">
-          <h1 className="font-serif text-3xl text-brand-navy mb-6">
-            Staff Messaging
-          </h1>
-          <div className="bg-white border rounded-lg shadow-md px-8 py-12">
-            <p className="text-gray-700">
-              This page will provide an interface for communicating with patients.
-            </p>
-            {/*  */}
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="font-serif text-3xl text-brand-navy">
+              Staff Messaging
+            </h1>
+            <Dialog open={isNewConversationOpen} onOpenChange={setIsNewConversationOpen}>
+              <DialogTrigger asChild>
+                <Button>
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Conversation
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Start New Conversation</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium">Select Patient</label>
+                    <Select value={selectedPatient} onValueChange={setSelectedPatient}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Choose a patient" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {patients?.map((patient) => (
+                          <SelectItem key={patient.id} value={patient.id}>
+                            {patient.username}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">Message</label>
+                    <Input
+                      value={newConversationMessage}
+                      onChange={(e) => setNewConversationMessage(e.target.value)}
+                      placeholder="Type your message..."
+                    />
+                  </div>
+                  <Button 
+                    onClick={handleCreateConversation}
+                    disabled={!selectedPatient || !newConversationMessage.trim() || createConversationMutation.isPending}
+                    className="w-full"
+                  >
+                    Start Conversation
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[600px]">
+            {/* Conversations List */}
+            <Card className="md:col-span-1">
+              <CardHeader>
+                <h2 className="text-lg font-semibold">Patient Conversations</h2>
+              </CardHeader>
+              <CardContent className="p-0">
+                <ScrollArea className="h-[500px]">
+                  {conversationsLoading ? (
+                    <div className="p-4">Loading conversations...</div>
+                  ) : conversations?.length === 0 ? (
+                    <div className="p-4 text-gray-500">No conversations yet</div>
+                  ) : (
+                    conversations?.map((conversation) => (
+                      <div
+                        key={conversation.id}
+                        className={`p-4 border-b cursor-pointer hover:bg-gray-50 ${
+                          selectedConversation === conversation.id ? 'bg-blue-50' : ''
+                        }`}
+                        onClick={() => handleConversationSelect(conversation)}
+                      >
+                        <div className="font-medium">
+                          {conversation.other_participant?.username || 'Unknown Patient'}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          Patient
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </ScrollArea>
+              </CardContent>
+            </Card>
+
+            {/* Messages Area */}
+            <Card className="md:col-span-2">
+              <CardHeader>
+                <h2 className="text-lg font-semibold">
+                  {selectedConversation 
+                    ? `Chat with ${conversations?.find(c => c.id === selectedConversation)?.other_participant?.username || 'Unknown'}`
+                    : 'Select a conversation'
+                  }
+                </h2>
+              </CardHeader>
+              <CardContent className="flex flex-col h-[500px]">
+                {selectedConversation ? (
+                  <>
+                    {/* Messages */}
+                    <ScrollArea className="flex-1 mb-4">
+                      {messagesLoading ? (
+                        <div className="p-4">Loading messages...</div>
+                      ) : messages?.length === 0 ? (
+                        <div className="p-4 text-gray-500">No messages yet</div>
+                      ) : (
+                        <div className="space-y-4 p-4">
+                          {messages?.map((message) => (
+                            <div
+                              key={message.id}
+                              className={`flex ${
+                                message.sender_id === currentUser?.id ? 'justify-end' : 'justify-start'
+                              }`}
+                            >
+                              <div
+                                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                                  message.sender_id === currentUser?.id
+                                    ? 'bg-brand-navy text-white'
+                                    : 'bg-gray-200 text-gray-800'
+                                }`}
+                              >
+                                <div className="text-sm">{message.message_text}</div>
+                                <div className="text-xs mt-1 opacity-70">
+                                  {new Date(message.sent_at).toLocaleTimeString()}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </ScrollArea>
+
+                    {/* Message Input */}
+                    <div className="flex gap-2">
+                      <Input
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Type your message..."
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSendMessage();
+                          }
+                        }}
+                      />
+                      <Button 
+                        onClick={handleSendMessage}
+                        disabled={!newMessage.trim() || sendMessageMutation.isPending}
+                      >
+                        <Send className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex-1 flex items-center justify-center text-gray-500">
+                    Select a conversation to start messaging
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </div>
       </main>
