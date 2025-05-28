@@ -23,7 +23,7 @@ export const usePatientMessaging = () => {
   const [newConversationMessage, setNewConversationMessage] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   // Use the existing messaging hook
   const messagingHook = useMessaging();
 
@@ -37,12 +37,13 @@ export const usePatientMessaging = () => {
       // Get therapists that the patient has appointments with (past, current, or within next 48 hours)
       const now = new Date();
       const fortyEightHoursFromNow = new Date(now.getTime() + 48 * 60 * 60 * 1000);
-      
+
+      // --- MODIFIED LINE HERE ---
       const { data: appointments, error } = await supabase
         .from("therapist_availability")
-        .select("therapist_id, slot_date, start_time")
+        .select<AppointmentData[]>("therapist_id, slot_date, start_time") // <--- CHANGE: Explicitly type the select result
         .eq("patient_id", user.id)
-        .eq("status", "booked") as { data: AppointmentData[] | null; error: any };
+        .eq("status", "booked"); // Removed the 'as { data: ... }' assertion at the end
 
       if (error) {
         console.error("Error fetching eligible therapists:", error);
@@ -140,14 +141,14 @@ export const usePatientMessaging = () => {
       setIsNewConversationOpen(false);
       setSelectedTherapist("");
       setNewConversationMessage("");
-      
+
       // Invalidate queries to refresh data
       queryClient.invalidateQueries({ queryKey: ["conversations"] });
       queryClient.invalidateQueries({ queryKey: ["messages"] });
-      
+
       // Select the new/existing conversation
       messagingHook.setSelectedConversation(conversationId);
-      
+
       toast({
         title: "Success",
         description: "Conversation started successfully!",
@@ -165,7 +166,7 @@ export const usePatientMessaging = () => {
 
   const handleCreateConversation = () => {
     if (!selectedTherapist || !newConversationMessage.trim()) return;
-    
+
     createConversationMutation.mutate({
       therapistId: selectedTherapist,
       message: newConversationMessage.trim(),
