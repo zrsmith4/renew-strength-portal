@@ -11,6 +11,12 @@ interface EligibleTherapist {
   role: string;
 }
 
+interface AppointmentData {
+  therapist_id: string;
+  slot_date: string;
+  start_time: string;
+}
+
 export const usePatientMessaging = () => {
   const [isNewConversationOpen, setIsNewConversationOpen] = useState(false);
   const [selectedTherapist, setSelectedTherapist] = useState<string>("");
@@ -24,7 +30,7 @@ export const usePatientMessaging = () => {
   // Fetch eligible therapists for patient to message
   const { data: eligibleTherapists, isLoading: therapistsLoading } = useQuery({
     queryKey: ["eligible-therapists"],
-    queryFn: async () => {
+    queryFn: async (): Promise<EligibleTherapist[]> => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return [];
 
@@ -32,15 +38,11 @@ export const usePatientMessaging = () => {
       const now = new Date();
       const fortyEightHoursFromNow = new Date(now.getTime() + 48 * 60 * 60 * 1000);
       
-      const { data, error } = await supabase
+      const { data: appointments, error } = await supabase
         .from("therapist_availability")
-        .select(`
-          therapist_id,
-          slot_date,
-          start_time
-        `)
+        .select("therapist_id, slot_date, start_time")
         .eq("patient_id", user.id)
-        .eq("status", "booked");
+        .eq("status", "booked") as { data: AppointmentData[] | null; error: any };
 
       if (error) {
         console.error("Error fetching eligible therapists:", error);
@@ -50,7 +52,7 @@ export const usePatientMessaging = () => {
       // Filter by date/time criteria and get unique therapists
       const eligibleTherapistIds = new Set<string>();
 
-      data?.forEach((appointment) => {
+      appointments?.forEach((appointment) => {
         const slotDate = new Date(appointment.slot_date);
         const [hours, minutes] = appointment.start_time.split(':').map(Number);
         const slotDateTime = new Date(slotDate);
