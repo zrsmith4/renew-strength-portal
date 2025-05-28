@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, Clock } from "lucide-react";
@@ -23,13 +22,28 @@ import {
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { PaymentSelection } from "@/components/payment/PaymentSelection";
+import { ZelleInstructions } from "@/components/payment/ZelleInstructions";
+import { usePaymentFlow } from "@/hooks/usePaymentFlow";
 
 const ScheduleVisit = () => {
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("");
+  const [showPayment, setShowPayment] = useState(false);
+  const [showZelleInstructions, setShowZelleInstructions] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  const {
+    selectedPaymentMethod,
+    setSelectedPaymentMethod,
+    zelleConfirmed,
+    setZelleConfirmed,
+    reserveSlotMutation,
+    createPaymentMutation,
+    handleZelleConfirmation,
+  } = usePaymentFlow();
 
   const serviceOptions = [
     { value: "in-person-assessment", label: "In-Person Assessment" },
@@ -51,7 +65,7 @@ const ScheduleVisit = () => {
         .select('*')
         .eq('slot_date', dateString)
         .eq('service_type', selectedService)
-        .eq('is_booked', false)
+        .eq('status', 'available')
         .order('start_time');
 
       if (error) {
@@ -69,57 +83,88 @@ const ScheduleVisit = () => {
     enabled: !!selectedDate && !!selectedService,
   });
 
-  // Book appointment mutation
-  const bookAppointmentMutation = useMutation({
-    mutationFn: async (slotId: string) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('User not authenticated');
+  const handleSlotSelection = async () => {
+    if (!selectedDate || !selectedService || !selectedTimeSlot) return;
 
-      const { error } = await supabase
-        .from('therapist_availability')
-        .update({ 
-          is_booked: true, 
-          patient_id: user.id 
-        })
-        .eq('id', slotId);
+    const selectedSlot = availableSlots?.find(slot => 
+      `${slot.start_time}-${slot.end_time}` === selectedTimeSlot
+    );
 
-      if (error) throw error;
-      
-      return true;
-    },
-    onSuccess: () => {
+    if (!selectedSlot) return;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
       toast({
-        title: "Success!",
-        description: "Your appointment has been booked successfully.",
+        title: "Authentication Required",
+        description: "Please log in to book an appointment.",
+        variant: "destructive",
       });
+      return;
+    }
+
+    try {
+      // Reserve the slot
+      await reserveSlotMutation.mutateAsync({
+        slotId: selectedSlot.id,
+        patientId: user.id
+      });
+
+      setShowPayment(true);
+    } catch (error) {
+      console.error('Error reserving slot:', error);
+      toast({
+        title: "Error",
+        description: "Failed to reserve slot. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handlePaymentMethodSelect = async (method: string) => {
+    const selectedSlot = availableSlots?.find(slot => 
+      `${slot.start_time}-${slot.end_time}` === selectedTimeSlot
+    );
+
+    if (!selectedSlot) return;
+
+    if (method === 'zelle') {
+      setShowZelleInstructions(true);
+    } else if (method === 'stripe_card') {
+      // TODO: Implement Stripe Checkout
+      toast({
+        title: "Coming Soon",
+        description: "Stripe payment integration will be implemented next.",
+      });
+    } else if (method === 'paypal') {
+      // TODO: Implement PayPal Checkout
+      toast({
+        title: "Coming Soon",
+        description: "PayPal payment integration will be implemented next.",
+      });
+    }
+  };
+
+  const handleZelleConfirm = async () => {
+    const selectedSlot = availableSlots?.find(slot => 
+      `${slot.start_time}-${slot.end_time}` === selectedTimeSlot
+    );
+
+    if (!selectedSlot) return;
+
+    const success = await handleZelleConfirmation(
+      selectedSlot.id,
+      selectedSlot.therapist_id,
+      100.00 // Default amount - can be made dynamic later
+    );
+
+    if (success) {
       // Reset form
       setSelectedDate(undefined);
       setSelectedService("");
       setSelectedTimeSlot("");
-      // Refetch availability data
-      queryClient.invalidateQueries({ queryKey: ['therapist-availability'] });
-    },
-    onError: (error) => {
-      console.error('Booking error:', error);
-      toast({
-        title: "Error",
-        description: "Failed to book appointment. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const isBookingEnabled = selectedDate && selectedService && selectedTimeSlot;
-
-  const handleBookAppointment = () => {
-    if (!isBookingEnabled) return;
-    
-    const selectedSlot = availableSlots?.find(slot => 
-      `${slot.start_time}-${slot.end_time}` === selectedTimeSlot
-    );
-    
-    if (selectedSlot) {
-      bookAppointmentMutation.mutate(selectedSlot.id);
+      setShowPayment(false);
+      setShowZelleInstructions(false);
+      setZelleConfirmed(false);
     }
   };
 
@@ -128,6 +173,94 @@ const ScheduleVisit = () => {
     const date = new Date(`2000-01-01T${timeString}`);
     return format(date, 'h:mm a');
   };
+
+  if (showZelleInstructions) {
+    const selectedSlot = availableSlots?.find(slot => 
+      `${slot.start_time}-${slot.end_time}` === selectedTimeSlot
+    );
+
+    return (
+      <div className="min-h-screen flex flex-col">
+        <NavBar />
+        <main className="flex-grow bg-brand-light py-12 relative overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-20 pointer-events-none z-0"
+            style={{
+              backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+            }}
+          />
+          
+          <div className="container mx-auto max-w-2xl relative z-10 px-4">
+            <h1 className="font-serif text-3xl text-brand-green mb-8 text-center">
+              Complete Your Payment
+            </h1>
+            
+            <ZelleInstructions
+              amount={100.00}
+              bookingId={selectedSlot?.id || ""}
+              zelleEmail="payment@yourptclinic.com"
+              onConfirm={handleZelleConfirm}
+              confirmed={zelleConfirmed}
+              onConfirmedChange={setZelleConfirmed}
+            />
+            
+            <div className="flex justify-center mt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowZelleInstructions(false)}
+              >
+                Back to Payment Options
+              </Button>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (showPayment) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <NavBar />
+        <main className="flex-grow bg-brand-light py-12 relative overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-20 pointer-events-none z-0"
+            style={{
+              backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+            }}
+          />
+          
+          <div className="container mx-auto max-w-2xl relative z-10 px-4">
+            <h1 className="font-serif text-3xl text-brand-green mb-8 text-center">
+              Complete Your Payment
+            </h1>
+            
+            <PaymentSelection
+              amount={100.00}
+              currency="USD"
+              onStripePayment={() => handlePaymentMethodSelect('stripe_card')}
+              onPayPalPayment={() => handlePaymentMethodSelect('paypal')}
+              onZellePayment={() => handlePaymentMethodSelect('zelle')}
+              isProcessing={createPaymentMutation.isPending}
+            />
+            
+            <div className="flex justify-center mt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowPayment(false)}
+              >
+                Back to Slot Selection
+              </Button>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  const isSlotSelectionEnabled = selectedDate && selectedService && selectedTimeSlot;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -245,20 +378,20 @@ const ScheduleVisit = () => {
               </Card>
             )}
 
-            {/* Book Appointment Button */}
+            {/* Proceed to Payment Button */}
             <div className="flex justify-center pt-4">
               <Button
-                onClick={handleBookAppointment}
-                disabled={!isBookingEnabled || bookAppointmentMutation.isPending}
+                onClick={handleSlotSelection}
+                disabled={!isSlotSelectionEnabled || reserveSlotMutation.isPending}
                 className="bg-brand-green hover:bg-brand-green/90 text-white px-8 py-3 text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {bookAppointmentMutation.isPending ? "Booking..." : "Book Appointment"}
+                {reserveSlotMutation.isPending ? "Reserving..." : "Proceed to Payment"}
               </Button>
             </div>
 
-            {!isBookingEnabled && (
+            {!isSlotSelectionEnabled && (
               <p className="text-center text-gray-600 text-sm">
-                Please select a date, service, and time slot to book your appointment.
+                Please select a date, service, and time slot to proceed.
               </p>
             )}
           </div>

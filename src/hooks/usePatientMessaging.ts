@@ -11,12 +11,6 @@ interface EligibleTherapist {
   role: string;
 }
 
-interface AppointmentData {
-  therapist_id: string;
-  slot_date: string;
-  start_time: string;
-}
-
 export const usePatientMessaging = () => {
   const [isNewConversationOpen, setIsNewConversationOpen] = useState(false);
   const [selectedTherapist, setSelectedTherapist] = useState<string>("");
@@ -38,12 +32,12 @@ export const usePatientMessaging = () => {
       const now = new Date();
       const fortyEightHoursFromNow = new Date(now.getTime() + 48 * 60 * 60 * 1000);
 
-      // --- MODIFIED LINE HERE ---
+      // First, get appointments with simplified query
       const { data: appointments, error } = await supabase
         .from("therapist_availability")
-        .select<AppointmentData[]>("therapist_id, slot_date, start_time") // <--- CHANGE: Explicitly type the select result
+        .select("therapist_id, slot_date, start_time")
         .eq("patient_id", user.id)
-        .eq("status", "booked"); // Removed the 'as { data: ... }' assertion at the end
+        .eq("status", "booked");
 
       if (error) {
         console.error("Error fetching eligible therapists:", error);

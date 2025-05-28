@@ -1,9 +1,11 @@
+
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { PendingBookings } from "@/components/dashboard/PendingBookings";
 
 const appointmentList = []; // You can replace this with dummy data or fetch from an API later
 
@@ -20,13 +22,19 @@ const PatientDashboard = () => {
           }}
         />
         
-        <div className="container mx-auto max-w-3xl relative z-10">
+        <div className="container mx-auto max-w-4xl relative z-10">
           <h1 className="font-serif text-3xl text-brand-green mb-3 text-center">
             Patient Dashboard
           </h1>
           <p className="text-center mb-8">
             Welcome to your personalized patient dashboard!
           </p>
+          
+          {/* Pending Payments Section - Full Width */}
+          <div className="mb-8">
+            <PendingBookings />
+          </div>
+          
           <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
             {/* Upcoming Appointments Section */}
             <Card>
@@ -48,6 +56,7 @@ const PatientDashboard = () => {
                 {/* Later: Replace with real data from backend */}
               </CardContent>
             </Card>
+            
             {/* Schedule New Visit Section */}
             <Card>
               <CardHeader>
@@ -66,6 +75,7 @@ const PatientDashboard = () => {
                 </Button>
               </CardFooter>
             </Card>
+            
             {/* Messaging Section */}
             <Card>
               <CardHeader>
@@ -85,6 +95,7 @@ const PatientDashboard = () => {
                 </Button>
               </CardFooter>
             </Card>
+            
             {/* Previous Notes Section */}
             <Card>
               <CardHeader>

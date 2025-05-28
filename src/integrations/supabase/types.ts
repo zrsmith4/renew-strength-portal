@@ -210,6 +210,73 @@ export type Database = {
           },
         ]
       }
+      payments: {
+        Row: {
+          amount: number
+          booking_id: string
+          created_at: string
+          currency: string
+          id: string
+          metadata: Json | null
+          patient_id: string | null
+          payment_method: string
+          status: string
+          therapist_id: string | null
+          transaction_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          booking_id: string
+          created_at?: string
+          currency?: string
+          id?: string
+          metadata?: Json | null
+          patient_id?: string | null
+          payment_method: string
+          status?: string
+          therapist_id?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          booking_id?: string
+          created_at?: string
+          currency?: string
+          id?: string
+          metadata?: Json | null
+          patient_id?: string | null
+          payment_method?: string
+          status?: string
+          therapist_id?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "therapist_availability"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_therapist_id_fkey"
+            columns: ["therapist_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pending_testimonials: {
         Row: {
           email: string
@@ -269,11 +336,12 @@ export type Database = {
           created_at: string
           end_time: string
           id: string
-          is_booked: boolean
           patient_id: string | null
+          pending_started_at: string | null
           service_type: string
           slot_date: string
           start_time: string
+          status: string
           therapist_id: string
           updated_at: string
         }
@@ -281,11 +349,12 @@ export type Database = {
           created_at?: string
           end_time: string
           id?: string
-          is_booked?: boolean
           patient_id?: string | null
+          pending_started_at?: string | null
           service_type: string
           slot_date: string
           start_time: string
+          status?: string
           therapist_id: string
           updated_at?: string
         }
@@ -293,11 +362,12 @@ export type Database = {
           created_at?: string
           end_time?: string
           id?: string
-          is_booked?: boolean
           patient_id?: string | null
+          pending_started_at?: string | null
           service_type?: string
           slot_date?: string
           start_time?: string
+          status?: string
           therapist_id?: string
           updated_at?: string
         }
