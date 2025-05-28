@@ -25,8 +25,8 @@ export const usePatientMessaging = () => {
   const { data: eligibleTherapists, isLoading: therapistsLoading } = useQuery({
     queryKey: ["eligible-therapists"],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getSession();
-      if (!user?.user) return [];
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return [];
 
       // Get therapists that the patient has appointments with (past, current, or within next 48 hours)
       const now = new Date();
@@ -38,14 +38,14 @@ export const usePatientMessaging = () => {
           therapist_id,
           slot_date,
           start_time,
-          profiles:therapist_id (
+          therapist_profile:profiles!therapist_id (
             id,
             username,
             role
           )
         `)
-        .eq("patient_id", user.user.id)
-        .eq("is_booked", true);
+        .eq("patient_id", user.id)
+        .eq("status", "booked");
 
       if (error) {
         console.error("Error fetching eligible therapists:", error);
@@ -67,12 +67,12 @@ export const usePatientMessaging = () => {
         const isWithinNext48Hours = slotDateTime <= fortyEightHoursFromNow && slotDateTime > now;
 
         if (isPastOrCurrent || isWithinNext48Hours) {
-          if (appointment.profiles && !eligibleTherapistIds.has(appointment.therapist_id)) {
+          if (appointment.therapist_profile && !eligibleTherapistIds.has(appointment.therapist_id)) {
             eligibleTherapistIds.add(appointment.therapist_id);
             eligibleTherapistsMap.set(appointment.therapist_id, {
-              id: appointment.profiles.id,
-              username: appointment.profiles.username,
-              role: appointment.profiles.role
+              id: appointment.therapist_profile.id,
+              username: appointment.therapist_profile.username,
+              role: appointment.therapist_profile.role
             });
           }
         }
