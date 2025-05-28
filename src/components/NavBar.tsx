@@ -37,9 +37,12 @@ const NavBar: React.FC = () => {
             <Link to="/pricing" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
               Pricing
             </Link>
+            {/* Blog link temporarily hidden */}
+            {/*
             <Link to="/blog" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
               Blog
             </Link>
+            */}
             <Link to="/contact" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
               Contact
             </Link>
@@ -99,6 +102,8 @@ const NavBar: React.FC = () => {
             >
               Pricing
             </Link>
+            {/* Blog link temporarily hidden */}
+            {/*
             <Link
               to="/blog"
               className="text-brand-navy hover:text-brand-green transition-colors font-medium py-2 border-b border-gray-100"
@@ -106,6 +111,7 @@ const NavBar: React.FC = () => {
             >
               Blog
             </Link>
+            */}
             <Link
               to="/contact"
               className="text-brand-navy hover:text-brand-green transition-colors font-medium py-2 border-b border-gray-100"
