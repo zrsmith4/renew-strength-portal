@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
@@ -96,8 +95,16 @@ const Services = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      <main className="flex-grow bg-brand-light py-12 md:py-16">
-        <div className="container mx-auto px-4">
+      <main className="flex-grow bg-brand-light py-12 md:py-16 relative overflow-hidden">
+        {/* Logo Watermark */}
+        <div 
+          className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-20 pointer-events-none z-0"
+          style={{
+            backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+          }}
+        />
+        
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl mx-auto text-center mb-8">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-brand-navy mb-4">
               Our Services

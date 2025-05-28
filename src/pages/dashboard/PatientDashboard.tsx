@@ -1,4 +1,3 @@
-
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
@@ -12,8 +11,16 @@ const PatientDashboard = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      <main className="flex-grow bg-brand-light py-8">
-        <div className="container mx-auto max-w-3xl">
+      <main className="flex-grow bg-brand-light py-8 relative overflow-hidden">
+        {/* Logo Watermark */}
+        <div 
+          className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-20 pointer-events-none z-0"
+          style={{
+            backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+          }}
+        />
+        
+        <div className="container mx-auto max-w-3xl relative z-10">
           <h1 className="font-serif text-3xl text-brand-green mb-3 text-center">
             Patient Dashboard
           </h1>
@@ -106,4 +113,3 @@ const PatientDashboard = () => {
 };
 
 export default PatientDashboard;
-

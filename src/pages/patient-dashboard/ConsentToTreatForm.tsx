@@ -69,8 +69,15 @@ const ConsentToTreatForm = () => {
     return (
       <div className="flex min-h-screen flex-col">
         <NavBar />
-        <main className="flex-grow flex items-center justify-center bg-brand-light py-12">
-          <div className="text-brand-navy text-lg">Checking login...</div>
+        <main className="flex-grow flex items-center justify-center bg-brand-light py-12 relative overflow-hidden">
+          {/* Logo Watermark */}
+          <div 
+            className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-20 pointer-events-none z-0"
+            style={{
+              backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+            }}
+          />
+          <div className="text-brand-navy text-lg relative z-10">Checking login...</div>
         </main>
         <Footer />
       </div>
@@ -80,10 +87,18 @@ const ConsentToTreatForm = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
-      <main className="flex-grow flex flex-col items-center justify-center bg-brand-light py-12">
+      <main className="flex-grow flex flex-col items-center justify-center bg-brand-light py-12 relative overflow-hidden">
+        {/* Logo Watermark */}
+        <div 
+          className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-20 pointer-events-none z-0"
+          style={{
+            backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+          }}
+        />
+        
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-md shadow-md max-w-xl w-full px-8 py-10"
+          className="bg-white rounded-md shadow-md max-w-xl w-full px-8 py-10 relative z-10"
         >
           <h1 className="text-2xl font-serif text-brand-navy mb-6">
             Consent to Treat Form

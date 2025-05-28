@@ -1,4 +1,3 @@
-
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
@@ -9,8 +8,16 @@ const RequiredForms = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
-      <main className="flex-grow flex flex-col items-center justify-center bg-brand-light py-12">
-        <div className="bg-white rounded-md shadow-md max-w-xl w-full px-8 py-10 text-center">
+      <main className="flex-grow flex flex-col items-center justify-center bg-brand-light py-12 relative overflow-hidden">
+        {/* Logo Watermark */}
+        <div 
+          className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-20 pointer-events-none z-0"
+          style={{
+            backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+          }}
+        />
+        
+        <div className="bg-white rounded-md shadow-md max-w-xl w-full px-8 py-10 text-center relative z-10">
           <h1 className="text-2xl font-serif text-brand-navy mb-6">
             Important Next Steps for Scheduling Your Visit
           </h1>

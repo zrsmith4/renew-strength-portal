@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
@@ -16,8 +15,16 @@ const BlogPostDetail: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
-      <main className="flex-grow bg-brand-light py-12 md:py-16">
-        <div className="container mx-auto px-4 max-w-3xl">
+      <main className="flex-grow bg-brand-light py-12 md:py-16 relative overflow-hidden">
+        {/* Logo Watermark */}
+        <div 
+          className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-20 pointer-events-none z-0"
+          style={{
+            backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+          }}
+        />
+        
+        <div className="container mx-auto px-4 max-w-3xl relative z-10">
           <Link to="/blog" className="text-brand-green hover:underline mb-4 flex items-center">
             &larr; Back to Blog
           </Link>
