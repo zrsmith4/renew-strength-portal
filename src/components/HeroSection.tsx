@@ -6,7 +6,15 @@ import { Button } from '@/components/ui/button';
 const Hero: React.FC = () => {
   return (
     <section className="relative bg-gradient-to-b from-white to-brand-light overflow-hidden">
-      <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
+      {/* Logo Watermark */}
+      <div 
+        className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-10 pointer-events-none z-0"
+        style={{
+          backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+        }}
+      />
+      
+      <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20 relative z-10">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
           <div className="w-full lg:w-1/2 space-y-6 text-center lg:text-left">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight text-brand-navy">
@@ -67,4 +75,3 @@ const Hero: React.FC = () => {
 };
 
 export default Hero;
-
