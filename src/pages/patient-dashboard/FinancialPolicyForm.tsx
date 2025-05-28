@@ -1,39 +1,80 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
-// !! Prototype only: Requires financial_policies_forms table in Supabase with user_id, agreed, submitted_at fields
+import { toast } from "@/components/ui/use-toast";
 
 const FinancialPolicyForm = () => {
   const [agreed, setAgreed] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // !! Prototype uses a placeholder user session (should retrieve current session with Supabase Auth in real use)
-  const session = { user: { id: "prototype-user" } };
+  useEffect(() => {
+    let cancelled = false;
+    const fetchSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!cancelled) {
+        setUserId(session?.user?.id ?? null);
+        setLoading(false);
+      }
+    };
+    fetchSession();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreed) return;
-
-    // !! Prototype: You must create the financial_policies_forms table in Supabase for persistence.
+    if (!userId) {
+      toast({
+        title: "Not logged in",
+        description: "You must be logged in to submit this form.",
+        variant: "destructive",
+      });
+      return;
+    }
     const { error } = await supabase.from("financial_policies_forms").insert({
-      user_id: session?.user?.id,
+      user_id: userId,
       agreed: true,
       submitted_at: new Date().toISOString(),
     });
 
     if (!error) {
       setSubmitted(true);
+      toast({
+        title: "Agreement Submitted",
+        description: "Thank you for agreeing to our financial policy.",
+        variant: "default",
+      });
       setTimeout(() => {
         window.location.href = "/required-forms";
       }, 1500);
     } else {
-      alert("Submission failed. Please try again.");
+      toast({
+        title: "Submission failed",
+        description: error.message ?? "Submission failed. Please try again.",
+        variant: "destructive",
+      });
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <NavBar />
+        <main className="flex-grow flex items-center justify-center bg-brand-light py-12">
+          <div className="text-brand-navy text-lg">Checking login...</div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -74,9 +115,14 @@ const FinancialPolicyForm = () => {
               I have read, understand, and agree to the Financial Policy.
             </label>
           </div>
-          <Button type="submit" disabled={!agreed || submitted} className="w-full">
+          <Button type="submit" disabled={!agreed || submitted || !userId} className="w-full">
             {submitted ? "Thank you for submitting!" : "Submit Agreement"}
           </Button>
+          {!userId && (
+            <div className="text-red-500 text-xs text-center mt-3">
+              You must be logged in to submit this form.
+            </div>
+          )}
         </form>
       </main>
       <Footer />
