@@ -1,7 +1,8 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, Clock } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -20,11 +21,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const ScheduleVisit = () => {
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("");
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const serviceOptions = [
     { value: "in-person-assessment", label: "In-Person Assessment" },
@@ -33,23 +38,92 @@ const ScheduleVisit = () => {
     { value: "full-pt-telehealth", label: "Full PT Telehealth" },
   ];
 
-  // TODO: Replace with actual available time slots from backend API
-  const availableTimeSlots = [
-    "9:00 AM",
-    "10:30 AM",
-    "12:00 PM",
-    "1:00 PM",
-    "2:30 PM",
-    "4:00 PM"
-  ];
+  // Fetch available time slots from the database
+  const { data: availableSlots, isLoading: slotsLoading } = useQuery({
+    queryKey: ['therapist-availability', selectedDate, selectedService],
+    queryFn: async () => {
+      if (!selectedDate || !selectedService) return [];
+      
+      const dateString = format(selectedDate, 'yyyy-MM-dd');
+      
+      const { data, error } = await supabase
+        .from('therapist_availability')
+        .select('*')
+        .eq('slot_date', dateString)
+        .eq('service_type', selectedService)
+        .eq('is_booked', false)
+        .order('start_time');
+
+      if (error) {
+        console.error('Error fetching availability:', error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch available time slots",
+          variant: "destructive",
+        });
+        return [];
+      }
+
+      return data || [];
+    },
+    enabled: !!selectedDate && !!selectedService,
+  });
+
+  // Book appointment mutation
+  const bookAppointmentMutation = useMutation({
+    mutationFn: async (slotId: string) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
+      const { error } = await supabase
+        .from('therapist_availability')
+        .update({ is_booked: true })
+        .eq('id', slotId);
+
+      if (error) throw error;
+      
+      return true;
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success!",
+        description: "Your appointment has been booked successfully.",
+      });
+      // Reset form
+      setSelectedDate(undefined);
+      setSelectedService("");
+      setSelectedTimeSlot("");
+      // Refetch availability data
+      queryClient.invalidateQueries({ queryKey: ['therapist-availability'] });
+    },
+    onError: (error) => {
+      console.error('Booking error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to book appointment. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const isBookingEnabled = selectedDate && selectedService && selectedTimeSlot;
 
   const handleBookAppointment = () => {
-    if (isBookingEnabled) {
-      // TODO: Integrate with backend booking system
-      alert("Appointment request submitted (backend integration needed).");
+    if (!isBookingEnabled) return;
+    
+    const selectedSlot = availableSlots?.find(slot => 
+      `${slot.start_time}-${slot.end_time}` === selectedTimeSlot
+    );
+    
+    if (selectedSlot) {
+      bookAppointmentMutation.mutate(selectedSlot.id);
     }
+  };
+
+  // Format time for display
+  const formatTime = (timeString: string) => {
+    const date = new Date(`2000-01-01T${timeString}`);
+    return format(date, 'h:mm a');
   };
 
   return (
@@ -133,22 +207,37 @@ const ScheduleVisit = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {availableTimeSlots.map((timeSlot) => (
-                      <Button
-                        key={timeSlot}
-                        variant={selectedTimeSlot === timeSlot ? "default" : "outline"}
-                        className={cn(
-                          "h-12 flex items-center justify-center gap-2",
-                          selectedTimeSlot === timeSlot && "bg-brand-green hover:bg-brand-green/90"
-                        )}
-                        onClick={() => setSelectedTimeSlot(timeSlot)}
-                      >
-                        <Clock className="h-4 w-4" />
-                        {timeSlot}
-                      </Button>
-                    ))}
-                  </div>
+                  {slotsLoading ? (
+                    <div className="flex justify-center py-4">
+                      <p className="text-gray-600">Loading available slots...</p>
+                    </div>
+                  ) : availableSlots && availableSlots.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {availableSlots.map((slot) => {
+                        const timeSlotValue = `${slot.start_time}-${slot.end_time}`;
+                        const displayTime = `${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`;
+                        
+                        return (
+                          <Button
+                            key={slot.id}
+                            variant={selectedTimeSlot === timeSlotValue ? "default" : "outline"}
+                            className={cn(
+                              "h-12 flex items-center justify-center gap-2",
+                              selectedTimeSlot === timeSlotValue && "bg-brand-green hover:bg-brand-green/90"
+                            )}
+                            onClick={() => setSelectedTimeSlot(timeSlotValue)}
+                          >
+                            <Clock className="h-4 w-4" />
+                            {displayTime}
+                          </Button>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="text-center py-4">
+                      <p className="text-gray-600">No available slots for the selected date and service.</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )}
@@ -157,10 +246,10 @@ const ScheduleVisit = () => {
             <div className="flex justify-center pt-4">
               <Button
                 onClick={handleBookAppointment}
-                disabled={!isBookingEnabled}
+                disabled={!isBookingEnabled || bookAppointmentMutation.isPending}
                 className="bg-brand-green hover:bg-brand-green/90 text-white px-8 py-3 text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Book Appointment
+                {bookAppointmentMutation.isPending ? "Booking..." : "Book Appointment"}
               </Button>
             </div>
 

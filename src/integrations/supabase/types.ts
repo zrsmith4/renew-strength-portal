@@ -173,6 +173,50 @@ export type Database = {
         }
         Relationships: []
       }
+      therapist_availability: {
+        Row: {
+          created_at: string
+          end_time: string
+          id: string
+          is_booked: boolean
+          service_type: string
+          slot_date: string
+          start_time: string
+          therapist_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          end_time: string
+          id?: string
+          is_booked?: boolean
+          service_type: string
+          slot_date: string
+          start_time: string
+          therapist_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          end_time?: string
+          id?: string
+          is_booked?: boolean
+          service_type?: string
+          slot_date?: string
+          start_time?: string
+          therapist_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "therapist_availability_therapist_id_fkey"
+            columns: ["therapist_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
