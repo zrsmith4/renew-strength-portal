@@ -1,12 +1,28 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { MapPin } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from '@/components/ui/card';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/ContactForm';
 
 const Contact = () => {
+  // We'll use a ref to access the checkbox state after submit
+  const needScheduleHelpRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+
+  // We'll redefine onSubmit so we can handle redirect after ContactForm submission
+  // ContactForm will now get an onSuccess callback
+  const handleContactSuccess = () => {
+    if (needScheduleHelpRef.current && needScheduleHelpRef.current.checked) {
+      navigate("/required-forms");
+    } else {
+      // Redirect to homepage or show a simple confirmation
+      navigate("/");
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
@@ -28,7 +44,21 @@ const Contact = () => {
             <div className="md:col-span-3">
               <Card className="p-1">
                 <CardContent className="p-6">
-                  <ContactForm />
+                  {/* Extend ContactForm to accept a custom checkbox and onSuccess callback */}
+                  <ContactForm onSuccess={handleContactSuccess}>
+                    <div className="flex items-center space-x-2 mt-4 mb-1">
+                      <input
+                        type="checkbox"
+                        id="needScheduleHelp"
+                        ref={needScheduleHelpRef}
+                        className="rounded border-gray-300 text-brand-green focus:ring-brand-green"
+                        name="needScheduleHelp"
+                      />
+                      <label htmlFor="needScheduleHelp" className="text-sm font-normal">
+                        I need help scheduling an appointment.
+                      </label>
+                    </div>
+                  </ContactForm>
                 </CardContent>
               </Card>
             </div>

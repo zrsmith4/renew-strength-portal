@@ -26,6 +26,9 @@ import Messages from "./pages/patient-dashboard/Messages";
 import Notes from "./pages/patient-dashboard/Notes";
 import Availability from "./pages/admin-dashboard/Availability";
 import StaffMessages from "./pages/admin-dashboard/Messages";
+import RequiredForms from "./pages/RequiredForms";
+import FinancialPolicyForm from "./pages/patient-dashboard/FinancialPolicyForm";
+import ConsentToTreatForm from "./pages/patient-dashboard/ConsentToTreatForm";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +70,9 @@ const App = () => (
           {/* Admin Dashboard routes */}
           <Route path="/admin-dashboard/availability" element={<Availability />} />
           <Route path="/admin-dashboard/messages" element={<StaffMessages />} />
+          <Route path="/required-forms" element={<RequiredForms />} />
+          <Route path="/patient-dashboard/financial-policy" element={<FinancialPolicyForm />} />
+          <Route path="/patient-dashboard/consent-to-treat" element={<ConsentToTreatForm />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

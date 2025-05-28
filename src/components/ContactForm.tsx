@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
+// Added: onSuccess prop and ReactNode children for custom checkbox
 type ContactFormValues = {
   name: string;
   email: string;
@@ -16,7 +17,12 @@ type ContactFormValues = {
   scheduleRequest: boolean;
 };
 
-const ContactForm: React.FC = () => {
+interface ContactFormProps {
+  onSuccess?: () => void;
+  children?: React.ReactNode;
+}
+
+const ContactForm: React.FC<ContactFormProps> = ({ onSuccess, children }) => {
   const {
     register,
     handleSubmit,
@@ -46,6 +52,7 @@ const ContactForm: React.FC = () => {
         "Message sent successfully! We'll get back to you soon."
       );
       reset();
+      if (onSuccess) onSuccess(); // Call parent with conditional redirect
     } catch (err: any) {
       toast.error(
         "Failed to send message. Please try again or email us directly at renewswpt@gmail.com."
@@ -135,6 +142,7 @@ const ContactForm: React.FC = () => {
               I'd like assistance scheduling an appointment
             </Label>
           </div>
+          {children}
         </div>
         <Button type="submit" className="w-full">
           <Send className="mr-2 h-4 w-4" /> Send Message
