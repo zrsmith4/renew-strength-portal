@@ -4,7 +4,8 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { ConversationList } from "@/components/messaging/ConversationList";
 import { MessageArea } from "@/components/messaging/MessageArea";
-import { useMessaging } from "@/hooks/useMessaging";
+import { PatientNewConversationDialog } from "@/components/messaging/PatientNewConversationDialog";
+import { usePatientMessaging } from "@/hooks/usePatientMessaging";
 
 const Messages = () => {
   const {
@@ -18,8 +19,19 @@ const Messages = () => {
     messagesLoading,
     handleConversationSelect,
     handleSendMessage,
-    sendMessageMutation
-  } = useMessaging();
+    sendMessageMutation,
+    // New conversation specific
+    isNewConversationOpen,
+    setIsNewConversationOpen,
+    selectedTherapist,
+    setSelectedTherapist,
+    newConversationMessage,
+    setNewConversationMessage,
+    eligibleTherapists,
+    therapistsLoading,
+    handleCreateConversation,
+    createConversationMutation,
+  } = usePatientMessaging();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -34,9 +46,23 @@ const Messages = () => {
         />
         
         <div className="container mx-auto max-w-6xl relative z-10">
-          <h1 className="font-serif text-3xl text-brand-green mb-6 text-center">
-            Messages
-          </h1>
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="font-serif text-3xl text-brand-green">
+              Messages
+            </h1>
+            <PatientNewConversationDialog
+              isOpen={isNewConversationOpen}
+              onOpenChange={setIsNewConversationOpen}
+              eligibleTherapists={eligibleTherapists}
+              therapistsLoading={therapistsLoading}
+              selectedTherapist={selectedTherapist}
+              onTherapistSelect={setSelectedTherapist}
+              message={newConversationMessage}
+              onMessageChange={setNewConversationMessage}
+              onCreateConversation={handleCreateConversation}
+              isCreating={createConversationMutation.isPending}
+            />
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[600px]">
             <ConversationList

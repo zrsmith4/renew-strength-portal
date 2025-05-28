@@ -77,7 +77,10 @@ const ScheduleVisit = () => {
 
       const { error } = await supabase
         .from('therapist_availability')
-        .update({ is_booked: true })
+        .update({ 
+          is_booked: true, 
+          patient_id: user.id 
+        })
         .eq('id', slotId);
 
       if (error) throw error;

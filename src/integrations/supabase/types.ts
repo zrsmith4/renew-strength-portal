@@ -270,6 +270,7 @@ export type Database = {
           end_time: string
           id: string
           is_booked: boolean
+          patient_id: string | null
           service_type: string
           slot_date: string
           start_time: string
@@ -281,6 +282,7 @@ export type Database = {
           end_time: string
           id?: string
           is_booked?: boolean
+          patient_id?: string | null
           service_type: string
           slot_date: string
           start_time: string
@@ -292,6 +294,7 @@ export type Database = {
           end_time?: string
           id?: string
           is_booked?: boolean
+          patient_id?: string | null
           service_type?: string
           slot_date?: string
           start_time?: string
@@ -299,6 +302,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "therapist_availability_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "therapist_availability_therapist_id_fkey"
             columns: ["therapist_id"]
