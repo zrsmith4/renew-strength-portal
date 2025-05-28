@@ -24,6 +24,8 @@ import BlogPostDetail from "./pages/blog/[slug]";
 import ScheduleVisit from "./pages/patient-dashboard/ScheduleVisit";
 import Messages from "./pages/patient-dashboard/Messages";
 import Notes from "./pages/patient-dashboard/Notes";
+import Availability from "./pages/admin-dashboard/Availability";
+import StaffMessages from "./pages/admin-dashboard/Messages";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +60,13 @@ const App = () => (
           <Route path="/dashboard" element={<DashboardRouter />} />
           <Route path="/dashboard/patient" element={<PatientDashboard />} />
           <Route path="/dashboard/staff" element={<StaffDashboard />} />
+          {/* Patient Dashboard routes */}
+          <Route path="/patient-dashboard/schedule" element={<ScheduleVisit />} />
+          <Route path="/patient-dashboard/messages" element={<Messages />} />
+          <Route path="/patient-dashboard/notes" element={<Notes />} />
+          {/* Admin Dashboard routes */}
+          <Route path="/admin-dashboard/availability" element={<Availability />} />
+          <Route path="/admin-dashboard/messages" element={<StaffMessages />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
