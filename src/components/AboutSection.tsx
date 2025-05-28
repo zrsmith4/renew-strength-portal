@@ -1,12 +1,19 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
 const AboutSection: React.FC = () => {
   return (
-    <section className="py-16 md:py-24 bg-white">
-      <div className="container mx-auto px-4">
+    <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+      {/* Logo Watermark */}
+      <div 
+        className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-20 pointer-events-none z-0"
+        style={{
+          backgroundImage: 'url(/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png)'
+        }}
+      />
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row items-start gap-12">
           <div className="w-full md:w-1/3">
             <h2 className="section-title relative pb-3 inline-block">
