@@ -45,6 +45,48 @@ export type Database = {
         }
         Relationships: []
       }
+      consent_forms: {
+        Row: {
+          agreed: boolean
+          id: string
+          submitted_at: string
+          user_id: string
+        }
+        Insert: {
+          agreed?: boolean
+          id?: string
+          submitted_at?: string
+          user_id: string
+        }
+        Update: {
+          agreed?: boolean
+          id?: string
+          submitted_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      financial_policies_forms: {
+        Row: {
+          agreed: boolean
+          id: string
+          submitted_at: string
+          user_id: string
+        }
+        Insert: {
+          agreed?: boolean
+          id?: string
+          submitted_at?: string
+          user_id: string
+        }
+        Update: {
+          agreed?: boolean
+          id?: string
+          submitted_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       patient_sessions: {
         Row: {
           created_at: string

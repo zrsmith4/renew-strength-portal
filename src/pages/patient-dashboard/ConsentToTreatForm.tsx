@@ -19,13 +19,11 @@ const ConsentToTreatForm = () => {
     if (!agreed) return;
 
     // !! Prototype: You must create the consent_forms table in Supabase for persistence.
-    const { error } = await supabase.from("consent_forms").insert([
-      {
-        user_id: session?.user?.id,
-        agreed: true,
-        submitted_at: new Date().toISOString(),
-      },
-    ]);
+    const { error } = await supabase.from("consent_forms").insert({
+      user_id: session?.user?.id,
+      agreed: true,
+      submitted_at: new Date().toISOString(),
+    });
 
     if (!error) {
       setSubmitted(true);

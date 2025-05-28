@@ -19,13 +19,11 @@ const FinancialPolicyForm = () => {
     if (!agreed) return;
 
     // !! Prototype: You must create the financial_policies_forms table in Supabase for persistence.
-    const { error } = await supabase.from("financial_policies_forms").insert([
-      {
-        user_id: session?.user?.id,
-        agreed: true,
-        submitted_at: new Date().toISOString(),
-      },
-    ]);
+    const { error } = await supabase.from("financial_policies_forms").insert({
+      user_id: session?.user?.id,
+      agreed: true,
+      submitted_at: new Date().toISOString(),
+    });
 
     if (!error) {
       setSubmitted(true);
