@@ -22,6 +22,8 @@ import PatientDashboard from "./pages/dashboard/PatientDashboard";
 import StaffDashboard from "./pages/dashboard/StaffDashboard";
 import BlogPostDetail from "./pages/blog/[slug]";
 import ScheduleVisit from "./pages/patient-dashboard/ScheduleVisit";
+import Messages from "./pages/patient-dashboard/Messages";
+import Notes from "./pages/patient-dashboard/Notes";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +47,8 @@ const App = () => (
           <Route path="/blog/:slug" element={<BlogPostDetail />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/patient-dashboard/schedule" element={<ScheduleVisit />} />
+          <Route path="/patient-dashboard/messages" element={<Messages />} />
+          <Route path="/patient-dashboard/notes" element={<Notes />} />
           {/* AUTH */}
           <Route path="/auth" element={<Auth />} />
           <Route path="/privacy" element={<Policies />} />
