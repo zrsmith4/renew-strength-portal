@@ -37,12 +37,7 @@ export const usePatientMessaging = () => {
         .select(`
           therapist_id,
           slot_date,
-          start_time,
-          therapist_profile:profiles!therapist_id (
-            id,
-            username,
-            role
-          )
+          start_time
         `)
         .eq("patient_id", user.id)
         .eq("status", "booked");
@@ -54,7 +49,6 @@ export const usePatientMessaging = () => {
 
       // Filter by date/time criteria and get unique therapists
       const eligibleTherapistIds = new Set<string>();
-      const eligibleTherapistsMap = new Map<string, EligibleTherapist>();
 
       data?.forEach((appointment) => {
         const slotDate = new Date(appointment.slot_date);
@@ -67,18 +61,24 @@ export const usePatientMessaging = () => {
         const isWithinNext48Hours = slotDateTime <= fortyEightHoursFromNow && slotDateTime > now;
 
         if (isPastOrCurrent || isWithinNext48Hours) {
-          if (appointment.therapist_profile && !eligibleTherapistIds.has(appointment.therapist_id)) {
-            eligibleTherapistIds.add(appointment.therapist_id);
-            eligibleTherapistsMap.set(appointment.therapist_id, {
-              id: appointment.therapist_profile.id,
-              username: appointment.therapist_profile.username,
-              role: appointment.therapist_profile.role
-            });
-          }
+          eligibleTherapistIds.add(appointment.therapist_id);
         }
       });
 
-      return Array.from(eligibleTherapistsMap.values());
+      // Now fetch the therapist profiles for the eligible therapist IDs
+      if (eligibleTherapistIds.size === 0) return [];
+
+      const { data: therapists, error: therapistsError } = await supabase
+        .from("profiles")
+        .select("id, username, role")
+        .in("id", Array.from(eligibleTherapistIds));
+
+      if (therapistsError) {
+        console.error("Error fetching therapist profiles:", therapistsError);
+        return [];
+      }
+
+      return therapists || [];
     },
     enabled: !!messagingHook.currentUser,
   });
