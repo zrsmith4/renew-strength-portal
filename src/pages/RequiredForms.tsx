@@ -1,3 +1,4 @@
+
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
@@ -24,12 +25,15 @@ const RequiredForms = () => {
           <p className="text-gray-700 mb-8">
             To finalize your appointment scheduling, please complete the following required intake forms.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Button asChild className="w-full sm:w-auto">
+          <div className="flex flex-col gap-4 justify-center">
+            <Button asChild className="w-full">
               <Link to="/patient-dashboard/financial-policy">Complete Financial Policy</Link>
             </Button>
-            <Button asChild variant="secondary" className="w-full sm:w-auto">
+            <Button asChild variant="secondary" className="w-full">
               <Link to="/patient-dashboard/consent-to-treat">Complete Consent to Treat</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full">
+              <Link to="/patient-dashboard/dry-needling-consent">Complete Dry Needling Consent & Waiver</Link>
             </Button>
           </div>
         </div>

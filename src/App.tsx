@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -29,6 +30,7 @@ import StaffMessages from "./pages/admin-dashboard/Messages";
 import RequiredForms from "./pages/RequiredForms";
 import FinancialPolicyForm from "./pages/patient-dashboard/FinancialPolicyForm";
 import ConsentToTreatForm from "./pages/patient-dashboard/ConsentToTreatForm";
+import DryNeedlingForm from "./pages/patient-dashboard/DryNeedlingForm";
 
 const queryClient = new QueryClient();
 
@@ -73,6 +75,7 @@ const App = () => (
           <Route path="/required-forms" element={<RequiredForms />} />
           <Route path="/patient-dashboard/financial-policy" element={<FinancialPolicyForm />} />
           <Route path="/patient-dashboard/consent-to-treat" element={<ConsentToTreatForm />} />
+          <Route path="/patient-dashboard/dry-needling-consent" element={<DryNeedlingForm />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

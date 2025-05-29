@@ -105,6 +105,39 @@ export type Database = {
           },
         ]
       }
+      dry_needling_forms: {
+        Row: {
+          agreed: boolean
+          fear_of_needles: boolean
+          has_blood_borne_illness: boolean
+          id: string
+          is_pregnant: boolean
+          on_immunosuppressant: boolean
+          submitted_at: string
+          user_id: string
+        }
+        Insert: {
+          agreed?: boolean
+          fear_of_needles: boolean
+          has_blood_borne_illness: boolean
+          id?: string
+          is_pregnant: boolean
+          on_immunosuppressant: boolean
+          submitted_at?: string
+          user_id: string
+        }
+        Update: {
+          agreed?: boolean
+          fear_of_needles?: boolean
+          has_blood_borne_illness?: boolean
+          id?: string
+          is_pregnant?: boolean
+          on_immunosuppressant?: boolean
+          submitted_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       financial_policies_forms: {
         Row: {
           agreed: boolean
