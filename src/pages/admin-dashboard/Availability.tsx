@@ -55,8 +55,14 @@ interface AvailabilitySlot {
   slot_date: string;
   start_time: string;
   end_time: string;
+  // 'is_booked' has been replaced by 'status' in the database
+  status: 'available' | 'pending_payment' | 'booked' | 'canceled' | 'no_show'; // Using literal types for clarity
+  patient_id: string | null;
   service_type: string;
-  is_booked: boolean;
+  // New column added during the database migration
+  pending_started_at: string | null; // This column is nullable
+  created_at: string;
+  updated_at: string;
 }
 
 interface SlotFormData {
