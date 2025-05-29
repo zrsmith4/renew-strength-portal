@@ -55,12 +55,10 @@ interface AvailabilitySlot {
   slot_date: string;
   start_time: string;
   end_time: string;
-  // 'is_booked' has been replaced by 'status' in the database
-  status: 'available' | 'pending_payment' | 'booked' | 'canceled' | 'no_show'; // Using literal types for clarity
+  status: 'available' | 'pending_payment' | 'booked' | 'canceled' | 'no_show';
   patient_id: string | null;
   service_type: string;
-  // New column added during the database migration
-  pending_started_at: string | null; // This column is nullable
+  pending_started_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -172,7 +170,7 @@ const Availability = () => {
           start_time: slotData.start_time,
           end_time: slotData.end_time,
           service_type: slotData.service_type,
-          is_booked: false,
+          status: 'available',
         });
 
       if (error) throw error;
@@ -332,6 +330,23 @@ const Availability = () => {
     return therapistName ? `Managing Availability for ${therapistName}` : "Therapist Availability Management";
   };
 
+  const getStatusDisplay = (status: string) => {
+    switch (status) {
+      case 'available':
+        return { text: 'Available', color: 'text-green-600' };
+      case 'pending_payment':
+        return { text: 'Pending Payment', color: 'text-yellow-600' };
+      case 'booked':
+        return { text: 'Booked', color: 'text-red-600' };
+      case 'canceled':
+        return { text: 'Canceled', color: 'text-gray-600' };
+      case 'no_show':
+        return { text: 'No Show', color: 'text-red-800' };
+      default:
+        return { text: status, color: 'text-gray-600' };
+    }
+  };
+
   if (profileLoading || (currentUserProfile?.role === 'admin' && therapistsLoading)) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -440,65 +455,70 @@ const Availability = () => {
                     </div>
                   ) : availabilitySlots && availabilitySlots.length > 0 ? (
                     <div className="space-y-3">
-                      {availabilitySlots.map((slot) => (
-                        <div
-                          key={slot.id}
-                          className="flex items-center justify-between p-4 border rounded-lg bg-white"
-                        >
-                          <div className="flex items-center gap-4">
-                            <Clock className="h-4 w-4 text-gray-500" />
-                            <div>
-                              <p className="font-medium">
-                                {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                {serviceOptions.find(s => s.value === slot.service_type)?.label}
-                              </p>
-                              {slot.is_booked && (
-                                <p className="text-sm text-red-600 font-medium">Booked</p>
-                              )}
+                      {availabilitySlots.map((slot) => {
+                        const statusDisplay = getStatusDisplay(slot.status);
+                        const canEdit = slot.status === 'available';
+                        
+                        return (
+                          <div
+                            key={slot.id}
+                            className="flex items-center justify-between p-4 border rounded-lg bg-white"
+                          >
+                            <div className="flex items-center gap-4">
+                              <Clock className="h-4 w-4 text-gray-500" />
+                              <div>
+                                <p className="font-medium">
+                                  {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                  {serviceOptions.find(s => s.value === slot.service_type)?.label}
+                                </p>
+                                <p className={`text-sm font-medium ${statusDisplay.color}`}>
+                                  {statusDisplay.text}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleEditSlot(slot)}
+                                disabled={!canEdit}
+                              >
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={!canEdit}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Delete Availability Slot</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      Are you sure you want to delete this availability slot? This action cannot be undone.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction
+                                      onClick={() => deleteSlotMutation.mutate(slot.id)}
+                                      className="bg-red-600 hover:bg-red-700"
+                                    >
+                                      Delete
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
                             </div>
                           </div>
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleEditSlot(slot)}
-                              disabled={slot.is_booked}
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  disabled={slot.is_booked}
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>Delete Availability Slot</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Are you sure you want to delete this availability slot? This action cannot be undone.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() => deleteSlotMutation.mutate(slot.id)}
-                                    className="bg-red-600 hover:bg-red-700"
-                                  >
-                                    Delete
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="text-center py-8">
