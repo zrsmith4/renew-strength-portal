@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 
 // Added: onSuccess prop and ReactNode children for custom checkbox
 type ContactFormValues = {
@@ -32,34 +33,23 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess, children }) => {
 
   const onSubmit = async (data: ContactFormValues) => {
     try {
-      const response = await fetch(
-        "https://izikncebdvtnddtmsdfa.functions.supabase.co/send-contact-email",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        }
-      );
+      const { data: result, error } = await supabase.functions.invoke('send-contact-email', {
+        body: data
+      });
 
-      if (!response.ok) {
-        const errorMsg =
-          (await response.json())?.error ||
-          "Something went wrong. Please try again.";
-        throw new Error(errorMsg);
+      if (error) {
+        throw error;
       }
 
       toast.success(
         "Message sent successfully! We'll get back to you soon."
       );
       reset();
-      if (onSuccess) onSuccess(); // Call parent with conditional redirect
+      if (onSuccess) onSuccess();
     } catch (err: any) {
+      console.error("Contact form submission failed:", err);
       toast.error(
         "Failed to send message. Please try again or email us directly at renewswpt@gmail.com."
-      );
-      console.error(
-        "Contact form submission failed:",
-        err?.message || err
       );
     }
   };
