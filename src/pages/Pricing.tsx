@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 const pricingItems = [
   {
     name: "Initial Evaluation (incl. DN)",
-    price: "$175",
+    price: "$200",
     icon: <MapPin className="h-8 w-8 text-brand-green" />,
     bgColor: "bg-brand-green/10",
     sub: "60-minute session, includes physical therapy assessment and dry needling treatment.",
@@ -58,7 +58,7 @@ const pricingItems = [
   // },
   {
     name: "Dry Needling Session",
-    price: "$60",
+    price: "$70",
     icon: <Syringe className="h-8 w-8 text-amber-500" />,
     bgColor: "bg-brand-yellow/10",
     sub: "30-minute session, focuses on one 'problem' area.",
@@ -73,25 +73,25 @@ const pricingItems = [
     price: "Varies",
     icon: <Syringe className="h-8 w-8 text-amber-500" />,
     bgColor: "bg-brand-yellow/10",
-    sub: "4 x 30-minute sessions within one calendar month. Each additional dry needling session within the same month costs $10 less than the previous session.",
+    sub: "4 x 30-minute sessions within one calendar month. Any additional dry needling sessions in the same month are $10 off the regular price ($60 each).",
     cta: (
       <Button asChild className="w-full bg-brand-green hover:bg-brand-green/90 text-white" size="lg">
         <Link to="/contact">Book Now</Link>
       </Button>
     ),
   },
-  // {  // OMITTING FOR MVP - UNCOMMENT WHEN AVAILABLE
-  //   name: "Future PT Follow-Up Session",
-  //   price: "$175",
-  //   icon: <ActivitySquare className="h-8 w-8 text-brand-blue" />,
-  //   bgColor: "bg-brand-light",
-  //   sub: "45-minute session. (Coming Soon)",
-  //   cta: (
-  //     <Button asChild className="w-full bg-brand-green hover:bg-brand-green/90 text-white" size="lg">
-  //       <Link to="/contact">Book Now</Link>
-  //     </Button>
-  //   ),
-  // },
+  {
+    name: "In-Person PT Follow-Up Session",
+    price: "$150",
+    icon: <MapPin className="h-8 w-8 text-brand-green" />,
+    bgColor: "bg-brand-green/10",
+    sub: "45-minute session.",
+    cta: (
+      <Button asChild className="w-full bg-brand-green hover:bg-brand-green/90 text-white" size="lg">
+        <Link to="/contact">Book Now</Link>
+      </Button>
+    ),
+  },
 ];
 
 const Pricing = () => (
@@ -119,11 +119,10 @@ const Pricing = () => (
         {/* Travel fee section */}
         <div className="mt-16 text-center mx-auto max-w-xl">
           <h2 className="text-2xl font-serif text-brand-navy mb-3">Travel Fee</h2>
-          <ul className="text-gray-700 mb-2 text-left mx-auto inline-block">
-            <li><strong>0-10 miles:</strong> No Fee</li>
-            <li><strong>10-20 miles:</strong> $15</li>
-            <li><strong>20-50 miles:</strong> $30</li>
-          </ul>
+          <p className="text-gray-700 mb-2">
+            <strong>$5 for every 5 miles from Renew Strength & Wellness location</strong><br />
+            <span className="text-sm text-gray-600">(0-5 miles: $5, 5-10 miles: $10, 10-15 miles: $15, etc.)</span>
+          </p>
           <p className="text-gray-600 text-sm mt-2">
             Travel fee is waived for multiple "problems" for 1 patient or 2+ patients with one problem at the same location.
           </p>
