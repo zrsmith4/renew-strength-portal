@@ -25,7 +25,7 @@ serve(async (req: Request) => {
 
   try {
     const body = await req.json();
-    const { name, email, phone, message, scheduleRequest } = body;
+    const { name, email, phone, message, scheduleRequest, callbackRequested } = body;
 
     // HTML template for the email
     const html = `
@@ -36,6 +36,7 @@ serve(async (req: Request) => {
         <li><strong>Phone:</strong> ${phone ? String(phone) : "(not provided)"}</li>
         <li><strong>Message:</strong> ${message ? String(message) : "(not provided)"}</li>
         <li><strong>Needs Appointment Scheduling?</strong> ${scheduleRequest ? "Yes" : "No"}</li>
+        <li><strong>Callback Requested?</strong> ${callbackRequested ? "Yes" : "No"}</li>
       </ul>
       <p><em>Sent from the Renew Strength & Wellness Website</em></p>
     `;
