@@ -2,3 +2,6 @@ project_id = "izikncebdvtnddtmsdfa"
 
 [functions.send-contact-email]
 verify_jwt = false
+
+[functions.submit-public-form]
+verify_jwt = false
