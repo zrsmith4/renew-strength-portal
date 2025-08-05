@@ -66,7 +66,7 @@ const NavBar: React.FC = () => {
             </Link>
             */}
             <Link to="/contact">
-              <Button className="btn-primary">Book an Appointment</Button>
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">Book an Appointment</Button>
             </Link>
           </div>
 
@@ -141,7 +141,7 @@ const NavBar: React.FC = () => {
             </Link>
             */}
             <Link to="/contact">
-              <Button className="btn-primary mt-2" onClick={() => setIsMenuOpen(false)}>
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 mt-2" onClick={() => setIsMenuOpen(false)}>
                 Book an Appointment
               </Button>
             </Link>
