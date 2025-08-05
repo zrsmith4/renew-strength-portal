@@ -140,7 +140,7 @@ const Index = () => {
                 Renew Your Strength, Restore Your Wellness
               </h1>
               <p className="text-xl md:text-2xl text-center text-white/90 mb-8 max-w-3xl mx-auto">
-                Faith-based mobile physical therapy services bringing personalized care to your doorstep in Chicago and surrounding suburbs
+                Renew Strength and Wellness Physical Therapy
               </p>
             </div>
           </div>
