@@ -33,7 +33,7 @@ const Hero: React.FC = () => {
             </div>
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row gap-2 justify-center lg:justify-start">
-                <Button className={`btn-primary ${isMobile ? 'text-base px-8 py-3 min-h-[48px] w-full' : 'text-lg px-12 py-5 min-h-[56px]'}`} asChild>
+                <Button className={`${isMobile ? 'text-base px-8 py-3 min-h-[48px] w-full' : 'text-lg px-12 py-5 min-h-[56px]'}`} asChild>
                   <Link to="/contact">Schedule Now</Link>
                 </Button>
               </div>
