@@ -12,19 +12,74 @@ const TestimonialsSection: React.FC = () => {
     {
       quote: "Working with Renew PT has been transformative. The convenience of at-home sessions and the personalized care plan made all the difference in my recovery.",
       author: "Sarah M.",
-      role: "Recovery from ACL Surgery"
+      role: "Recovery from ACL Surgery",
+      rating: 5,
+      datePublished: "2024-12-15"
     },
     {
       quote: "I appreciate the holistic approach that addresses not just the physical symptoms but considers my overall wellbeing. The faith-based approach resonates deeply with me.",
       author: "Michael T.",
-      role: "Chronic Back Pain Patient"
+      role: "Chronic Back Pain Patient",
+      rating: 5,
+      datePublished: "2024-12-10"
     },
     {
       quote: "The telehealth option has been a lifesaver when I couldn't make in-person appointments. Same quality care, just through a screen!",
       author: "Jennifer L.",
-      role: "Post-surgery Rehabilitation"
+      role: "Post-surgery Rehabilitation",
+      rating: 5,
+      datePublished: "2024-12-05"
     }
   ];
+
+  // Set up review schema
+  React.useEffect(() => {
+    const reviewSchema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Renew Strength and Wellness Physical Therapy",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": 5,
+        "reviewCount": testimonials.length,
+        "bestRating": 5,
+        "worstRating": 1
+      },
+      "review": testimonials.map(testimonial => ({
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": testimonial.author
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": testimonial.rating,
+          "bestRating": 5,
+          "worstRating": 1
+        },
+        "reviewBody": testimonial.quote,
+        "datePublished": testimonial.datePublished
+      }))
+    };
+
+    const existingScript = document.querySelector('script[data-review-schema]');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-review-schema', 'true');
+    script.textContent = JSON.stringify(reviewSchema);
+    document.head.appendChild(script);
+
+    return () => {
+      const scriptToRemove = document.querySelector('script[data-review-schema]');
+      if (scriptToRemove) {
+        scriptToRemove.remove();
+      }
+    };
+  }, []);
 
   return (
     <section className="py-16 md:py-24 bg-white">

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import Breadcrumb from '@/components/seo/Breadcrumb';
+import RelatedContent from '@/components/seo/RelatedContent';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MapPin, Clock, Shield, Heart } from 'lucide-react';
@@ -88,8 +90,11 @@ const ChicagoSuburbs: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
+      <div className="container mx-auto px-4 pt-6">
+        <Breadcrumb />
+      </div>
       
-      <main className="pt-20">
+      <main className="pt-8">
         {/* Hero Section */}
         <section className="py-16 bg-brand-navy text-white">
           <div className="container mx-auto px-4">
@@ -209,6 +214,7 @@ const ChicagoSuburbs: React.FC = () => {
         </section>
       </main>
 
+      <RelatedContent currentPage="chicago-suburbs" />
       <Footer />
     </div>
   );

@@ -2,6 +2,8 @@
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import Breadcrumb from "@/components/seo/Breadcrumb";
+import RelatedContent from "@/components/seo/RelatedContent";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Syringe } from "lucide-react";
@@ -10,6 +12,9 @@ import { Link } from "react-router-dom";
 const DryNeedling = () => (
   <div className="min-h-screen flex flex-col bg-brand-light">
     <NavBar />
+    <div className="container mx-auto px-4 pt-6">
+      <Breadcrumb />
+    </div>
     <main className="container mx-auto px-4 py-12 md:py-16 flex-1">
       <h1 className="text-4xl md:text-5xl font-serif font-medium text-brand-navy mb-6 text-center">
         Mobile Dry Needling Chicago
@@ -44,6 +49,7 @@ const DryNeedling = () => (
         </Button>
       </div>
     </main>
+    <RelatedContent currentPage="dry-needling" />
     <Footer />
   </div>
 );

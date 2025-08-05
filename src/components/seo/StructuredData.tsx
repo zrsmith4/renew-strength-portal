@@ -2,17 +2,26 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 interface StructuredDataProps {
-  type?: 'home' | 'service' | 'contact' | 'about';
+  type?: 'home' | 'service' | 'contact' | 'about' | 'location';
   serviceName?: string;
   serviceDescription?: string;
   servicePrice?: string;
+  locationName?: string;
+  reviews?: Array<{
+    author: string;
+    rating: number;
+    reviewBody: string;
+    datePublished: string;
+  }>;
 }
 
 const StructuredData: React.FC<StructuredDataProps> = ({ 
   type = 'home', 
   serviceName, 
   serviceDescription,
-  servicePrice 
+  servicePrice,
+  locationName,
+  reviews = []
 }) => {
   const baseBusinessData = {
     "@context": "https://schema.org",
@@ -139,6 +148,35 @@ const StructuredData: React.FC<StructuredDataProps> = ({
     } : undefined
   } : null;
 
+  // Review/Rating Schema
+  const reviewData = reviews.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Renew Strength and Wellness Physical Therapy",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length,
+      "reviewCount": reviews.length,
+      "bestRating": 5,
+      "worstRating": 1
+    },
+    "review": reviews.map(review => ({
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": review.author
+      },
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": review.rating,
+        "bestRating": 5,
+        "worstRating": 1
+      },
+      "reviewBody": review.reviewBody,
+      "datePublished": review.datePublished
+    }))
+  } : null;
+
   const breadcrumbData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -171,6 +209,17 @@ const StructuredData: React.FC<StructuredDataProps> = ({
         "position": 2,
         "name": "About",
         "item": "https://renewstrengthandwellness.com/about"
+      }] : []),
+      ...(type === 'location' && locationName ? [{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Locations",
+        "item": "https://renewstrengthandwellness.com/locations/chicago-suburbs"
+      }, {
+        "@type": "ListItem",
+        "position": 3,
+        "name": locationName,
+        "item": `https://renewstrengthandwellness.com/locations/${locationName.toLowerCase().replace(/\s+/g, '-')}`
       }] : [])
     ]
   };
@@ -240,6 +289,11 @@ const StructuredData: React.FC<StructuredDataProps> = ({
           {JSON.stringify(serviceData)}
         </script>
       )}
+      {reviewData && (
+        <script type="application/ld+json">
+          {JSON.stringify(reviewData)}
+        </script>
+      )}
       <script type="application/ld+json">
         {JSON.stringify(breadcrumbData)}
       </script>
@@ -248,6 +302,19 @@ const StructuredData: React.FC<StructuredDataProps> = ({
           {JSON.stringify(faqData)}
         </script>
       )}
+      
+      {/* Open Graph Tags */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Renew Strength and Wellness Physical Therapy" />
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Renew Strength and Wellness - Mobile Physical Therapy Chicago" />
+      
+      {/* Twitter Card Tags */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@RenewStrengthPT" />
+      <meta name="twitter:creator" content="@RenewStrengthPT" />
     </Helmet>
   );
 };

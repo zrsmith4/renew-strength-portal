@@ -20,9 +20,10 @@ const NavBar: React.FC = () => {
             {/* Use uploaded logo image - make larger, no text */}
             <img
               src="/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png"
-              alt="Renew Strength and Wellness Logo"
+              alt="Renew Strength and Wellness Physical Therapy Logo - Mobile PT Services Chicago"
               className="h-16 w-auto"
               style={{ maxHeight: '64px' }}
+              loading="eager"
             />
           </Link>
 
