@@ -114,7 +114,7 @@ const Index = () => {
         <main>
           <div className="bg-brand-navy text-white py-4 md:py-6">
             <div className="container mx-auto px-4">
-              <h1 className="text-4xl md:text-6xl font-serif font-medium text-center mb-6">
+              <h1 className="text-4xl font-serif font-medium text-center mb-6 md:text-xs">
                 Renew Your Strength, Restore Your Wellness
               </h1>
               <h2 className="text-3xl lg:text-5xl font-serif font-medium text-center text-white mb-4 md:mb-6 md:text-6xl">
