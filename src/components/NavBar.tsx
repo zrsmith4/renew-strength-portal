@@ -35,8 +35,8 @@ const NavBar: React.FC = () => {
             <Link to="/services" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
               Services
             </Link>
-            <Link to="/locations/chicago-suburbs" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
-              Locations
+            <Link to="/locations" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
+              Areas
             </Link>
             <Link to="/pricing" className="text-brand-navy hover:text-brand-green transition-colors font-medium">
               Pricing
