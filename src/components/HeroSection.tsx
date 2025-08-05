@@ -15,10 +15,22 @@ const Hero: React.FC = () => {
             <p className="text-lg md:text-xl text-gray-600 max-w-xl mx-auto lg:mx-0">
               Personalized physical therapy bringing faith-based care and renewed strength to your doorstep.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button className="btn-primary text-lg" asChild>
-                <Link to="/contact">Schedule Now</Link>
-              </Button>
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Button className="btn-primary text-lg" asChild>
+                  <Link to="/contact">Schedule Now - Limited Availability</Link>
+                </Button>
+              </div>
+              
+              {/* Urgency messaging */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-sm">
+                <div className="bg-amber-50 text-amber-800 px-3 py-2 rounded-full border border-amber-200">
+                  🔥 Only 3 slots left this week
+                </div>
+                <div className="bg-green-50 text-green-800 px-3 py-2 rounded-full border border-green-200">
+                  ⚡ Responding to new patients within 2 hours
+                </div>
+              </div>
             </div>
           </div>
 
@@ -69,11 +81,11 @@ const Hero: React.FC = () => {
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
               <Award className="h-4 w-4 text-brand-green" />
-              <span className="font-medium">15+ Years Experience</span>
+              <span className="font-medium">11 Years Experience</span>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
               <Clock className="h-4 w-4 text-brand-green" />
-              <span className="font-medium">24hr Response</span>
+              <span className="font-medium">5,000+ Patient Sessions</span>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
               <CheckCircle className="h-4 w-4 text-brand-green" />
