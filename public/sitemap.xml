@@ -37,7 +37,19 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://renewstrengthandwellness.com/services/full-pt-telehealth</loc>
+    <loc>https://renewstrengthandwellness.com/services/pt-telehealth</loc>
+    <lastmod>2025-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://renewstrengthandwellness.com/locations/chicago-suburbs</loc>
+    <lastmod>2025-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://renewstrengthandwellness.com/locations/oak-park</loc>
     <lastmod>2025-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

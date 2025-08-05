@@ -12,11 +12,11 @@ const InPersonAssessment = () => (
     <NavBar />
     <main className="container mx-auto px-4 py-12 md:py-16 flex-1">
       <h1 className="text-4xl md:text-5xl font-serif font-medium text-brand-navy mb-6 text-center">
-        In-Person Assessment
+        Mobile Physical Therapy Assessment Chicago
       </h1>
       <div className="flex flex-col items-center max-w-2xl mx-auto">
         <p className="text-lg text-gray-700 mb-4 text-center">
-          Receive a comprehensive evaluation at your home, office, or preferred location by a licensed physical therapist.
+          Receive a comprehensive physical therapy evaluation at your Chicago area home, office, or preferred location by a licensed physical therapist.
         </p>
         <ul className="list-disc list-inside text-gray-600 mb-8 text-left space-y-1">
           <li>Thorough movement, strength, and posture assessment</li>

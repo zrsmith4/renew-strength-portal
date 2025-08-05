@@ -21,6 +21,8 @@ import InPersonAssessment from "./pages/services/InPersonAssessment";
 import Telehealth from "./pages/services/Telehealth";
 import DryNeedling from "./pages/services/DryNeedling";
 import FullPTTelehealth from "./pages/services/FullPTTelehealth";
+import ChicagoSuburbs from "./pages/locations/ChicagoSuburbs";
+import OakPark from "./pages/locations/OakPark";
 import Policies from "./pages/Policies";
 import DashboardRouter from "./pages/DashboardRouter";
 import PatientDashboard from "./pages/dashboard/PatientDashboard";
@@ -52,6 +54,8 @@ const App = () => (
           <Route path="/services/telehealth" element={<Telehealth />} />
           <Route path="/services/dry-needling" element={<DryNeedling />} />
           <Route path="/services/pt-telehealth" element={<FullPTTelehealth />} />
+          <Route path="/locations/chicago-suburbs" element={<ChicagoSuburbs />} />
+          <Route path="/locations/oak-park" element={<OakPark />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
