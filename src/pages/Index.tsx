@@ -9,8 +9,12 @@ import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer';
 import BottomNavigation from '@/components/mobile/BottomNavigation';
 import FloatingActionButton from '@/components/mobile/FloatingActionButton';
+import ExitIntentModal from '@/components/conversion/ExitIntentModal';
+import { useExitIntent } from '@/hooks/useExitIntent';
 import { Link } from "react-router-dom";
+
 const Index = () => {
+  const { showExitIntent, hideExitIntent } = useExitIntent();
   return <div className="min-h-screen flex flex-col">
       <NavBar />
       {/* Main Focus Heading */}
@@ -37,6 +41,7 @@ Physical Therapy</h1>
       <Footer />
       <BottomNavigation />
       <FloatingActionButton />
+      <ExitIntentModal isOpen={showExitIntent} onClose={hideExitIntent} />
     </div>;
 };
 export default Index;
