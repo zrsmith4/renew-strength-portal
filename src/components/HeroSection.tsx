@@ -20,6 +20,9 @@ const Hero: React.FC = () => {
                 <Button className="btn-primary text-lg" asChild>
                   <Link to="/contact">Schedule Now - Limited Availability</Link>
                 </Button>
+                <Button variant="outline" className="text-lg" asChild>
+                  <a href="tel:224-244-1094">Call (224) 244-1094</a>
+                </Button>
               </div>
               
               {/* Urgency messaging */}
@@ -89,7 +92,7 @@ const Hero: React.FC = () => {
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
               <CheckCircle className="h-4 w-4 text-brand-green" />
-              <span className="font-medium">Most Insurance Accepted</span>
+              <span className="font-medium">Cash Pay Practice</span>
             </div>
           </div>
         </div>
