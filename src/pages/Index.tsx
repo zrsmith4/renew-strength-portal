@@ -10,111 +10,164 @@ import Footer from '@/components/Footer';
 import BottomNavigation from '@/components/mobile/BottomNavigation';
 import FloatingActionButton from '@/components/mobile/FloatingActionButton';
 import ExitIntentModal from '@/components/conversion/ExitIntentModal';
+import PerformanceOptimization from '@/components/seo/PerformanceOptimization';
+import AdvancedSchema from '@/components/seo/AdvancedSchema';
+import FeaturedSnippetContent from '@/components/seo/FeaturedSnippetContent';
 import { useExitIntent } from '@/hooks/useExitIntent';
 import { Link } from "react-router-dom";
 
 const Index = () => {
   const { showExitIntent, hideExitIntent } = useExitIntent();
-  
-  // Add SEO meta tags directly to document head
+
   useEffect(() => {
-    // Update page title
-    document.title = "Renew Strength and Wellness | Mobile Physical Therapy Chicago";
+    // Enhanced SEO meta tags
+    document.title = "Mobile Physical Therapy Chicago | In-Home PT Services | Renew Strength and Wellness";
     
     // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Expert mobile physical therapy services in Chicago. Faith-based, personalized care delivered to your home. Dry needling, telehealth available. Insurance accepted.');
+    const metaDescription = document.querySelector('meta[name="description"]') || document.createElement('meta');
+    metaDescription.setAttribute('name', 'description');
+    metaDescription.setAttribute('content', 'Professional mobile physical therapy services in Chicago and suburbs. Faith-based in-home PT care, dry needling, assessments. Insurance accepted. Serving Oak Park, Evanston, Naperville.');
+    if (!document.querySelector('meta[name="description"]')) {
+      document.head.appendChild(metaDescription);
     }
-    
-    // Add keywords meta tag
-    let metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (!metaKeywords) {
-      metaKeywords = document.createElement('meta');
-      metaKeywords.setAttribute('name', 'keywords');
+
+    // Enhanced keywords
+    const metaKeywords = document.querySelector('meta[name="keywords"]') || document.createElement('meta');
+    metaKeywords.setAttribute('name', 'keywords');
+    metaKeywords.setAttribute('content', 'mobile physical therapy Chicago, in-home PT, physical therapist Chicago, mobile PT Oak Park, dry needling Chicago, faith-based physical therapy, home health PT, Chicago suburbs physical therapy');
+    if (!document.querySelector('meta[name="keywords"]')) {
       document.head.appendChild(metaKeywords);
     }
-    metaKeywords.setAttribute('content', 'mobile physical therapy Chicago, in-home PT Chicago, faith-based physical therapy, dry needling Chicago, telehealth PT Illinois, Medicare physical therapy');
-    
-    // Add geo-targeting meta tags
-    const geoRegion = document.createElement('meta');
+
+    // Geo-targeting meta tags
+    const geoRegion = document.querySelector('meta[name="geo.region"]') || document.createElement('meta');
     geoRegion.setAttribute('name', 'geo.region');
     geoRegion.setAttribute('content', 'US-IL');
-    document.head.appendChild(geoRegion);
-    
-    const geoPlacename = document.createElement('meta');
+    if (!document.querySelector('meta[name="geo.region"]')) {
+      document.head.appendChild(geoRegion);
+    }
+
+    const geoPlacename = document.querySelector('meta[name="geo.placename"]') || document.createElement('meta');
     geoPlacename.setAttribute('name', 'geo.placename');
-    geoPlacename.setAttribute('content', 'Chicago');
-    document.head.appendChild(geoPlacename);
-    
-    // Add structured data
-    const structuredDataScript = document.createElement('script');
-    structuredDataScript.type = 'application/ld+json';
-    structuredDataScript.textContent = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": ["MedicalBusiness", "HealthAndBeautyBusiness", "LocalBusiness"],
-      "name": "Renew Strength and Wellness Physical Therapy",
-      "description": "Faith-based mobile physical therapy services bringing personalized care to your doorstep in the Chicago area.",
-      "url": window.location.origin,
-      "telephone": "+1-XXX-XXX-XXXX",
-      "email": "info@renewstrengthandwellness.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Chicago",
-        "addressRegion": "IL",
-        "addressCountry": "US"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "41.8781",
-        "longitude": "-87.6298"
-      },
-      "areaServed": {
-        "@type": "State",
-        "name": "Illinois"
-      },
-      "priceRange": "$65-$150",
-      "openingHours": "Mo-Fr 08:00-18:00",
-      "paymentAccepted": ["Insurance", "Medicare", "Tricare", "Cash"]
-    });
-    document.head.appendChild(structuredDataScript);
-    
-    // Cleanup function
+    geoPlacename.setAttribute('content', 'Chicago, Illinois');
+    if (!document.querySelector('meta[name="geo.placename"]')) {
+      document.head.appendChild(geoPlacename);
+    }
+
+    const geoPosition = document.querySelector('meta[name="geo.position"]') || document.createElement('meta');
+    geoPosition.setAttribute('name', 'geo.position');
+    geoPosition.setAttribute('content', '41.8781;-87.6298');
+    if (!document.querySelector('meta[name="geo.position"]')) {
+      document.head.appendChild(geoPosition);
+    }
+
+    // ICBM for geo-coordinates
+    const icbm = document.querySelector('meta[name="ICBM"]') || document.createElement('meta');
+    icbm.setAttribute('name', 'ICBM');
+    icbm.setAttribute('content', '41.8781, -87.6298');
+    if (!document.querySelector('meta[name="ICBM"]')) {
+      document.head.appendChild(icbm);
+    }
+
+    // Language and locale
+    const language = document.querySelector('meta[name="language"]') || document.createElement('meta');
+    language.setAttribute('name', 'language');
+    language.setAttribute('content', 'en-US');
+    if (!document.querySelector('meta[name="language"]')) {
+      document.head.appendChild(language);
+    }
+
+    // Open Graph tags for social sharing
+    const ogTitle = document.querySelector('meta[property="og:title"]') || document.createElement('meta');
+    ogTitle.setAttribute('property', 'og:title');
+    ogTitle.setAttribute('content', 'Mobile Physical Therapy Chicago | Renew Strength and Wellness');
+    if (!document.querySelector('meta[property="og:title"]')) {
+      document.head.appendChild(ogTitle);
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]') || document.createElement('meta');
+    ogDescription.setAttribute('property', 'og:description');
+    ogDescription.setAttribute('content', 'Professional mobile physical therapy services in Chicago. Faith-based in-home care, dry needling, comprehensive assessments. Serving Oak Park, Evanston, Naperville and surrounding suburbs.');
+    if (!document.querySelector('meta[property="og:description"]')) {
+      document.head.appendChild(ogDescription);
+    }
+
+    const ogUrl = document.querySelector('meta[property="og:url"]') || document.createElement('meta');
+    ogUrl.setAttribute('property', 'og:url');
+    ogUrl.setAttribute('content', 'https://renewstrengthandwellness.com');
+    if (!document.querySelector('meta[property="og:url"]')) {
+      document.head.appendChild(ogUrl);
+    }
+
+    const ogImage = document.querySelector('meta[property="og:image"]') || document.createElement('meta');
+    ogImage.setAttribute('property', 'og:image');
+    ogImage.setAttribute('content', 'https://renewstrengthandwellness.com/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png');
+    if (!document.querySelector('meta[property="og:image"]')) {
+      document.head.appendChild(ogImage);
+    }
+
     return () => {
-      // Remove added elements on unmount
-      if (geoRegion.parentNode) geoRegion.parentNode.removeChild(geoRegion);
-      if (geoPlacename.parentNode) geoPlacename.parentNode.removeChild(geoPlacename);
-      if (structuredDataScript.parentNode) structuredDataScript.parentNode.removeChild(structuredDataScript);
+      // Cleanup meta tags on unmount
+      const metaTags = [
+        'meta[name="description"]',
+        'meta[name="keywords"]', 
+        'meta[name="geo.region"]',
+        'meta[name="geo.placename"]',
+        'meta[name="geo.position"]',
+        'meta[name="ICBM"]',
+        'meta[name="language"]',
+        'meta[property="og:title"]',
+        'meta[property="og:description"]',
+        'meta[property="og:url"]',
+        'meta[property="og:image"]'
+      ];
+      
+      metaTags.forEach(selector => {
+        const element = document.querySelector(selector);
+        if (element) {
+          element.remove();
+        }
+      });
     };
   }, []);
   
-  return <div className="min-h-screen flex flex-col">
-      <NavBar />
-      {/* Main Focus Heading */}
-      <div className="w-full bg-white border-b py-6 flex flex-col items-center z-10 relative">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-navy text-center tracking-tight leading-tight drop-shadow-sm">Renew Strength and Wellness  
-Physical Therapy</h1>
+  return (
+    <PerformanceOptimization>
+      <div className="min-h-screen bg-gray-50">
+        <AdvancedSchema type="website" />
+        <NavBar />
+        
+        <main>
+          <div className="bg-brand-navy text-white py-16 md:py-20">
+            <div className="container mx-auto px-4">
+              <h1 className="text-4xl md:text-6xl font-serif font-medium text-center mb-6">
+                Renew Your Strength, Restore Your Wellness
+              </h1>
+              <p className="text-xl md:text-2xl text-center text-white/90 mb-8 max-w-3xl mx-auto">
+                Faith-based mobile physical therapy services bringing personalized care to your doorstep in Chicago and surrounding suburbs
+              </p>
+            </div>
+          </div>
+          
+          <HeroSection />
+          <AboutSection />
+          <ServicesSection />
+          <FeaturedSnippetContent />
+          <TestimonialsSection />
+          <BlogPreview />
+          <CTASection />
+        </main>
+
+        <Footer />
+        <BottomNavigation />
+        <FloatingActionButton />
+        
+        {showExitIntent && (
+          <ExitIntentModal isOpen={showExitIntent} onClose={hideExitIntent} />
+        )}
       </div>
-      <main>
-        {/* MVP: Re-enable for future auth features */}
-        {/*
-         <div className="w-full text-right px-4 py-2 bg-white border-b">
-          <Link to="/auth" className="inline-block rounded px-4 py-1 bg-brand-green/10 text-brand-green font-medium hover:bg-brand-green/20 transition">
-            Log in / Sign up
-          </Link>
-         </div>
-         */}
-        <HeroSection />
-        <AboutSection />
-        <ServicesSection />
-        <TestimonialsSection />
-        <BlogPreview />
-        <CTASection />
-      </main>
-      <Footer />
-      <BottomNavigation />
-      <FloatingActionButton />
-      <ExitIntentModal isOpen={showExitIntent} onClose={hideExitIntent} />
-    </div>;
+    </PerformanceOptimization>
+  );
 };
+
 export default Index;
