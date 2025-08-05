@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Shield, Clock, Award, CheckCircle } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
@@ -53,6 +54,30 @@ const Hero: React.FC = () => {
               
               {/* Placeholder to maintain height */}
               <div className="w-full" style={{ paddingTop: "80%" }}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Trust Bar */}
+      <div className="border-t border-gray-200 bg-white/80 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+            <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+              <Shield className="h-4 w-4 text-brand-green" />
+              <span className="font-medium">Licensed PT</span>
+            </div>
+            <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+              <Award className="h-4 w-4 text-brand-green" />
+              <span className="font-medium">15+ Years Experience</span>
+            </div>
+            <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+              <Clock className="h-4 w-4 text-brand-green" />
+              <span className="font-medium">24hr Response</span>
+            </div>
+            <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+              <CheckCircle className="h-4 w-4 text-brand-green" />
+              <span className="font-medium">Most Insurance Accepted</span>
             </div>
           </div>
         </div>
