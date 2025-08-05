@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { sanitizeTextInput, validateEmail, validatePhone, RateLimiter } from "@/lib/security";
 
 // Added: onSuccess prop and ReactNode children for custom checkbox
 type ContactFormValues = {
@@ -31,10 +32,45 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess, children }) => {
     reset,
   } = useForm<ContactFormValues>();
 
+  // Rate limiter instance
+  const rateLimiter = new RateLimiter(3, 300000); // 3 requests per 5 minutes
+
   const onSubmit = async (data: ContactFormValues) => {
     try {
+      // Rate limiting check
+      const clientId = `${data.email}_${navigator.userAgent}`;
+      if (!rateLimiter.isAllowed(clientId)) {
+        toast.error("Too many requests. Please wait a few minutes before submitting again.");
+        return;
+      }
+
+      // Validate and sanitize inputs
+      if (!validateEmail(data.email)) {
+        toast.error("Please enter a valid email address.");
+        return;
+      }
+
+      if (data.phone && !validatePhone(data.phone)) {
+        toast.error("Please enter a valid phone number.");
+        return;
+      }
+
+      const sanitizedData = {
+        name: sanitizeTextInput(data.name, 100),
+        email: data.email.toLowerCase().trim(),
+        phone: data.phone ? sanitizeTextInput(data.phone, 20) : '',
+        message: sanitizeTextInput(data.message, 2000),
+        scheduleRequest: data.scheduleRequest
+      };
+
+      // Additional validation
+      if (!sanitizedData.name || !sanitizedData.message) {
+        toast.error("Name and message are required.");
+        return;
+      }
+
       const { data: result, error } = await supabase.functions.invoke('send-contact-email', {
-        body: data
+        body: sanitizedData
       });
 
       if (error) {

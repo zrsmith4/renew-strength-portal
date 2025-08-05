@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import { sanitizeTextInput, validateEmail, RateLimiter } from "@/lib/security";
 
 const Auth = () => {
   const [mode, setMode] = useState<"login" | "signup">("login");
@@ -12,8 +13,9 @@ const Auth = () => {
   const [username, setUsername] = useState(""); // for sign-up
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  
   const navigate = useNavigate();
+  const rateLimiter = new RateLimiter(5, 300000); // 5 attempts per 5 minutes
 
   // Role-based redirection after auth
   useEffect(() => {
@@ -65,38 +67,68 @@ const Auth = () => {
     setLoading(true);
     setError(null);
 
-    if (mode === "signup" && !username) {
-      setError("Username is required");
+    // Rate limiting
+    const clientId = `${email}_${navigator.userAgent}`;
+    if (!rateLimiter.isAllowed(clientId)) {
+      setError("Too many attempts. Please wait a few minutes before trying again.");
       setLoading(false);
       return;
     }
 
+    // Input validation and sanitization
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      setLoading(false);
+      return;
+    }
+
+    const sanitizedEmail = email.toLowerCase().trim();
+    const sanitizedUsername = username ? sanitizeTextInput(username, 50) : '';
+
     if (mode === "signup") {
+      if (!sanitizedUsername) {
+        setError("Username is required");
+        setLoading(false);
+        return;
+      }
+
+      // Additional password strength check for signup
+      if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+        setError("Password must contain at least one uppercase letter, one lowercase letter, and one number");
+        setLoading(false);
+        return;
+      }
+
+      const redirectUrl = `${window.location.origin}/`;
+      
       const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
+        email: sanitizedEmail,
         password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            username: sanitizedUsername
+          }
+        }
       });
+      
       if (signUpError) {
         setError(signUpError.message);
         setLoading(false);
         return;
       }
-      const user = data?.user;
-      if (user) {
-        // Insert user role as 'patient' (default role for new users)
-        const { error: roleError } = await supabase.from("user_roles").insert({
-          user_id: user.id,
-          role: "patient",
-        });
-        if (roleError) {
-          setError("Account created, but failed to save user role (" + roleError.message + ")");
-        }
-      }
+
+      // Note: Profile and role creation will be handled by the database trigger
       setLoading(false);
-      // Auth state change will redirect accordingly
     } else {
       const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
+        email: sanitizedEmail,
         password,
       });
       if (signInError) {
@@ -145,7 +177,8 @@ const Auth = () => {
                   className="w-full border px-3 py-2 rounded"
                   required
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => setUsername(sanitizeTextInput(e.target.value, 50))}
+                  maxLength={50}
                   disabled={loading}
                 />
               </div>

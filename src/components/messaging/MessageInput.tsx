@@ -3,6 +3,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
+import { sanitizeTextInput } from "@/lib/security";
 
 interface MessageInputProps {
   value: string;
@@ -30,7 +31,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     <div className="flex gap-2">
       <Input
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(sanitizeTextInput(e.target.value, 2000))}
         placeholder={placeholder}
         onKeyPress={handleKeyPress}
       />

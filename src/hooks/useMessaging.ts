@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { sanitizeTextInput } from "@/lib/security";
 
 interface Profile {
   id: string;
@@ -120,6 +121,12 @@ export const useMessaging = () => {
       messageText: string;
     }) => {
       if (!currentUser) throw new Error("User not authenticated");
+      
+      // Validate and sanitize message
+      const sanitizedMessage = sanitizeTextInput(messageText, 2000);
+      if (!sanitizedMessage.trim()) {
+        throw new Error("Message cannot be empty");
+      }
 
       const { error } = await supabase
         .from("messages")
@@ -127,7 +134,7 @@ export const useMessaging = () => {
           conversation_id: conversationId,
           sender_id: currentUser.id,
           recipient_id: recipientId,
-          message_text: messageText,
+          message_text: sanitizedMessage,
         });
 
       if (error) throw error;

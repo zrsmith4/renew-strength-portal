@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { validatePaymentAmount, logAuditEvent } from "@/lib/security";
 
 interface CreatePaymentParams {
   bookingId: string;
@@ -41,6 +42,16 @@ export const usePaymentFlow = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
+      // Validate payment amount
+      if (!validatePaymentAmount(params.amount)) {
+        throw new Error('Invalid payment amount');
+      }
+
+      // Validate payment method
+      if (!['stripe_card', 'paypal', 'zelle'].includes(params.paymentMethod)) {
+        throw new Error('Invalid payment method');
+      }
+
       const { data, error } = await supabase
         .from('payments')
         .insert({
@@ -56,6 +67,14 @@ export const usePaymentFlow = () => {
         .single();
 
       if (error) throw error;
+
+      // Log audit event
+      await logAuditEvent('payment_created', 'payments', data.id, null, {
+        amount: params.amount,
+        paymentMethod: params.paymentMethod,
+        bookingId: params.bookingId
+      });
+
       return data;
     },
     onSuccess: () => {
@@ -66,11 +85,27 @@ export const usePaymentFlow = () => {
   // Handle Zelle payment confirmation
   const handleZelleConfirmation = async (bookingId: string, therapistId: string, amount: number) => {
     try {
+      // Additional validation for Zelle payments
+      if (!validatePaymentAmount(amount)) {
+        toast({
+          title: "Error",
+          description: "Invalid payment amount",
+          variant: "destructive",
+        });
+        return false;
+      }
+
       await createPaymentMutation.mutateAsync({
         bookingId,
         therapistId,
         amount,
         paymentMethod: 'zelle'
+      });
+
+      // Log Zelle confirmation attempt
+      await logAuditEvent('zelle_payment_confirmed', 'payments', bookingId, null, {
+        amount,
+        therapistId
       });
 
       toast({
@@ -80,6 +115,13 @@ export const usePaymentFlow = () => {
 
       return true;
     } catch (error) {
+      // Log failed attempt
+      await logAuditEvent('zelle_payment_failed', 'payments', null, null, {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        amount,
+        bookingId
+      });
+
       toast({
         title: "Error",
         description: "Failed to initiate Zelle payment. Please try again.",
