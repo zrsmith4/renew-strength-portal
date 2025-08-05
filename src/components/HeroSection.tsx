@@ -40,7 +40,10 @@ const Hero: React.FC = () => {
                   🔥 Limited spots remaining this week
                 </div>
                 <div className="bg-green-50 text-green-800 px-3 py-2 rounded-full border border-green-200">
-                  ⚡ Responding to new patients within 2 hours
+                  ⚡ Responding to new patients within 24 hours
+                </div>
+                <div className="bg-blue-50 text-blue-800 px-3 py-2 rounded-full border border-blue-200">
+                  📅 Same day appointments available
                 </div>
               </div>
             </div>
