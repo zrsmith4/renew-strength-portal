@@ -139,9 +139,9 @@ const Index = () => {
               <h1 className="text-4xl md:text-6xl font-serif font-medium text-center mb-6">
                 Renew Your Strength, Restore Your Wellness
               </h1>
-              <p className="text-xl md:text-2xl text-center text-white/90 mb-8 max-w-3xl mx-auto">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-center text-white mb-8">
                 Renew Strength and Wellness Physical Therapy
-              </p>
+              </h2>
             </div>
           </div>
           
