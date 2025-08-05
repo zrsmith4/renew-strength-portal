@@ -133,19 +133,12 @@ const Index = () => {
         <AdvancedSchema type="website" />
         <NavBar />
         
-        {/* Main Focus Heading */}
-        <div className="w-full bg-white border-b py-6 flex flex-col items-center z-10 relative">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-navy text-center tracking-tight leading-tight drop-shadow-sm">
-            Renew Strength and Wellness Physical Therapy
-          </h1>
-        </div>
-        
         <main>
           <div className="bg-brand-navy text-white py-16 md:py-20">
             <div className="container mx-auto px-4">
-              <h2 className="text-4xl md:text-6xl font-serif font-medium text-center mb-6">
+              <h1 className="text-4xl md:text-6xl font-serif font-medium text-center mb-6">
                 Renew Your Strength, Restore Your Wellness
-              </h2>
+              </h1>
               <p className="text-xl md:text-2xl text-center text-white/90 mb-8 max-w-3xl mx-auto">
                 Faith-based mobile physical therapy services bringing personalized care to your doorstep in Chicago and surrounding suburbs
               </p>
