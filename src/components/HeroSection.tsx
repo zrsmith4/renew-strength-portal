@@ -28,7 +28,7 @@ const Hero: React.FC = () => {
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button className="btn-primary text-lg px-8 py-4 md:py-3 min-h-[48px]" asChild>
-                  <Link to="/contact">Schedule Now - Limited Availability</Link>
+                  <Link to="/contact">Schedule Now</Link>
                 </Button>
               </div>
               
