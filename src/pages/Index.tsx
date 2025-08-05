@@ -134,12 +134,12 @@ const Index = () => {
         <NavBar />
         
         <main>
-          <div className="bg-brand-navy text-white py-8 md:py-10">
+          <div className="bg-brand-navy text-white py-4 md:py-6">
             <div className="container mx-auto px-4">
               <h1 className="text-4xl md:text-6xl font-serif font-medium text-center mb-6">
                 Renew Your Strength, Restore Your Wellness
               </h1>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-center text-white mb-8">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-center text-white mb-4 md:mb-6">
                 Renew Strength and Wellness Physical Therapy
               </h2>
             </div>
