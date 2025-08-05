@@ -13,12 +13,11 @@ import PerformanceOptimization from '@/components/seo/PerformanceOptimization';
 import AdvancedSchema from '@/components/seo/AdvancedSchema';
 import FeaturedSnippetContent from '@/components/seo/FeaturedSnippetContent';
 import { Link } from "react-router-dom";
-
 const Index = () => {
   useEffect(() => {
     // Enhanced SEO meta tags
     document.title = "Mobile Physical Therapy Chicago | In-Home PT Services | Renew Strength and Wellness";
-    
+
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]') || document.createElement('meta');
     metaDescription.setAttribute('name', 'description');
@@ -42,14 +41,12 @@ const Index = () => {
     if (!document.querySelector('meta[name="geo.region"]')) {
       document.head.appendChild(geoRegion);
     }
-
     const geoPlacename = document.querySelector('meta[name="geo.placename"]') || document.createElement('meta');
     geoPlacename.setAttribute('name', 'geo.placename');
     geoPlacename.setAttribute('content', 'Chicago, Illinois');
     if (!document.querySelector('meta[name="geo.placename"]')) {
       document.head.appendChild(geoPlacename);
     }
-
     const geoPosition = document.querySelector('meta[name="geo.position"]') || document.createElement('meta');
     geoPosition.setAttribute('name', 'geo.position');
     geoPosition.setAttribute('content', '41.8781;-87.6298');
@@ -80,44 +77,27 @@ const Index = () => {
     if (!document.querySelector('meta[property="og:title"]')) {
       document.head.appendChild(ogTitle);
     }
-
     const ogDescription = document.querySelector('meta[property="og:description"]') || document.createElement('meta');
     ogDescription.setAttribute('property', 'og:description');
     ogDescription.setAttribute('content', 'Professional mobile physical therapy services in Chicago. Faith-based in-home care, dry needling, comprehensive assessments. Serving Oak Park, Evanston, Naperville and surrounding suburbs.');
     if (!document.querySelector('meta[property="og:description"]')) {
       document.head.appendChild(ogDescription);
     }
-
     const ogUrl = document.querySelector('meta[property="og:url"]') || document.createElement('meta');
     ogUrl.setAttribute('property', 'og:url');
     ogUrl.setAttribute('content', 'https://renewstrengthandwellness.com');
     if (!document.querySelector('meta[property="og:url"]')) {
       document.head.appendChild(ogUrl);
     }
-
     const ogImage = document.querySelector('meta[property="og:image"]') || document.createElement('meta');
     ogImage.setAttribute('property', 'og:image');
     ogImage.setAttribute('content', 'https://renewstrengthandwellness.com/lovable-uploads/1f7bbb3b-71d2-4a9b-aeaa-8dac88d8d1e2.png');
     if (!document.querySelector('meta[property="og:image"]')) {
       document.head.appendChild(ogImage);
     }
-
     return () => {
       // Cleanup meta tags on unmount
-      const metaTags = [
-        'meta[name="description"]',
-        'meta[name="keywords"]', 
-        'meta[name="geo.region"]',
-        'meta[name="geo.placename"]',
-        'meta[name="geo.position"]',
-        'meta[name="ICBM"]',
-        'meta[name="language"]',
-        'meta[property="og:title"]',
-        'meta[property="og:description"]',
-        'meta[property="og:url"]',
-        'meta[property="og:image"]'
-      ];
-      
+      const metaTags = ['meta[name="description"]', 'meta[name="keywords"]', 'meta[name="geo.region"]', 'meta[name="geo.placename"]', 'meta[name="geo.position"]', 'meta[name="ICBM"]', 'meta[name="language"]', 'meta[property="og:title"]', 'meta[property="og:description"]', 'meta[property="og:url"]', 'meta[property="og:image"]'];
       metaTags.forEach(selector => {
         const element = document.querySelector(selector);
         if (element) {
@@ -126,9 +106,7 @@ const Index = () => {
       });
     };
   }, []);
-  
-  return (
-    <PerformanceOptimization>
+  return <PerformanceOptimization>
       <div className="min-h-screen bg-gray-50">
         <AdvancedSchema type="website" />
         <NavBar />
@@ -139,7 +117,7 @@ const Index = () => {
               <h1 className="text-4xl md:text-6xl font-serif font-medium text-center mb-6">
                 Renew Your Strength, Restore Your Wellness
               </h1>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-center text-white mb-4 md:mb-6">
+              <h2 className="text-3xl lg:text-5xl font-serif font-medium text-center text-white mb-4 md:mb-6 md:text-6xl">
                 Renew Strength and Wellness Physical Therapy
               </h2>
             </div>
@@ -158,8 +136,6 @@ const Index = () => {
         <BottomNavigation />
         <FloatingActionButton />
       </div>
-    </PerformanceOptimization>
-  );
+    </PerformanceOptimization>;
 };
-
 export default Index;
