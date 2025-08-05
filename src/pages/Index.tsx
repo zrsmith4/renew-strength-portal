@@ -9,16 +9,12 @@ import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer';
 import BottomNavigation from '@/components/mobile/BottomNavigation';
 import FloatingActionButton from '@/components/mobile/FloatingActionButton';
-import ExitIntentModal from '@/components/conversion/ExitIntentModal';
 import PerformanceOptimization from '@/components/seo/PerformanceOptimization';
 import AdvancedSchema from '@/components/seo/AdvancedSchema';
 import FeaturedSnippetContent from '@/components/seo/FeaturedSnippetContent';
-import { useExitIntent } from '@/hooks/useExitIntent';
 import { Link } from "react-router-dom";
 
 const Index = () => {
-  const { showExitIntent, hideExitIntent } = useExitIntent();
-
   useEffect(() => {
     // Enhanced SEO meta tags
     document.title = "Mobile Physical Therapy Chicago | In-Home PT Services | Renew Strength and Wellness";
@@ -161,10 +157,6 @@ const Index = () => {
         <Footer />
         <BottomNavigation />
         <FloatingActionButton />
-        
-        {showExitIntent && (
-          <ExitIntentModal isOpen={showExitIntent} onClose={hideExitIntent} />
-        )}
       </div>
     </PerformanceOptimization>
   );
