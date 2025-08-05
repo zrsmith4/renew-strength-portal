@@ -10,12 +10,23 @@ import Footer from '@/components/Footer';
 import BottomNavigation from '@/components/mobile/BottomNavigation';
 import FloatingActionButton from '@/components/mobile/FloatingActionButton';
 import ExitIntentModal from '@/components/conversion/ExitIntentModal';
+import SEOHead from '@/components/seo/SEOHead';
+import StructuredData from '@/components/seo/StructuredData';
+import SitemapGenerator from '@/components/seo/SitemapGenerator';
 import { useExitIntent } from '@/hooks/useExitIntent';
 import { Link } from "react-router-dom";
 
 const Index = () => {
   const { showExitIntent, hideExitIntent } = useExitIntent();
   return <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Renew Strength and Wellness | Mobile Physical Therapy Chicago"
+        description="Expert mobile physical therapy services in Chicago. Faith-based, personalized care delivered to your home. Dry needling, telehealth available. Insurance accepted."
+        keywords="mobile physical therapy Chicago, in-home PT Chicago, faith-based physical therapy, dry needling Chicago, telehealth PT Illinois, Medicare physical therapy"
+        canonical="https://renewstrengthandwellness.com/"
+      />
+      <StructuredData type="home" />
+      <SitemapGenerator />
       <NavBar />
       {/* Main Focus Heading */}
       <div className="w-full bg-white border-b py-6 flex flex-col items-center z-10 relative">
