@@ -32,15 +32,12 @@ const Hero: React.FC = () => {
                 <Button className="btn-primary text-lg px-8 py-4 md:py-3 min-h-[48px]" asChild>
                   <Link to="/contact">Schedule Now - Limited Availability</Link>
                 </Button>
-                <Button variant="outline" className="text-lg px-6 py-4 md:py-3 min-h-[48px] border-2" asChild>
-                  <a href="tel:224-244-1094">Call (224) 244-1094</a>
-                </Button>
               </div>
               
               {/* Urgency messaging */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-sm">
                 <div className="bg-amber-50 text-amber-800 px-3 py-2 rounded-full border border-amber-200">
-                  🔥 Only 3 slots left this week
+                  🔥 Limited spots remaining this week
                 </div>
                 <div className="bg-green-50 text-green-800 px-3 py-2 rounded-full border border-green-200">
                   ⚡ Responding to new patients within 2 hours
