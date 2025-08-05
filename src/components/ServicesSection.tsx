@@ -3,12 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Video, Syringe, ActivitySquare } from 'lucide-react';
-import ServiceCardCarousel from './mobile/ServiceCardCarousel';
-import { useIsMobile } from '@/hooks/use-mobile';
+import ServicesCarousel from './mobile/ServicesCarousel';
 
 const ServicesSection: React.FC = () => {
-  const isMobile = useIsMobile();
-  
   const services = [
     {
       icon: <MapPin className="h-8 w-8" />,
@@ -57,54 +54,24 @@ const ServicesSection: React.FC = () => {
           </p>
         </div>
 
-        {isMobile ? (
-          <ServiceCardCarousel 
-            services={services.map(service => ({
-              icon: <div className={`p-4 rounded-full flex items-center justify-center ${service.iconColor}`}>
-                {service.icon}
-              </div>,
-              name: service.title,
-              bgColor: service.bgColor,
-              children: <CardDescription className="text-gray-600 text-base">
-                {service.description}
-              </CardDescription>,
-              cta: <Link
-                to={service.link}
-                className="text-brand-navy font-medium hover:text-brand-green transition-colors border px-4 py-2 rounded border-brand-navy/20 inline-block w-full text-center"
-              >
-                Learn More
-              </Link>
-            }))}
-          />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} className="border border-gray-100 shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader className={`flex items-center justify-center ${service.bgColor} py-8`}>
-                  <div className={`p-4 rounded-full flex items-center justify-center ${service.iconColor}`}>
-                    {service.icon}
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-6 text-center">
-                  <CardTitle className="text-xl mb-3 font-serif text-brand-navy">
-                    {service.title}
-                  </CardTitle>
-                  <CardDescription className="text-gray-600 text-base">
-                    {service.description}
-                  </CardDescription>
-                </CardContent>
-                <CardFooter className="flex justify-center pb-6 space-x-2">
-                  <Link
-                    to={service.link}
-                    className="text-brand-navy font-medium hover:text-brand-green transition-colors border px-4 py-2 rounded border-brand-navy/20"
-                  >
-                    Learn More
-                  </Link>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        )}
+        <ServicesCarousel 
+          services={services.map(service => ({
+            icon: <div className={`p-4 rounded-full flex items-center justify-center ${service.iconColor}`}>
+              {service.icon}
+            </div>,
+            name: service.title,
+            bgColor: service.bgColor,
+            children: <CardDescription className="text-muted-foreground text-base">
+              {service.description}
+            </CardDescription>,
+            cta: <Link
+              to={service.link}
+              className="text-foreground font-medium hover:text-primary transition-colors border px-4 py-2 rounded border-border inline-block w-full text-center hover:border-primary"
+            >
+              Learn More
+            </Link>
+          }))}
+        />
       </div>
     </section>
   );
