@@ -134,8 +134,8 @@ const Index = () => {
         <NavBar />
         
         <main>
-          <div className="bg-brand-navy text-white py-16 md:py-20">
-            <div className="container mx-auto px-4 max-w-4xl">
+          <div className="bg-brand-navy text-white py-8 md:py-10">
+            <div className="container mx-auto px-4">
               <h1 className="text-4xl md:text-6xl font-serif font-medium text-center mb-6">
                 Renew Your Strength, Restore Your Wellness
               </h1>
