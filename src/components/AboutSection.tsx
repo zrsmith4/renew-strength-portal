@@ -32,9 +32,11 @@ const AboutSection: React.FC = () => {
               health and healing. I believe in treating the whole person—body, mind, and spirit—and 
               empowering you with the knowledge and tools to achieve lasting recovery.
             </p>
-            <Button variant="outline" className="btn-secondary" asChild>
-              <Link to="/about">Read More</Link>
-            </Button>
+            <div className="flex justify-end">
+              <Button variant="outline" className="btn-secondary" asChild>
+                <Link to="/about">Read More</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
