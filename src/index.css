@@ -74,3 +74,26 @@
     @apply text-lg text-gray-600 max-w-3xl mb-12;
   }
 }
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  }
+  
+  /* Improved touch targets */
+  button, a, input, select, textarea {
+    min-height: 44px;
+  }
+  
+  /* Mobile-optimized spacing */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Better button sizing for mobile */
+  .btn-primary {
+    @apply min-h-[48px] text-base;
+  }
+}

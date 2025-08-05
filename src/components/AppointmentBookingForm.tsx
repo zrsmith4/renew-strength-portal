@@ -8,7 +8,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useIsMobile } from "@/hooks/use-mobile";
 import ConsentPolicy from "@/components/ConsentPolicy";
+import MobileDatePicker from "@/components/mobile/MobileDatePicker";
 
 const services = [
   "In-Person Assessment",
@@ -20,6 +22,7 @@ const services = [
 const AppointmentBookingForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -91,13 +94,21 @@ const AppointmentBookingForm = () => {
       {/* Calendar */}
       <div className="mb-8">
         <h2 className="text-lg font-semibold text-brand-green mb-3">Pick your date</h2>
-        <Calendar
-          mode="single"
-          selected={form.date}
-          onSelect={(date) => setForm({ ...form, date: date || undefined })}
-          className="pointer-events-auto rounded border"
-          classNames={{ months: "justify-center" }}
-        />
+        {isMobile ? (
+          <MobileDatePicker
+            date={form.date}
+            onDateChange={(date) => setForm({ ...form, date: date || undefined })}
+            placeholder="Select appointment date"
+          />
+        ) : (
+          <Calendar
+            mode="single"
+            selected={form.date}
+            onSelect={(date) => setForm({ ...form, date: date || undefined })}
+            className="pointer-events-auto rounded border"
+            classNames={{ months: "justify-center" }}
+          />
+        )}
       </div>
       <form className="space-y-5" onSubmit={handleSubmit} autoComplete="off">
         <div>
@@ -107,7 +118,7 @@ const AppointmentBookingForm = () => {
           <input
             id="name"
             name="name"
-            className="w-full border px-3 py-2 rounded"
+            className={`w-full border px-3 py-2 rounded ${isMobile ? 'min-h-[48px] text-base' : ''}`}
             required
             value={form.name}
             onChange={handleChange}
@@ -122,7 +133,7 @@ const AppointmentBookingForm = () => {
             id="email"
             name="email"
             type="email"
-            className="w-full border px-3 py-2 rounded"
+            className={`w-full border px-3 py-2 rounded ${isMobile ? 'min-h-[48px] text-base' : ''}`}
             required
             value={form.email}
             onChange={handleChange}
@@ -138,7 +149,7 @@ const AppointmentBookingForm = () => {
             onValueChange={(value) => setForm({ ...form, service: value })}
             disabled={submitted || isLoading}
           >
-            <SelectTrigger>
+            <SelectTrigger className={isMobile ? 'min-h-[48px] text-base' : ''}>
               <SelectValue placeholder="Select a service" />
             </SelectTrigger>
             <SelectContent>
@@ -188,15 +199,20 @@ const AppointmentBookingForm = () => {
         <div className="rounded bg-gray-50 mt-2 px-3 py-2 border border-gray-200">
           <ConsentPolicy />
         </div>
-        <div className="flex items-center gap-2 mt-4">
+        <div className={`flex items-center gap-2 mt-4 ${isMobile ? 'flex-col space-y-3' : ''}`}>
           <Button
             type="submit"
             disabled={!canSubmit || submitted || isLoading}
-            className="flex-1"
+            className={`${isMobile ? 'w-full min-h-[48px]' : 'flex-1'}`}
           >
             {isLoading ? "Submitting..." : submitted ? "Request Sent!" : "Request Booking"}
           </Button>
-          <Button type="button" variant="outline" onClick={() => navigate("/auth")}>
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={() => navigate("/auth")}
+            className={isMobile ? 'w-full min-h-[48px]' : ''}
+          >
             Log in / Sign up
           </Button>
         </div>

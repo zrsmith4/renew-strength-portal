@@ -2,6 +2,7 @@
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import BottomNavigation from "@/components/mobile/BottomNavigation";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import AppointmentBookingForm from "@/components/AppointmentBookingForm";
 
@@ -22,6 +23,7 @@ const Schedule = () => {
         </div>
       </main>
       <Footer />
+      <BottomNavigation />
     </div>
   );
 };

@@ -2,19 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Shield, Clock, Award, CheckCircle } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 const Hero: React.FC = () => {
+  const isMobile = useIsMobile();
+  
   return <section className="relative bg-gradient-to-b from-white to-brand-light overflow-hidden">
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20 relative z-10">
-        <div className="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
-          <div className="w-full lg:w-1/2 space-y-6 text-center lg:text-left">
+        <div className={`flex ${isMobile ? 'flex-col gap-6' : 'flex-col-reverse lg:flex-row gap-8 lg:gap-12'} items-center`}>
+          <div className={`w-full ${isMobile ? '' : 'lg:w-1/2'} space-y-${isMobile ? '4' : '6'} text-center ${isMobile ? '' : 'lg:text-left'}`}>
             {/* Social proof snippet */}
             <div className="inline-flex items-center gap-2 bg-green-50 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
               <span className="text-green-600">⭐⭐⭐⭐⭐</span>
               "Life-changing care!" - Sarah M.
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight text-brand-navy">
-              Healing movement, <br />delivered to you.
+            <h1 className={`${isMobile ? 'text-3xl' : 'text-4xl md:text-5xl lg:text-6xl'} font-serif font-bold leading-tight text-brand-navy`}>
+              Healing movement, {isMobile ? <br /> : <br />}delivered to you.
             </h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-xl mx-auto lg:mx-0">
               Personalized physical therapy bringing faith-based care and renewed strength to your doorstep.
@@ -27,13 +30,13 @@ const Hero: React.FC = () => {
             </div>
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button className="btn-primary text-lg px-12 py-5 min-h-[56px]" asChild>
+                <Button className={`btn-primary ${isMobile ? 'text-base px-8 py-3 min-h-[48px] w-full' : 'text-lg px-12 py-5 min-h-[56px]'}`} asChild>
                   <Link to="/contact">Schedule Now</Link>
                 </Button>
               </div>
               
               {/* Urgency messaging */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-sm">
+              <div className={`flex ${isMobile ? 'flex-col gap-2' : 'flex-col sm:flex-row gap-4'} justify-center lg:justify-start text-sm`}>
                 <div className="bg-amber-50 text-amber-800 px-3 py-2 rounded-full border border-amber-200">
                   🔥 Limited spots remaining this week
                 </div>
@@ -46,7 +49,8 @@ within 24 hours</div>
             </div>
           </div>
 
-          {/* Hero Image Triptych */}
+          {/* Hero Image Triptych - Hidden on mobile */}
+          {!isMobile && (
           <div className="w-full lg:w-1/2 flex justify-center">
             <div className="relative w-full max-w-2xl">
               {/* First panel (unchanged) */}
@@ -70,6 +74,7 @@ within 24 hours</div>
             }}></div>
             </div>
           </div>
+          )}
         </div>
       </div>
       
