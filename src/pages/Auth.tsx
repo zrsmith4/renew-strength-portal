@@ -21,22 +21,22 @@ const Auth = () => {
 
     const checkSessionAndRedirect = async (session: any | null) => {
       if (session && !ignore) {
-        // Fetch user's role from the 'profiles' table
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
+        // Fetch user's role from the 'user_roles' table
+        const { data: roleData, error: roleError } = await supabase
+          .from("user_roles")
           .select("role")
-          .eq("id", session.user.id)
+          .eq("user_id", session.user.id)
           .maybeSingle();
 
-        if (profileError || !profileData) {
-          console.error("Error fetching profile:", profileError?.message || "Profile not found");
+        if (roleError || !roleData) {
+          console.error("Error fetching user role:", roleError?.message || "Role not found");
           // Fallback: navigate to a default safe page if role cannot be determined
           navigate("/");
           return;
         }
 
         // Redirect based on role
-        if (profileData.role === "admin" || profileData.role === "therapist") {
+        if (roleData.role === "admin") {
           navigate("/admin-dashboard");
         } else {
           navigate("/patient-dashboard");
@@ -83,14 +83,13 @@ const Auth = () => {
       }
       const user = data?.user;
       if (user) {
-        // Insert profile with role: 'patient'
-        const { error: profileError } = await supabase.from("profiles").insert({
-          id: user.id,
-          username,
+        // Insert user role as 'patient' (default role for new users)
+        const { error: roleError } = await supabase.from("user_roles").insert({
+          user_id: user.id,
           role: "patient",
         });
-        if (profileError) {
-          setError("Account created, but failed to save profile (" + profileError.message + ")");
+        if (roleError) {
+          setError("Account created, but failed to save user role (" + roleError.message + ")");
         }
       }
       setLoading(false);

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { Clock, Calendar, DollarSign } from "lucide-react";
+import { formatTime } from "@/lib/timeUtils";
 
 export const PendingBookings = () => {
   const { data: pendingBookings, isLoading } = useQuery({
@@ -46,11 +47,6 @@ export const PendingBookings = () => {
     },
     refetchInterval: 30000, // Refetch every 30 seconds
   });
-
-  const formatTime = (timeString: string) => {
-    const date = new Date(`2000-01-01T${timeString}`);
-    return format(date, 'h:mm a');
-  };
 
   const handleCompletePayment = (bookingId: string) => {
     // Navigate to payment completion flow

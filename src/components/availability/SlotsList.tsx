@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import type { AvailabilitySlot } from "@/types/availability";
 import { serviceOptions } from "@/types/availability";
+import { formatTime } from "@/lib/timeUtils";
 
 interface SlotsListProps {
   selectedDate: Date;
@@ -37,11 +38,6 @@ const SlotsList: React.FC<SlotsListProps> = ({
   onDeleteSlot,
   isDeleting,
 }) => {
-  const formatTime = (timeString: string) => {
-    const date = new Date(`2000-01-01T${timeString}`);
-    return format(date, 'h:mm a');
-  };
-
   const getStatusDisplay = (status: string) => {
     switch (status) {
       case 'available':

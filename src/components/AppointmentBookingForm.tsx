@@ -7,7 +7,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Calendar } from "@/components/ui/calendar";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import ConsentPolicy from "@/components/ConsentPolicy";
 
 const services = [
@@ -19,6 +19,7 @@ const services = [
 
 const AppointmentBookingForm = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [form, setForm] = useState({
     name: "",
     email: "",

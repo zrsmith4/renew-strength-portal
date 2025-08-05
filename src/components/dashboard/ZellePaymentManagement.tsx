@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { DollarSign, Calendar, Clock, User } from "lucide-react";
+import { formatTime } from "@/lib/timeUtils";
 
 export const ZellePaymentManagement = () => {
   const { toast } = useToast();
@@ -97,11 +98,6 @@ export const ZellePaymentManagement = () => {
       });
     },
   });
-
-  const formatTime = (timeString: string) => {
-    const date = new Date(`2000-01-01T${timeString}`);
-    return format(date, 'h:mm a');
-  };
 
   if (isLoading) {
     return (
