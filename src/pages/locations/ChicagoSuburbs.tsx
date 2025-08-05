@@ -143,8 +143,8 @@ const ChicagoSuburbs: React.FC = () => {
                   <div className="w-16 h-16 bg-brand-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Shield className="w-8 h-8 text-brand-green" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">Insurance Accepted</h3>
-                  <p className="text-gray-600">Most insurance plans accepted including Medicare and Tricare</p>
+                  <h3 className="text-xl font-semibold mb-2">Transparent Pricing</h3>
+                  <p className="text-gray-600">Clear cash pay rates with HSA/FSA accepted</p>
                 </div>
                 <div className="text-center">
                   <div className="w-16 h-16 bg-brand-green/10 rounded-full flex items-center justify-center mx-auto mb-4">

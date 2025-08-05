@@ -12,11 +12,11 @@ const FeaturedSnippetContent: React.FC = () => {
     },
     {
       question: "How much does mobile physical therapy cost in Chicago?",
-      answer: "Mobile physical therapy in Chicago typically ranges from $65-$150 per session. Initial assessments are $150, follow-up treatments are $125, and dry needling add-ons are $85. Most insurance plans are accepted."
+      answer: "Mobile physical therapy in Chicago ranges from $65-$150 per session with transparent cash pay pricing. Initial assessments are $150, follow-up treatments are $125, and dry needling add-ons are $85. HSA/FSA accepted for convenient payment."
     },
     {
-      question: "Do you accept insurance for mobile PT services?",
-      answer: "Yes, we accept most major insurance plans including Medicare, Tricare, and private insurance. We verify benefits before your first visit and handle all insurance billing for you."
+      question: "What payment options do you accept for mobile PT?",
+      answer: "We operate on a transparent cash pay model with upfront pricing. We accept cash, credit cards, HSA, and FSA payments. No surprise bills or insurance hassles - you know exactly what you'll pay before treatment."
     },
     {
       question: "What areas in Chicago do you serve?",
@@ -39,9 +39,9 @@ const FeaturedSnippetContent: React.FC = () => {
       description: "Call or fill out our contact form to schedule your initial assessment"
     },
     {
-      step: 2, 
-      title: "Insurance Verification",
-      description: "We verify your insurance benefits and explain any costs upfront"
+      step: 2,
+      title: "Transparent Pricing",
+      description: "Receive upfront cash pay pricing with no hidden fees or surprise bills"
     },
     {
       step: 3,

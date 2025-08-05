@@ -27,7 +27,7 @@ const CTASection: React.FC = () => {
             </Button>
           </div>
           <p className="mt-8 text-white/70 text-sm">
-            Most insurance plans accepted, including Medicare and Tricare.
+            Transparent cash pay pricing. HSA/FSA accepted.
           </p>
         </div>
       </div>

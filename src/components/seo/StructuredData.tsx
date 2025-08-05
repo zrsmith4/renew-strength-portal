@@ -97,7 +97,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({
     },
     "priceRange": "$65-$150",
     "openingHours": ["Mo-Fr 08:00-18:00", "Sa 09:00-15:00"],
-    "paymentAccepted": ["Insurance", "Medicare", "Tricare", "Cash", "Credit Card"],
+    "paymentAccepted": ["Cash", "Credit Card", "HSA", "FSA"],
     "image": "https://renewstrengthandwellness.com/logo.png",
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
@@ -230,10 +230,10 @@ const StructuredData: React.FC<StructuredDataProps> = ({
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Do you accept insurance for mobile physical therapy in Chicago?",
+        "name": "What payment options do you accept for mobile physical therapy in Chicago?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, we accept most insurance plans including Medicare and Tricare for our mobile physical therapy services throughout Chicago and surrounding suburbs. We'll verify your benefits before your first visit."
+          "text": "We operate on a transparent cash pay model for our mobile physical therapy services throughout Chicago and surrounding suburbs. We accept cash, credit cards, HSA, and FSA payments with upfront pricing and no surprise bills."
         }
       },
       {
@@ -257,7 +257,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({
         "name": "How much does mobile physical therapy cost in Chicago?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Our mobile physical therapy services range from $65-$150 per session, depending on the specific treatment and insurance coverage. We accept most insurance plans and provide transparent pricing."
+          "text": "Our mobile physical therapy services range from $65-$150 per session with transparent cash pay pricing. We accept HSA and FSA payments and provide clear upfront costs with no hidden fees."
         }
       },
       {

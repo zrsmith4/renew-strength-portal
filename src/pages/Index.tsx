@@ -22,7 +22,7 @@ const Index = () => {
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]') || document.createElement('meta');
     metaDescription.setAttribute('name', 'description');
-    metaDescription.setAttribute('content', 'Professional mobile physical therapy services in Chicago and suburbs. Faith-based in-home PT care, dry needling, assessments. Insurance accepted. Serving Oak Park, Evanston, Naperville.');
+    metaDescription.setAttribute('content', 'Professional mobile physical therapy services in Chicago and suburbs. Faith-based in-home PT care, dry needling, assessments. Cash pay practice. Serving Oak Park, Evanston, Naperville.');
     if (!document.querySelector('meta[name="description"]')) {
       document.head.appendChild(metaDescription);
     }

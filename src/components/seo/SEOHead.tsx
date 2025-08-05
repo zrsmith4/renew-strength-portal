@@ -13,8 +13,8 @@ interface SEOHeadProps {
 
 const SEOHead: React.FC<SEOHeadProps> = ({
   title = "Renew Strength and Wellness | Faith-Based Mobile Physical Therapy Chicago",
-  description = "Expert mobile physical therapy services in Chicago. Faith-based, personalized care delivered to your home. Insurance accepted including Medicare & Tricare.",
-  keywords = "mobile physical therapy Chicago, in-home PT, faith-based therapy, dry needling, telehealth, Medicare accepted, physical therapist Chicago",
+  description = "Expert mobile physical therapy services in Chicago. Faith-based, personalized care delivered to your home. Cash pay practice with transparent pricing.",
+  keywords = "mobile physical therapy Chicago, in-home PT, faith-based therapy, dry needling, telehealth, cash pay PT, physical therapist Chicago",
   canonical,
   image = "https://renewstrengthandwellness.com/og-image.jpg",
   type = 'website',

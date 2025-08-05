@@ -127,13 +127,13 @@ const Pricing = () => (
             Travel fee is waived for multiple "problems" for 1 patient or 2+ patients with one problem at the same location.
           </p>
         </div>
-        {/* Insurance & Payment Options section */}
+        {/* Payment Options section */}
         <div className="mt-16 text-center mx-auto max-w-xl">
-          <h2 className="text-2xl font-serif text-brand-navy mb-3">Insurance & Payment Options</h2>
+          <h2 className="text-2xl font-serif text-brand-navy mb-3">Payment Options</h2>
           <p className="text-gray-600 mb-2">
             We operate on a direct-pay model, offering simple, predictable rates.<br />
             <span className="font-semibold">Cash-based only.</span> Major credit cards, HSA/FSA, and Zelle are accepted.<br />
-            If you have insurance questions, please <a href="/contact" className="text-brand-green underline">contact us</a>.
+            If you have payment questions, please <a href="/contact" className="text-brand-green underline">contact us</a>.
           </p>
         </div>
       </div>

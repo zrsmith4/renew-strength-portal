@@ -133,9 +133,9 @@ const Services = () => {
             ))}
           </div>
           <div className="mt-16 text-center mx-auto max-w-xl">
-            <h2 className="text-2xl font-serif text-brand-navy mb-3">Insurance & Payment Options</h2>
+            <h2 className="text-2xl font-serif text-brand-navy mb-3">Payment Options</h2>
             <p className="text-gray-600 mb-6">
-              We offer transparent direct-pay pricing. For insurance or payment questions, <a href="/contact" className="text-brand-green underline">contact us</a>.
+              We offer transparent cash pay pricing with no hidden fees. For payment questions, <a href="/contact" className="text-brand-green underline">contact us</a>.
             </p>
           </div>
         </div>

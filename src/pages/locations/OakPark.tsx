@@ -15,7 +15,7 @@ const OakPark: React.FC = () => {
     
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Professional mobile physical therapy services in Oak Park, Illinois. Expert in-home PT care near Frank Lloyd Wright Home and Unity Temple. Insurance accepted.');
+      metaDescription.setAttribute('content', 'Professional mobile physical therapy services in Oak Park, Illinois. Expert in-home PT care near Frank Lloyd Wright Home and Unity Temple. Cash pay practice.');
     }
 
     const metaKeywords = document.querySelector('meta[name="keywords"]');
@@ -202,7 +202,7 @@ const OakPark: React.FC = () => {
                       Thorough evaluation in your Oak Park home to create a personalized treatment plan.
                     </p>
                     <p className="text-2xl font-bold text-brand-green mb-2">$150</p>
-                    <p className="text-sm text-gray-500">Most insurance accepted</p>
+                    <p className="text-sm text-gray-500">Cash pay • HSA/FSA accepted</p>
                   </CardContent>
                 </Card>
                 
@@ -250,7 +250,7 @@ const OakPark: React.FC = () => {
                 <Link to="/contact">Schedule Your Oak Park Appointment</Link>
               </Button>
               <p className="mt-6 text-white/70">
-                Serving all of Oak Park, IL • Insurance accepted • Evening appointments available
+                Serving all of Oak Park, IL • Cash pay practice • HSA/FSA accepted • Evening appointments available
               </p>
             </div>
           </div>
