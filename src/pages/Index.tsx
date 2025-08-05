@@ -7,6 +7,7 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import BlogPreview from '@/components/BlogPreview';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer';
+import RecentBookingNotification from '@/components/RecentBookingNotification';
 import { Link } from "react-router-dom";
 const Index = () => {
   return <div className="min-h-screen flex flex-col">
@@ -33,6 +34,7 @@ Physical Therapy</h1>
         <CTASection />
       </main>
       <Footer />
+      <RecentBookingNotification />
     </div>;
 };
 export default Index;

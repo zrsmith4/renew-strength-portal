@@ -9,18 +9,30 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20 relative z-10">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
           <div className="w-full lg:w-1/2 space-y-6 text-center lg:text-left">
+            {/* Social proof snippet */}
+            <div className="inline-flex items-center gap-2 bg-green-50 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
+              <span className="text-green-600">⭐⭐⭐⭐⭐</span>
+              "Life-changing care!" - Sarah M.
+            </div>
+            
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight text-brand-navy">
               Healing movement, <br />delivered to you.
             </h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-xl mx-auto lg:mx-0">
               Personalized physical therapy bringing faith-based care and renewed strength to your doorstep.
             </p>
+            
+            {/* Free consultation offer */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center lg:text-left">
+              <p className="text-blue-900 font-semibold">🎁 FREE 15-minute consultation call</p>
+              <p className="text-blue-700 text-sm">Discuss your goals and see if we're a good fit - no commitment required</p>
+            </div>
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button className="btn-primary text-lg" asChild>
+                <Button className="btn-primary text-lg px-8 py-4 md:py-3 min-h-[48px]" asChild>
                   <Link to="/contact">Schedule Now - Limited Availability</Link>
                 </Button>
-                <Button variant="outline" className="text-lg" asChild>
+                <Button variant="outline" className="text-lg px-6 py-4 md:py-3 min-h-[48px] border-2" asChild>
                   <a href="tel:224-244-1094">Call (224) 244-1094</a>
                 </Button>
               </div>
