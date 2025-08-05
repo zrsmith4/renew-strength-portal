@@ -2,10 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Shield, Clock, Award, CheckCircle } from 'lucide-react';
-
 const Hero: React.FC = () => {
-  return (
-    <section className="relative bg-gradient-to-b from-white to-brand-light overflow-hidden">
+  return <section className="relative bg-gradient-to-b from-white to-brand-light overflow-hidden">
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20 relative z-10">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
           <div className="w-full lg:w-1/2 space-y-6 text-center lg:text-left">
@@ -39,9 +37,8 @@ const Hero: React.FC = () => {
                 <div className="bg-amber-50 text-amber-800 px-3 py-2 rounded-full border border-amber-200">
                   🔥 Limited spots remaining this week
                 </div>
-                <div className="bg-green-50 text-green-800 px-3 py-2 rounded-full border border-green-200">
-                  ⚡ Responding to new patients within 24 hours
-                </div>
+                <div className="bg-green-50 text-green-800 px-3 py-2 rounded-full border border-green-200">⚡ Responding to new patients 
+within 24 hours</div>
                 <div className="bg-blue-50 text-blue-800 px-3 py-2 rounded-full border border-blue-200">
                   📅 Same day appointments available
                 </div>
@@ -54,33 +51,23 @@ const Hero: React.FC = () => {
             <div className="relative w-full max-w-2xl">
               {/* First panel (unchanged) */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute left-0 top-4 bottom-4 z-10">
-                <img 
-                  src="/lovable-uploads/d846324f-6125-47a2-8907-92b08d0b6437.png" 
-                  alt="Physical therapist with patient exercise" 
-                  className="w-full h-full object-cover"
-                />
+                <img src="/lovable-uploads/d846324f-6125-47a2-8907-92b08d0b6437.png" alt="Physical therapist with patient exercise" className="w-full h-full object-cover" />
               </div>
               
               {/* Middle panel (updated) */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute left-1/3 top-0 bottom-0 z-20 transform -translate-x-1/6">
-                <img 
-                  src="/lovable-uploads/6d5db411-b0da-48d2-a2b8-6de25407dec7.png"
-                  alt="Woman running on a soccer field" 
-                  className="w-full h-full object-cover"
-                />
+                <img src="/lovable-uploads/6d5db411-b0da-48d2-a2b8-6de25407dec7.png" alt="Woman running on a soccer field" className="w-full h-full object-cover" />
               </div>
               
               {/* Last panel (right, updated) */}
               <div className="rounded-xl overflow-hidden shadow-lg w-1/3 absolute right-0 top-4 bottom-4 z-10">
-                <img 
-                  src="/lovable-uploads/8175a5df-98e9-4443-8fe5-e8088297a6d7.png"
-                  alt="Woman carrying groceries with improved mobility" 
-                  className="w-full h-full object-cover"
-                />
+                <img src="/lovable-uploads/8175a5df-98e9-4443-8fe5-e8088297a6d7.png" alt="Woman carrying groceries with improved mobility" className="w-full h-full object-cover" />
               </div>
               
               {/* Placeholder to maintain height */}
-              <div className="w-full" style={{ paddingTop: "80%" }}></div>
+              <div className="w-full" style={{
+              paddingTop: "80%"
+            }}></div>
             </div>
           </div>
         </div>
@@ -113,8 +100,6 @@ const Hero: React.FC = () => {
       {/* Decorative shapes */}
       <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-brand-yellow opacity-20"></div>
       <div className="absolute bottom-10 right-10 w-64 h-64 rounded-full bg-brand-blue opacity-20"></div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
